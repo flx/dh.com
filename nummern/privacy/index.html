@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nummern Privacy Policy | Digital Handstand</title>
+    <meta
+      name="description"
+      content="Privacy Policy for Nummern, a macOS canvas spreadsheet app in development."
+    />
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body>
+    <main class="site-shell">
+      <header class="topbar animate-rise">
+        <a class="brand" href="/">Digital Handstand</a>
+      </header>
+
+      <a class="back-link" href="/nummern/">&larr; Back to Nummern</a>
+
+      <article class="legal-panel animate-rise animate-delay-1">
+        <p class="kicker">Privacy Policy</p>
+        <h1>Privacy Policy for Nummern</h1>
+        <p>
+          Nummern is a document-based macOS app currently in development. This policy is based on
+          the current product specification and may change as implementation evolves.
+        </p>
+
+        <h2>1. Data you create in the app</h2>
+        <ul>
+          <li>Spreadsheet content such as table cells, labels, formulas, and sheet layouts.</li>
+          <li>Document metadata and object geometry used to reconstruct the canvas.</li>
+          <li>Generated and user-edited Python script content for document rebuild workflows.</li>
+        </ul>
+
+        <h2>2. Where data is stored</h2>
+        <ul>
+          <li>Data is stored in document files on your Mac (for example package-style project files).</li>
+          <li>
+            The current spec defines project assets such as <code>project.json</code> and
+            <code>script.py</code> as part of the document structure.
+          </li>
+        </ul>
+
+        <h2>3. Python execution and privacy implications</h2>
+        <ul>
+          <li>Nummern can execute Python code as part of formula and script workflows.</li>
+          <li>
+            The current spec states users may run arbitrary Python with explicit consent per
+            document in unrestricted mode.
+          </li>
+          <li>
+            Because Python code is user-editable, script behavior may include file or network
+            access depending on the code that is run and the selected runtime mode.
+          </li>
+          <li>
+            A safer/restricted mode is specified for development, with reduced capabilities (for
+            example limiting filesystem or network access).
+          </li>
+        </ul>
+
+        <h2>4. Analytics and advertising</h2>
+        <ul>
+          <li>No advertising SDKs are specified in the current product spec.</li>
+          <li>No third-party tracking pipeline is specified in the current product spec.</li>
+        </ul>
+
+        <h2>5. Data sharing</h2>
+        <p>
+          The app is designed for local document workflows. Data sharing depends on how you store,
+          sync, or export your own files.
+        </p>
+
+        <h2>6. Support communications</h2>
+        <p>
+          If you contact support by email, we receive the information in your message so we can
+          respond.
+        </p>
+
+        <h2>7. Contact</h2>
+        <p>
+          Email: <a href="mailto:digitalhandstand@gmail.com">digitalhandstand@gmail.com</a>
+        </p>
+
+        <h2>8. Changes</h2>
+        <p>
+          Nummern is in development, so this policy may be revised as behavior and architecture are
+          finalized.
+        </p>
+
+        <p><strong>Last updated:</strong> February 8, 2026</p>
+      </article>
+
+      <footer class="footer">Policy URL: /nummern/privacy/</footer>
+    </main>
+  </body>
+</html>

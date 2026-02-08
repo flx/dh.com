@@ -7,16 +7,20 @@ Static website for Digital Handstand.
 - App-specific pages under:
   - `/pawnpilot/`
   - `/stuffbucket/`
+  - `/nummern/`
 - App Store-ready legal/support URLs:
   - `/pawnpilot/privacy/`
   - `/pawnpilot/support/`
   - `/stuffbucket/privacy/`
   - `/stuffbucket/support/`
+  - `/nummern/privacy/`
+  - `/nummern/instructions/`
 
 ## Structure
 - `index.html` - app hub
 - `pawnpilot/` - PawnPilot pages
 - `stuffbucket/` - StuffBucket pages
+- `nummern/` - Nummern pages
 - `assets/styles.css` - shared styling
 - `assets/images/` - app icons
 - `404.html` - fallback page
@@ -43,3 +47,5 @@ No framework or build step is required.
 - PawnPilot privacy: `https://digitalhandstand.com/pawnpilot/privacy/`
 - StuffBucket support: `https://digitalhandstand.com/stuffbucket/support/`
 - StuffBucket privacy: `https://digitalhandstand.com/stuffbucket/privacy/`
+- Nummern instructions: `https://digitalhandstand.com/nummern/instructions/`
+- Nummern privacy: `https://digitalhandstand.com/nummern/privacy/`

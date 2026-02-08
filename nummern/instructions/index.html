@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nummern Instructions | Digital Handstand</title>
+    <meta
+      name="description"
+      content="Usage instructions for Nummern, a script-first macOS canvas spreadsheet app in development."
+    />
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body>
+    <main class="site-shell">
+      <header class="topbar animate-rise">
+        <a class="brand" href="/">Digital Handstand</a>
+      </header>
+
+      <a class="back-link" href="/nummern/">&larr; Back to Nummern</a>
+
+      <section class="section-panel animate-rise animate-delay-1">
+        <p class="kicker">Instructions</p>
+        <h1>Nummern Instructions (Development Build)</h1>
+        <p>
+          These instructions are generated from the current Nummern specification and reflect a
+          development-stage workflow.
+        </p>
+        <p class="notice">
+          Features may change and UI labels may be adjusted before any public release.
+        </p>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-2">
+        <h2>Quick start</h2>
+        <ol>
+          <li>Create or open a Nummern document.</li>
+          <li>Click <strong>Add Sheet</strong> to create a new canvas tab.</li>
+          <li>Click <strong>Add Table</strong> to place a table on the sheet canvas.</li>
+          <li>Double-click cells to enter values, then use drag/resize handles for layout.</li>
+          <li>Use <strong>Import CSV</strong> to bring data into a new table.</li>
+        </ol>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Working with formulas</h2>
+        <ul>
+          <li>Enter spreadsheet formulas with `=` syntax (for example `=SUM(B0:B9)`).</li>
+          <li>Click cells while editing a formula to insert references and ranges.</li>
+          <li>Use relative and absolute-style references as supported by the formula engine.</li>
+          <li>Advanced mode supports Python expressions for selected formula targets.</li>
+        </ul>
+      </section>
+
+      <section class="section-panel">
+        <h2>Code panel workflow</h2>
+        <ul>
+          <li>UI actions append to the generated Python log section.</li>
+          <li>
+            Use <strong>Run Selection</strong> for partial code execution or
+            <strong>Run All</strong> for full document rebuild.
+          </li>
+          <li><strong>Reset Runtime</strong> runs the script in a fresh Python process.</li>
+          <li>Use <strong>Export NumPy</strong> to create a portable script output.</li>
+        </ul>
+      </section>
+
+      <section class="section-panel">
+        <h2>Selection and editing behavior</h2>
+        <ul>
+          <li>Single click selects cells, ranges, tables, or charts depending on target.</li>
+          <li>Double-click enters cell edit mode.</li>
+          <li>Command-click/drag supports multi-range selection within one table.</li>
+          <li>
+            Enter/Return commits edits; Escape cancels in-cell editing and clears selection state.
+          </li>
+        </ul>
+      </section>
+
+      <section class="section-panel">
+        <h2>Safety and scripting</h2>
+        <p>
+          Nummern can execute Python code that you write or load from documents. Review script
+          content before running it, especially when opening files from external sources.
+        </p>
+        <p>
+          See the <a href="/nummern/privacy/">Privacy Policy</a> for data and runtime behavior
+          details.
+        </p>
+      </section>
+
+      <footer class="footer">Instructions URL: /nummern/instructions/</footer>
+    </main>
+  </body>
+</html>
