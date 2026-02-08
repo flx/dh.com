@@ -64,7 +64,7 @@ a:hover {
 }
 
 .brand {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 12px;
   font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
@@ -73,20 +73,35 @@ a:hover {
   color: var(--ink);
   letter-spacing: 0.2px;
   line-height: 1;
+  white-space: nowrap;
+}
+
+.brand span {
+  display: flex;
+  align-items: center;
+  line-height: 1;
 }
 
 .brand-icon {
-  width: 27px;
-  height: 27px;
-  border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
   box-shadow: 0 4px 10px rgba(31, 36, 44, 0.18);
   flex: 0 0 auto;
   object-fit: cover;
   display: block;
+  overflow: hidden;
+  border: 1px solid rgba(213, 219, 226, 0.28);
 }
 
 .brand:hover {
   color: var(--ink);
+}
+
+@supports not (gap: 1rem) {
+  .brand-icon {
+    margin-right: 12px;
+  }
 }
 
 .nav-links {
@@ -452,7 +467,7 @@ p {
   .brand-icon {
     width: 24px;
     height: 24px;
-    border-radius: 7px;
+    border-radius: 8px;
   }
 
   .app-icon {
