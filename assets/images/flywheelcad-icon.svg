@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="FlywheelCAD logo">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#eceef2" />
+      <stop offset="100%" stop-color="#e3e6eb" />
+    </linearGradient>
+    <linearGradient id="darkSeg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#274f82" />
+      <stop offset="100%" stop-color="#0f2e55" />
+    </linearGradient>
+    <linearGradient id="lightSeg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#f8fbff" />
+      <stop offset="100%" stop-color="#aeb8c6" />
+    </linearGradient>
+    <linearGradient id="leftChevron" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#ffbb00" />
+      <stop offset="100%" stop-color="#ff3a18" />
+    </linearGradient>
+    <linearGradient id="rightChevron" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#20aef6" />
+      <stop offset="100%" stop-color="#134da9" />
+    </linearGradient>
+    <radialGradient id="core" cx="50%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#fff19f" />
+      <stop offset="42%" stop-color="#ffb300" />
+      <stop offset="100%" stop-color="#ff5500" />
+    </radialGradient>
+  </defs>
+
+  <rect width="1024" height="1024" rx="186" fill="url(#bg)" />
+
+  <path d="M188 512l122-156h86L276 512l120 156h-86z" fill="url(#leftChevron)" />
+  <path d="M836 512L714 356h-86l120 156-120 156h86z" fill="url(#rightChevron)" />
+
+  <g transform="translate(512 512)">
+    <circle r="248" fill="#e8ecf2" />
+    <circle r="238" fill="none" stroke="#12345f" stroke-width="12" />
+
+    <circle
+      r="182"
+      fill="none"
+      stroke="url(#darkSeg)"
+      stroke-width="108"
+      stroke-linecap="round"
+      stroke-dasharray="160 220"
+    />
+    <circle
+      r="182"
+      fill="none"
+      stroke="url(#lightSeg)"
+      stroke-width="108"
+      stroke-linecap="round"
+      stroke-dasharray="160 220"
+      stroke-dashoffset="-190"
+    />
+
+    <circle r="112" fill="#123a68" stroke="#0d2749" stroke-width="11" />
+    <circle r="80" fill="#f3f7fc" stroke="#1d4473" stroke-width="10" />
+    <circle r="48" fill="url(#core)" stroke="#9b2f00" stroke-width="8" />
+  </g>
+</svg>
