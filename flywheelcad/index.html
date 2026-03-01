@@ -85,36 +85,47 @@
 
       <section class="section-panel animate-rise animate-delay-3">
         <h2>Script Model Quick Start</h2>
-        <p>Minimal script structure:</p>
+        <p>
+          The scripting flow in FlyWheelCAD is based on plain Python files that call the
+          <code>flywheelcad</code> API. A minimal file looks like this:
+        </p>
         <pre><code>from flywheelcad import *
 cad = FlyWheelCAD()
 
 cad.with_sketch("xy")
 # create geometry, apply constraints, generate bodies
 </code></pre>
-        <p>
-          Included sample projects in the repository are in <code>TestProjects/</code>:
-          <code>test.fwcad</code>, <code>test_polygons.fwcad</code>,
-          <code>test_gears.fwcad</code>, and <code>test_showcase.fwcad</code>.
-        </p>
-        <p>
-          Full documentation:
-          <a href="/downloads/FlyWheelCAD-UserManual.md">FlyWheelCAD-UserManual.md</a> |
-          <a href="/downloads/TestProjects.zip">TestProjects.zip</a>
-        </p>
-      </section>
+        <h3>Use the included TestProjects as templates</h3>
+        <ul>
+          <li><code>test.fwcad</code>: imports a helper module and places repeated geometry.</li>
+          <li><code>test_polygons.fwcad</code>: regular, nested, and spoke polygon generators.</li>
+          <li><code>test_gears.fwcad</code>: gear profiles, extrusion, and boolean subtraction.</li>
+          <li><code>test_showcase.fwcad</code>: end-to-end example with custom plane creation.</li>
+        </ul>
+        <h3>Typical script progression</h3>
+        <ol>
+          <li>Start a sketch context with <code>cad.with_sketch("xy")</code>.</li>
+          <li>Create geometry directly or import helpers from sibling <code>.py</code> modules.</li>
+          <li>Build solid bodies with <code>cad.extrude(...)</code> or <code>cad.revolve(...)</code>.</li>
+          <li>Use booleans like <code>cad.bool_difference(...)</code> to form final parts.</li>
+          <li>Create custom planes from body topology with <code>cad.create_sketch_plane(...)</code>.</li>
+        </ol>
+        <h3>Example: helper import + 3D feature</h3>
+        <pre><code>from flywheelcad import *
+from CADgears import gear_outline
 
-      <section class="section-panel animate-rise animate-delay-3">
-        <h2>Sketch Mode Shortcuts</h2>
-        <div class="list-grid">
-          <div class="list-panel">
-            <h3>Tool keys</h3>
-            <p><code>L</code> line, <code>C</code> circle, <code>E</code> ellipse, <code>R</code> rectangle, <code>A</code> arc, <code>T</code> trim.</p>
-          </div>
-          <div class="list-panel">
-            <h3>Workflow keys</h3>
-            <p><code>X</code> toggle construction mode, <code>Enter</code> finish spline, <code>Esc</code> cancel operation / return to 3D when idle.</p>
-          </div>
+cad = FlyWheelCAD()
+gear = gear_outline(center_x=280, center_y=40, tooth_count=18, module=5.5, plane_name="xy")
+gear_body = cad.extrude("xy", gear["profile"], gear["profile_inside"], 45, quality="ultra")
+
+end_face = cad.create_sketch_plane(gear_body.v0, gear_body.v1, gear_body.v2, name="gear_end")
+cad.with_sketch("gear_end")
+cap = cad.circle2d(origin_gear_end, 18)
+cap_body = cad.extrude("gear_end", [cap], (0, 0), 20, quality="high")
+</code></pre>
+        <div class="cta-row">
+          <a class="button button-soft" href="/downloads/FlyWheelCAD-UserManual.md">Download User Manual</a>
+          <a class="button button-soft" href="/downloads/TestProjects.zip">Download Test Projects</a>
         </div>
       </section>
 
