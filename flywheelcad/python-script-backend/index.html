@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FlywheelCAD Python Script Backend | Digital Handstand</title>
+    <meta
+      name="description"
+      content="How FlywheelCAD stores models as Python, how UI actions generate script lines, and what happens when a script is rerun."
+    />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260208d" />
+    <link rel="icon" href="/favicon-20260208d.ico?v=20260208d" sizes="any" />
+    <link rel="shortcut icon" href="/favicon-20260208d.ico?v=20260208d" type="image/x-icon" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png?v=20260208d" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png?v=20260208d" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=20260208d" />
+  </head>
+  <body>
+    <main class="site-shell">
+      <header class="topbar animate-rise">
+        <a class="brand" href="/"><img class="brand-icon" src="/assets/images/digitalhandstand-mark-64.png?v=20260208d" alt="" /><span>Digital Handstand</span></a>
+      </header>
+
+      <a class="back-link" href="/flywheelcad/">&larr; Back to FlywheelCAD</a>
+
+      <section class="hero animate-rise animate-delay-1">
+        <span class="eyebrow">Guide</span>
+        <div class="app-head">
+          <img class="app-icon" src="/assets/images/flywheelcad-1024.png" alt="FlywheelCAD icon" />
+          <div>
+            <h1>Python Script Backend</h1>
+            <p class="muted">How the app records UI work as Python, executes it, and rebuilds the model.</p>
+          </div>
+        </div>
+        <p>
+          In FlywheelCAD, the script is not a secondary export. It is the persistent model text. The
+          right-hand editor shows that text directly, and rerunning it reconstructs the design.
+        </p>
+        <div class="cta-row">
+          <a class="button button-soft" href="/flywheelcad/">FlywheelCAD overview</a>
+          <a class="button button-soft" href="/flywheelcad/ui-interactions/">UI interactions</a>
+          <a class="button button-soft" href="/flywheelcad/python-syntax/">Python Syntax</a>
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-2">
+        <h2>Source of Truth</h2>
+        <p>
+          Each document stores plain script text. When a document is opened, FlywheelCAD connects the
+          document text to the command logger and, once the runtime graph is ready, replays the
+          script to rebuild geometry.
+        </p>
+        <div class="list-grid">
+          <div class="list-panel">
+            <h3>Document text</h3>
+            <p>
+              The saved file contains Python source, not a hidden binary model representation.
+              Saving prefers the current logger snapshot so the on-disk file matches the editor.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Command logger</h3>
+            <p>
+              UI actions append new lines into a script buffer. The buffer ensures the standard
+              preamble exists and inserts the active <code>cad.with_sketch(...)</code> line when the
+              sketch context changes.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Script editor</h3>
+            <p>
+              The right panel is a real editable text editor. It is not read-only output. You can
+              change code there and rerun it directly.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Live sync</h3>
+            <p>
+              If the command logger changes while the editor is still in sync, the panel refreshes to
+              show the latest generated script instead of drifting behind the model.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>What the UI Writes</h2>
+        <p>
+          A typical UI session quickly becomes ordinary Python lines. The structure is intentionally
+          simple: import, <code>FlyWheelCAD()</code>, sketch context, geometry creation, then
+          constraints or body operations.
+        </p>
+        <pre><code>from flywheelcad import *
+cad = FlyWheelCAD()
+
+cad.with_sketch("xy")
+p1 = cad.point2d(-60, -12.5)
+p2 = cad.point2d(-20, -12.5)
+l1 = cad.line2d(p1, p2)
+cad.horizontal(l1)
+cad.length(l1, 40)
+
+# additional UI-created lines and a hole circle would follow here
+# before the region is turned into a body with cad.extrude(...)</code></pre>
+        <p>
+          The same model can then be edited by hand. You can rename variables, insert helper imports,
+          restructure code into functions, or replace repeated UI-authored geometry with loops.
+        </p>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Edit and Rerun Cycle</h2>
+        <table class="detail-table">
+          <tbody>
+            <tr>
+              <td>1. Edit text</td>
+              <td>
+                Change the generated script directly in the right-hand editor. Indentation is kept as
+                raw text so ordinary Python formatting still matters.
+              </td>
+            </tr>
+            <tr>
+              <td>2. Execute</td>
+              <td>
+                Press the run button in the command panel. The editor first loads your current text
+                into the command logger, then execution starts without discarding that text buffer.
+              </td>
+            </tr>
+            <tr>
+              <td>3. Python stage</td>
+              <td>
+                FlywheelCAD runs the script through a Python subprocess using the bundled
+                <code>flywheelcad.py</code> module. The script emits CAD commands to stdout.
+              </td>
+            </tr>
+            <tr>
+              <td>4. Parse and validate</td>
+              <td>
+                The emitted commands are parsed and validated before geometry changes are applied.
+                This prevents half-applied scripts from mutating the model when syntax or reference
+                errors are present.
+              </td>
+            </tr>
+            <tr>
+              <td>5. Replay model</td>
+              <td>
+                Existing geometry is cleared, origin points and standard planes are recreated, then
+                commands are executed sequentially to rebuild the full design state.
+              </td>
+            </tr>
+            <tr>
+              <td>6. Rebuild scene</td>
+              <td>
+                After execution, FlywheelCAD synchronizes 2D and 3D state, generates missing meshes,
+                then rebuilds the 3D scene so the visual result matches the script.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Imports and Local Helper Files</h2>
+        <p>
+          The document folder is used as the execution working directory. That is what makes ordinary
+          sibling imports work: helper files next to the main script can be imported directly.
+        </p>
+        <pre><code>Project/
+  gearbox.py
+  CADgears.py
+  helpers.py</code></pre>
+        <pre><code>from flywheelcad import *
+from CADgears import gear_outline
+from helpers import keyed_slot
+
+cad = FlyWheelCAD()
+gear = gear_outline(center_x=0, center_y=0, tooth_count=24, module=5.0, plane_name="xy")
+gear_body = cad.extrude("xy", gear["region_ring"], 24, quality="high")</code></pre>
+        <div class="notice">
+          <strong>Important:</strong> repeated calls to <code>FlyWheelCAD()</code> return the same
+          singleton instance, so helper modules share the same variable-name counter and the same
+          origin references.
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Examples of Script Refinement</h2>
+        <div class="list-grid">
+          <div class="list-panel">
+            <h3>Start in the UI</h3>
+            <p>
+              Rough in lines, circles, and regions interactively. Let the logger create a direct,
+              explicit first draft of the script.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Promote shared values</h3>
+            <p>
+              Replace hard-coded dimensions with <code>cad.variable(...)</code> bindings so lengths,
+              radii, and offsets become easier to reuse and rename.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Move generators into helpers</h3>
+            <p>
+              Once geometry becomes patterned or algorithmic, move it into a separate module like
+              <code>CADgears.py</code> or <code>CADpolygons.py</code> and import it from the main
+              file.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Rerun until stable</h3>
+            <p>
+              The best endpoint is a script you can rerun from a clean document and get the same
+              model back every time.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

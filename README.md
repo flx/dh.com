@@ -9,6 +9,9 @@ Static website for Digital Handstand.
   - `/stuffbucket/`
   - `/nummern/`
   - `/flywheelcad/`
+  - `/flywheelcad/ui-interactions/`
+  - `/flywheelcad/python-script-backend/`
+  - `/flywheelcad/python-syntax/`
 - App Store-ready legal/support URLs:
   - `/pawnpilot/privacy/`
   - `/pawnpilot/support/`
@@ -22,7 +25,8 @@ Static website for Digital Handstand.
 - `pawnpilot/` - PawnPilot pages
 - `stuffbucket/` - StuffBucket pages
 - `nummern/` - Nummern pages
-- `flywheelcad/` - FlywheelCAD summary page
+- `flywheelcad/` - FlywheelCAD overview and docs pages
+- `downloads/` - DMGs, manuals, and project bundles
 - `assets/styles.css` - shared styling
 - `assets/images/` - app icons
 - `404.html` - fallback page

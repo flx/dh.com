@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FlywheelCAD UI Interactions | Digital Handstand</title>
+    <meta
+      name="description"
+      content="How FlywheelCAD's 3D view, sketch editor, drawing tools, constraints, dimensions, and body tools work in practice."
+    />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260208d" />
+    <link rel="icon" href="/favicon-20260208d.ico?v=20260208d" sizes="any" />
+    <link rel="shortcut icon" href="/favicon-20260208d.ico?v=20260208d" type="image/x-icon" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png?v=20260208d" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png?v=20260208d" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=20260208d" />
+  </head>
+  <body>
+    <main class="site-shell">
+      <header class="topbar animate-rise">
+        <a class="brand" href="/"><img class="brand-icon" src="/assets/images/digitalhandstand-mark-64.png?v=20260208d" alt="" /><span>Digital Handstand</span></a>
+      </header>
+
+      <a class="back-link" href="/flywheelcad/">&larr; Back to FlywheelCAD</a>
+
+      <section class="hero animate-rise animate-delay-1">
+        <span class="eyebrow">Guide</span>
+        <div class="app-head">
+          <img class="app-icon" src="/assets/images/flywheelcad-1024.png" alt="FlywheelCAD icon" />
+          <div>
+            <h1>UI interactions</h1>
+            <p class="muted">How the 3D view, sketch tools, constraints, dimensions, and body tools work together.</p>
+          </div>
+        </div>
+        <p>
+          FlywheelCAD is built as a hybrid tool: fast direct manipulation in the UI, backed by a
+          script editor that stays synchronized with the model. This page focuses on how to operate
+          the visible interface efficiently.
+        </p>
+        <div class="cta-row">
+          <a class="button button-soft" href="/flywheelcad/">FlywheelCAD overview</a>
+          <a class="button button-soft" href="/flywheelcad/python-script-backend/">Python Script Backend</a>
+          <a class="button button-soft" href="/flywheelcad/python-syntax/">Python Syntax</a>
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-2">
+        <h2>Window Layout</h2>
+        <table class="detail-table">
+          <tbody>
+            <tr>
+              <td>Top toolbar</td>
+              <td>
+                Contains view switching, drawing tools, trim and construction mode, extrude/revolve,
+                constraints, dimensions, the variables panel, plus the Sketches and Bodies menus.
+              </td>
+            </tr>
+            <tr>
+              <td>Main canvas</td>
+              <td>
+                Shows either the 3D scene or the active 2D sketch plane. You switch between them as
+                you model.
+              </td>
+            </tr>
+            <tr>
+              <td>Right panel</td>
+              <td>
+                The live Python script editor. It shows the current model as text and has stop/run
+                controls for replaying the script.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>3D View</h2>
+        <div class="list-grid">
+          <div class="list-panel">
+            <h3>Enter sketch mode</h3>
+            <p>
+              Double-click a sketch plane in the 3D view to edit it. The app also lets you switch to
+              any existing sketch from the <code>Sketches</code> menu in the toolbar.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Select bodies and topology</h3>
+            <p>
+              In 3D mode you can select bodies, areas, and topology points. Those selections feed the
+              <code>Bodies</code> menu, section/project commands, and custom sketch-plane creation.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Custom sketch planes</h3>
+            <p>
+              Select exactly three 3D points, then use <code>Sketches &rarr; Create Sketch from
+              Points</code>. The app asks for a plane name and emits a matching
+              <code>create_sketch_plane(...)</code> command into the script.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Body operations</h3>
+            <p>
+              The <code>Bodies</code> menu handles boolean union, difference, and intersection,
+              plus section, project, loft, and 3MF export. Mesh quality can also be changed there.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Sketch Mode</h2>
+        <p>
+          Once you enter a sketch plane, the canvas switches to 2D editing. The active sketch name is
+          shown at the top-left of the canvas, and the toolbar changes from scene-focused actions to
+          sketch-focused actions.
+        </p>
+        <table class="detail-table">
+          <tbody>
+            <tr>
+              <td>Select / pan / zoom</td>
+              <td>
+                Use selection mode to pick geometry or closed areas. Pan and zoom tools are available
+                explicitly in the toolbar, and the select tool also supports drag-based selection and
+                point dragging.
+              </td>
+            </tr>
+            <tr>
+              <td>Draw tools</td>
+              <td>
+                FlywheelCAD provides line, circle, arc, ellipse, rectangle, and spline tools. Some
+                tools have submodes: circles cycle through center-radius, diameter, and three-point;
+                ellipses cycle through two-foci and three-point; rectangles cycle through corner and
+                center-based creation.
+              </td>
+            </tr>
+            <tr>
+              <td>Construction mode</td>
+              <td>
+                Toggle construction mode when you want guide geometry that remains visible but is
+                dashed and excluded from area detection for body creation.
+              </td>
+            </tr>
+            <tr>
+              <td>Trim and mirror</td>
+              <td>
+                Trim edits elements in place and can split them into reusable fragments. Mirror works
+                on the selected elements, using the last selected line as the symmetry line.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>How Drawing Works</h2>
+        <div class="list-grid">
+          <div class="list-panel">
+            <h3>1. Choose a tool</h3>
+            <p>
+              Pick line, circle, ellipse, rectangle, spline, arc, or trim from the toolbar. Re-click
+              a multi-mode tool to cycle through its submodes.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>2. Place geometry directly in the sketch</h3>
+            <p>
+              Draw by clicking in the canvas. During creation the app shows preview geometry, then
+              commits the final points and curves to the active sketch plane.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>3. Edit by selection or drag</h3>
+            <p>
+              Click entities to select them. Drag a point in select mode to move it while the solver
+              tries to keep the sketch consistent with existing constraints.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>4. Select areas for bodies</h3>
+            <p>
+              Click inside a closed loop in select mode to select a detected region. Those selected
+              areas become the input to extrude and revolve.
+            </p>
+          </div>
+        </div>
+        <div class="notice">
+          <strong>Selection rules:</strong> click entities for direct selection, drag a box
+          left-to-right for containment selection, and drag right-to-left for crossing selection.
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Constraints and Dimensions</h2>
+        <div class="list-grid">
+          <div class="list-panel">
+            <h3>Geometric constraints</h3>
+            <p>
+              In select mode, pick the relevant points, lines, circles, ellipses, or splines, then
+              open the chain-link menu. The menu only enables constraints that fit the current
+              selection, such as horizontal, parallel, concentric, equal, tangent, or symmetry.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Dimensions</h3>
+            <p>
+              Use the ruler menu for point distance, point-line distance, parallel distance, line
+              length, circle or arc radius, and line angle. Each dimension can be bound to a
+              constant, an existing variable, or a new variable created on the spot.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Variables panel</h3>
+            <p>
+              The variables panel is where you inspect named dimension variables, rename them, and
+              keep shared values consistent across multiple dimensions in the same model.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Solver feedback</h3>
+            <p>
+              After a constraint or dimension is added, the sketch re-solves asynchronously so the UI
+              stays responsive instead of freezing during convergence work.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>From Sketches to 3D Bodies</h2>
+        <p>
+          When you have one or more closed selected areas, use the extrude/revolve tool in the
+          toolbar. The app opens a small panel for operation type, distance, direction, or revolve
+          angle. After the operation completes, return to 3D view to inspect the result and combine
+          it with booleans or other downstream features.
+        </p>
+        <pre><code># Typical sketch-to-body progression
+cad.with_sketch("xy")
+...
+plate_region = cad.region(required=[la1, la2, la3, la4, hole], witness=[(-50, 0)])
+plate = cad.extrude("xy", plate_region, 10)</code></pre>
+        <div class="notice">
+          <strong>Useful keys:</strong> <code>Esc</code> cancels the current drawing operation or
+          returns to 3D when idle. <code>L</code>, <code>C</code>, <code>E</code>, <code>R</code>,
+          <code>A</code>, and <code>T</code> switch tools. <code>X</code> toggles construction mode.
+          <code>Enter</code> finishes a spline.
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

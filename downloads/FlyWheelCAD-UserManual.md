@@ -5,7 +5,7 @@
 FlyWheelCAD is a Python-first, constraint-driven CAD application.
 
 - You draw and edit sketches interactively in the UI.
-- You can also script everything in `.fwcad` files (which are plain Python files).
+- You can also script everything in `.py` files.
 - Geometry is solved by constraints and dimensions.
 - Closed sketch areas can be turned into 3D bodies (extrude/revolve), then combined with boolean operations.
 
@@ -74,9 +74,9 @@ When solving or replaying scripts, the UI shows a computing overlay (`Computing.
 
 ## 4. Script Model and File Types
 
-## 4.1 `.fwcad` Files
+## 4.1 `.py` Files
 
-A `.fwcad` file is plain Python that imports `flywheelcad`:
+A FlyWheelCAD script file is plain Python that imports `flywheelcad`:
 
 ```python
 from flywheelcad import *
@@ -87,7 +87,7 @@ When executed, this Python script emits intermediate CAD commands to stdout; the
 
 ## 4.2 Local Python Modules
 
-You can place helper `.py` files next to your `.fwcad` file and import them directly.
+You can place helper `.py` files next to your main `.py` file and import them directly.
 
 - Working directory for execution is the document folder.
 - That folder is also put on `PYTHONPATH`.
@@ -230,18 +230,18 @@ inner = cad.extrude("xy", [c1], (0, 0), 30, quality="high")
 plate = cad.bool_difference(outer, inner, quality="high")
 ```
 
-## 6.2 Multi-File Project (Helpers Next to `.fwcad`)
+## 6.2 Multi-File Project (Helpers Next to `.py`)
 
 Folder layout:
 
 ```text
 MyProject/
-  main.fwcad
+  main.py
   CADpolygons.py
   CADgears.py
 ```
 
-`main.fwcad`:
+`main.py`:
 
 ```python
 from flywheelcad import *
@@ -287,12 +287,16 @@ cap = cad.extrude("top_plane_a", [c1], (0, 0), 20)
 
 This repo contains ready-to-run imported examples:
 
-- `TestProjects/test.fwcad`
-- `TestProjects/test_polygons.fwcad`
-- `TestProjects/test_gears.fwcad`
-- `TestProjects/test_showcase.fwcad`
-- `TestProjects/CADtriangle.py`
-- `TestProjects/CADpolygons.py`
+- `TestProjects/test_drawing.py`
+- `TestProjects/test_constraints.py`
+- `TestProjects/test_trim.py`
+- `TestProjects/test_extrude_revolve.py`
+- `TestProjects/test_boolean.py`
+- `TestProjects/test_boolean_ops.py`
+- `TestProjects/test_loft.py`
+- `TestProjects/test_sketch_planes.py`
+- `TestProjects/test_section_project.py`
+- `TestProjects/test_gears.py`
 - `TestProjects/CADgears.py`
 
 These are good templates for building your own helper libraries.
@@ -312,7 +316,7 @@ These are good templates for building your own helper libraries.
 
 ### 8.3 Helper Module Import Fails
 
-- Confirm helper `.py` is in the same folder as the `.fwcad` file, or otherwise reachable on `PYTHONPATH`.
+- Confirm helper `.py` is in the same folder as the main `.py` file, or otherwise reachable on `PYTHONPATH`.
 - Confirm module/file names match import names exactly.
 
 ### 8.4 Script Runs but Geometry Did Not Change
@@ -329,4 +333,3 @@ These are good templates for building your own helper libraries.
 4. Use script panel as source-of-truth for repeatability.
 5. Move reusable generation logic into sibling helper modules.
 6. Keep feature scripts small and composable by import.
-

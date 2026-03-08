@@ -6,7 +6,7 @@
     <title>FlywheelCAD | Digital Handstand</title>
     <meta
       name="description"
-      content="FlywheelCAD is a Python-first, constraint-driven CAD app with hybrid UI and reproducible python scripting workflows."
+      content="FlywheelCAD is a Python-first, constraint-driven CAD app with interactive sketch tools, a live script editor, and reproducible Python workflows."
     />
     <link rel="stylesheet" href="/assets/styles.css?v=20260208d" />
     <link rel="icon" href="/favicon-20260208d.ico?v=20260208d" sizes="any" />
@@ -24,106 +24,203 @@
       <a class="back-link" href="/">&larr; Back to all apps</a>
 
       <section class="hero animate-rise animate-delay-1">
-        <span class="eyebrow">In Development</span>
+        <span class="eyebrow">Beta Download</span>
         <div class="app-head">
           <img class="app-icon" src="/assets/images/flywheelcad-1024.png" alt="FlywheelCAD icon" />
           <div>
             <h1>FlywheelCAD</h1>
-            <p class="muted">Python-first, constraint-driven CAD.</p>
+            <p class="muted">Python-first, constraint-driven CAD for reproducible sketch and body workflows.</p>
           </div>
         </div>
         <p>
-          FlywheelCAD combines direct UI sketch editing with script-driven modeling in plain Python
-          files. You can work interactively, then keep the model reproducible and reusable through
-          script execution.
+          FlywheelCAD combines direct sketch editing in the UI with a live Python script backend.
+          You can draw and constrain geometry interactively, create bodies with extrude, revolve,
+          loft, and booleans, then edit or rerun the generated script as the repeatable source of truth.
         </p>
         <div class="cta-row">
-          <a class="button button-primary" href="/downloads/FlyWheelCAD-0.3.dmg">Download beta</a>
+          <a class="button button-primary" href="/downloads/FlyWheelCAD-0.4.dmg">Download beta</a>
           <a class="button button-soft" href="/downloads/FlyWheelCAD-UserManual.md">Download User Manual</a>
-          <a class="button button-soft" href="/downloads/TestProjects.zip">Download Test Projects</a>
+          <a class="button button-soft" href="/downloads/TestProjects.zip?v=20260308a">Download Test Projects</a>
+        </div>
+        <div class="cta-row">
+          <a class="button button-soft" href="/flywheelcad/ui-interactions/">UI interactions</a>
+          <a class="button button-soft" href="/flywheelcad/python-script-backend/">Python Script Backend</a>
+          <a class="button button-soft" href="/flywheelcad/python-syntax/">Python Syntax</a>
         </div>
       </section>
 
       <section class="section-panel animate-rise animate-delay-2">
+        <h2>Documentation</h2>
+        <div class="list-grid">
+          <div class="list-panel">
+            <h3>UI interactions</h3>
+            <p>
+              How the 3D view and sketch mode fit together, how drawing tools behave, and how to
+              add constraints, dimensions, and body features from the toolbar.
+            </p>
+            <a class="button button-soft" href="/flywheelcad/ui-interactions/">Open guide</a>
+          </div>
+          <div class="list-panel">
+            <h3>Python Script Backend</h3>
+            <p>
+              How UI actions become Python lines, how the right-hand script editor stays editable,
+              and what happens internally when you rerun the script.
+            </p>
+            <a class="button button-soft" href="/flywheelcad/python-script-backend/">Open guide</a>
+          </div>
+          <div class="list-panel">
+            <h3>Python Syntax</h3>
+            <p>
+              Reference for the FlywheelCAD Python API, command signatures, parameters, return
+              values, and how to split reusable helpers into separate Python files.
+            </p>
+            <a class="button button-soft" href="/flywheelcad/python-syntax/">Open reference</a>
+          </div>
+          <div class="list-panel">
+            <h3>Downloads</h3>
+            <p>
+              The beta DMG, the current user manual, and the repository TestProjects bundle are all
+              mirrored from the current FlyWheelCAD project into this site.
+            </p>
+            <a class="button button-soft" href="/downloads/TestProjects.zip?v=20260308a">Get the bundle</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
         <h2>What You Can Do</h2>
         <div class="list-grid">
           <div class="list-panel">
             <h3>Sketch and constrain</h3>
             <p>
-              Create points, lines, circles, arcs, ellipses, and splines; then apply geometric and
-              dimensional constraints with variables.
+              Create points, lines, circles, arcs, ellipses, splines, and trimmed geometry, then
+              solve sketches with geometric constraints, dimensions, and shared variables.
             </p>
           </div>
           <div class="list-panel">
-            <h3>Model in 3D</h3>
+            <h3>Build bodies and analyze them</h3>
             <p>
-              Turn closed sketch regions into bodies using extrude/revolve, then combine results
-              with boolean union, difference, and intersection.
+              Turn closed regions into solids with extrude, revolve, and loft. Then use boolean
+              union, subtraction, and intersection, or derive sections and projections from bodies.
             </p>
           </div>
           <div class="list-panel">
-            <h3>Script everything</h3>
+            <h3>Work across multiple planes</h3>
             <p>
-              `.fwcad` files are plain Python and can import local helper modules in the same
-              project folder.
+              Sketch on the standard <code>xy</code>, <code>yz</code>, and <code>zx</code> planes,
+              then define custom sketch planes directly from topology points of existing bodies.
             </p>
           </div>
           <div class="list-panel">
-            <h3>Create custom planes</h3>
+            <h3>Keep everything reproducible</h3>
             <p>
-              Build custom sketch planes from 3D topology points and continue feature creation in
-              those local coordinate systems.
+              The right panel keeps the model as editable Python. Helper modules can live next to
+              the main file, so reusable geometry generators stay in ordinary local Python files.
             </p>
           </div>
         </div>
       </section>
 
       <section class="section-panel animate-rise animate-delay-3">
-        <h2>Script Model Quick Start</h2>
+        <h2>Included Example Projects</h2>
         <p>
-          The scripting flow in FlyWheelCAD is based on plain Python files that call the
-          <code>flywheelcad</code> API. A minimal file looks like this:
+          The current <code>TestProjects</code> bundle is organized as small, focused files. These
+          are the best starting points for learning the app and for copying working patterns into
+          your own models.
+        </p>
+        <div class="list-grid">
+          <div class="list-panel">
+            <h3><code>test_drawing.py</code></h3>
+            <p>
+              A symmetric house sketch showing line drawing, construction geometry, a circle,
+              ellipse, dimension edits via <code>update</code>, and mirroring across a symmetry axis.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3><code>test_constraints.py</code></h3>
+            <p>
+              A broad constraint and dimension sampler: parallel, perpendicular, collinear,
+              tangent, concentric, equal, point-on-curve, angle, distance, variables, merge, and
+              <code>ensure_convergence()</code>.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3><code>test_trim.py</code></h3>
+            <p>
+              Demonstrates trimming lines and circles and keeping both returned references when trim
+              splits one original element into reusable fragments.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3><code>test_extrude_revolve.py</code></h3>
+            <p>
+              Builds a constrained plate with a circular hole and then creates a second feature by
+              revolving a semicircular profile around a construction axis.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3><code>test_loft.py</code> and <code>test_sketch_planes.py</code></h3>
+            <p>
+              Show how to derive a custom plane from body topology and continue modeling on that new
+              plane for lofts and follow-on features.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3><code>test_boolean.py</code> and <code>test_boolean_ops.py</code></h3>
+            <p>
+              Cover box-minus-cylinder subtraction plus union, intersection, and subtraction on
+              reused input bodies.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3><code>test_section_project.py</code></h3>
+            <p>
+              Uses an existing body to generate a section curve, a projection, and a projected
+              topology point on other sketch planes.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3><code>test_gears.py</code> and <code>CADgears.py</code></h3>
+            <p>
+              Programmatic geometry generation from helper code: an imported gear profile, a meshing
+              pair, and a boolean keyway cut generated from ordinary Python logic.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Script Quick Start</h2>
+        <p>
+          A FlywheelCAD file is ordinary Python. The minimal pattern is to import the API, create a
+          <code>FlyWheelCAD</code> object, enter a sketch context, then emit geometry and body
+          operations.
         </p>
         <pre><code>from flywheelcad import *
 cad = FlyWheelCAD()
 
 cad.with_sketch("xy")
-# create geometry, apply constraints, generate bodies
-</code></pre>
-        <h3>Use the included TestProjects as templates</h3>
-        <ul>
-          <li><code>test.fwcad</code>: imports a helper module and places repeated geometry.</li>
-          <li><code>test_polygons.fwcad</code>: regular, nested, and spoke polygon generators.</li>
-          <li><code>test_gears.fwcad</code>: gear profiles, extrusion, and boolean subtraction.</li>
-          <li><code>test_showcase.fwcad</code>: end-to-end example with custom plane creation.</li>
-        </ul>
-        <h3>Typical script progression</h3>
-        <ol>
-          <li>Start a sketch context with <code>cad.with_sketch("xy")</code>.</li>
-          <li>Create geometry directly or import helpers from sibling <code>.py</code> modules.</li>
-          <li>Build solid bodies with <code>cad.extrude(...)</code> or <code>cad.revolve(...)</code>.</li>
-          <li>Use booleans like <code>cad.bool_difference(...)</code> to form final parts.</li>
-          <li>Create custom planes from body topology with <code>cad.create_sketch_plane(...)</code>.</li>
-        </ol>
-        <h3>Example: helper import + 3D feature</h3>
+p1 = cad.point2d(-60, -12.5)
+p2 = cad.point2d(-20, -12.5)
+line = cad.line2d(p1, p2)
+cad.horizontal(line)
+cad.length(line, 40)</code></pre>
+        <p>
+          When you need reusable logic, keep helper files next to the main script and import them
+          directly. The included gear examples use exactly that pattern.
+        </p>
         <pre><code>from flywheelcad import *
 from CADgears import gear_outline
 
 cad = FlyWheelCAD()
-gear = gear_outline(center_x=280, center_y=40, tooth_count=18, module=5.5, plane_name="xy")
-gear_body = cad.extrude("xy", gear["profile"], gear["profile_inside"], 45, quality="ultra")
-
-end_face = cad.create_sketch_plane(gear_body.v0, gear_body.v1, gear_body.v2, name="gear_end")
-cad.with_sketch("gear_end")
-cap = cad.circle2d(origin_gear_end, 18)
-cap_body = cad.extrude("gear_end", [cap], (0, 0), 20, quality="high")
-</code></pre>
+gear = gear_outline(center_x=0, center_y=0, tooth_count=24, module=5.0, plane_name="xy")
+body = cad.extrude("xy", gear["region_ring"], 24, quality="high")</code></pre>
         <div class="cta-row">
-          <a class="button button-soft" href="/downloads/FlyWheelCAD-UserManual.md">Download User Manual</a>
-          <a class="button button-soft" href="/downloads/TestProjects.zip">Download Test Projects</a>
+          <a class="button button-soft" href="/flywheelcad/ui-interactions/">Read the UI guide</a>
+          <a class="button button-soft" href="/flywheelcad/python-script-backend/">Read the backend guide</a>
+          <a class="button button-soft" href="/flywheelcad/python-syntax/">Read the syntax reference</a>
         </div>
       </section>
-
     </main>
   </body>
 </html>

@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FlywheelCAD Python Syntax | Digital Handstand</title>
+    <meta
+      name="description"
+      content="Reference for FlywheelCAD's Python API: command signatures, parameters, meanings, and multi-file helper imports."
+    />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260208d" />
+    <link rel="icon" href="/favicon-20260208d.ico?v=20260208d" sizes="any" />
+    <link rel="shortcut icon" href="/favicon-20260208d.ico?v=20260208d" type="image/x-icon" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png?v=20260208d" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png?v=20260208d" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=20260208d" />
+  </head>
+  <body>
+    <main class="site-shell">
+      <header class="topbar animate-rise">
+        <a class="brand" href="/"><img class="brand-icon" src="/assets/images/digitalhandstand-mark-64.png?v=20260208d" alt="" /><span>Digital Handstand</span></a>
+      </header>
+
+      <a class="back-link" href="/flywheelcad/">&larr; Back to FlywheelCAD</a>
+
+      <section class="hero animate-rise animate-delay-1">
+        <span class="eyebrow">Reference</span>
+        <div class="app-head">
+          <img class="app-icon" src="/assets/images/flywheelcad-1024.png" alt="FlywheelCAD icon" />
+          <div>
+            <h1>Python Syntax</h1>
+            <p class="muted">Public command reference for the FlywheelCAD Python API.</p>
+          </div>
+        </div>
+        <p>
+          A FlywheelCAD document is ordinary Python. The app runs that Python through the bundled
+          <code>flywheelcad</code> module, which emits CAD commands that are then parsed and replayed
+          by the app.
+        </p>
+        <pre><code>from flywheelcad import *
+cad = FlyWheelCAD()</code></pre>
+        <div class="cta-row">
+          <a class="button button-soft" href="/flywheelcad/">FlywheelCAD overview</a>
+          <a class="button button-soft" href="/flywheelcad/ui-interactions/">UI interactions</a>
+          <a class="button button-soft" href="/flywheelcad/python-script-backend/">Python Script Backend</a>
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-2">
+        <h2>Setup and Helpers</h2>
+        <table class="detail-table">
+          <tbody>
+            <tr>
+              <td><code>FlyWheelCAD()</code></td>
+              <td>
+                Creates or returns the shared API object. Multiple calls return the same singleton,
+                which keeps variable naming and origin references consistent across helper modules.
+              </td>
+            </tr>
+            <tr>
+              <td><code>cad.with_sketch(plane_name)</code></td>
+              <td>
+                Switches the active sketch context to a plane such as <code>"xy"</code>,
+                <code>"yz"</code>, <code>"zx"</code>, or a custom plane name.
+              </td>
+            </tr>
+            <tr>
+              <td><code>cad.origin(plane_name)</code></td>
+              <td>
+                Returns the origin ref for a sketch plane. Standard origins such as
+                <code>origin_xy</code> are auto-injected; custom origins appear as
+                <code>origin_&lt;plane_name&gt;</code> once a plane is used.
+              </td>
+            </tr>
+            <tr>
+              <td><code>ref(name)</code></td>
+              <td>
+                Creates a symbolic reference by name. Useful when a valid CAD symbol exists but is
+                not bound as a Python variable in the current scope.
+              </td>
+            </tr>
+            <tr>
+              <td><code>region(required, optional=None, witness=None, adjacent=None, side=None)</code></td>
+              <td>
+                Builds a region intent for body commands. <code>required</code> is the main boundary;
+                the optional arguments help the matcher pick the intended closed area.
+              </td>
+            </tr>
+            <tr>
+              <td><code>cw(ref)</code> / <code>ccw(ref)</code></td>
+              <td>
+                Annotates boundary orientation when you need to force clockwise or
+                counter-clockwise interpretation inside a region definition.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Geometry Creation</h2>
+        <table class="detail-table">
+          <tbody>
+            <tr>
+              <td><code>cad.point2d(x, y)</code></td>
+              <td>Creates a 2D point in the active sketch plane and returns a point ref.</td>
+            </tr>
+            <tr>
+              <td><code>cad.line2d(p1, p2, construction=False)</code></td>
+              <td>Creates a line between two point refs. Set <code>construction=True</code> for guide geometry.</td>
+            </tr>
+            <tr>
+              <td><code>cad.circle2d(center, radius, construction=False)</code></td>
+              <td>Creates a circle from a center point ref and numeric or variable radius.</td>
+            </tr>
+            <tr>
+              <td><code>cad.ellipse2d(focus1, focus2, point, construction=False)</code></td>
+              <td>Creates an ellipse from two foci and one boundary point.</td>
+            </tr>
+            <tr>
+              <td><code>cad.spline2d(points, closed=False, construction=False)</code></td>
+              <td>Creates a spline through a list of point refs. Set <code>closed=True</code> for a closed spline.</td>
+            </tr>
+            <tr>
+              <td><code>cad.arc2d(center, start, end, clockwise=False, construction=False)</code></td>
+              <td>Creates an arc from center, start, and end points. Use <code>clockwise=True</code> when needed.</td>
+            </tr>
+            <tr>
+              <td><code>cad.trim(element, near)</code></td>
+              <td>
+                Trims an element near a supplied <code>(x, y)</code> location. Returns the surviving
+                element ref and a secondary split ref when trim produces two pieces.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Geometric Constraints</h2>
+        <table class="detail-table">
+          <tbody>
+            <tr><td><code>cad.horizontal(line)</code></td><td>Makes a line horizontal in the current sketch plane.</td></tr>
+            <tr><td><code>cad.vertical(line)</code></td><td>Makes a line vertical in the current sketch plane.</td></tr>
+            <tr><td><code>cad.parallel(line1, line2)</code></td><td>Constrains two lines to remain parallel.</td></tr>
+            <tr><td><code>cad.perpendicular(line1, line2)</code></td><td>Constrains two lines to be perpendicular.</td></tr>
+            <tr><td><code>cad.collinear(line1, line2)</code></td><td>Places two lines on the same infinite line.</td></tr>
+            <tr><td><code>cad.coincident(p0, p1)</code></td><td>Makes two points share the same location.</td></tr>
+            <tr><td><code>cad.pointlinecoincident(point, line)</code></td><td>Places a point onto a line.</td></tr>
+            <tr><td><code>cad.pointoncircle(point, circle)</code></td><td>Constrains a point to lie on a circle.</td></tr>
+            <tr><td><code>cad.pointonellipse(point, ellipse)</code></td><td>Constrains a point to lie on an ellipse.</td></tr>
+            <tr><td><code>cad.pointonplane(point, plane)</code></td><td>Constrains a point reference onto a plane object.</td></tr>
+            <tr><td><code>cad.concentric(circle1, circle2)</code></td><td>Makes two circles share a center.</td></tr>
+            <tr><td><code>cad.equallines(line1, line2)</code></td><td>Makes two line lengths equal.</td></tr>
+            <tr><td><code>cad.equalradius(circle1, circle2)</code></td><td>Makes two circle radii equal.</td></tr>
+            <tr><td><code>cad.circletangentline(circle, line)</code></td><td>Makes a circle tangent to a line.</td></tr>
+            <tr><td><code>cad.circletangentcircle(circle1, circle2)</code></td><td>Makes two circles tangent to each other.</td></tr>
+            <tr><td><code>cad.ellipsetangentline(ellipse, line)</code></td><td>Makes an ellipse tangent to a line.</td></tr>
+            <tr><td><code>cad.splinetangentline(spline, line)</code></td><td>Makes a spline tangent to a line.</td></tr>
+            <tr><td><code>cad.symmetryline(...)</code></td><td>Advanced symmetry constraint around a sketch line. Use keyword arguments such as point refs and the symmetry line ref.</td></tr>
+            <tr><td><code>cad.symmetryplane(...)</code></td><td>Advanced symmetry constraint around a plane, used through keyword arguments.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Dimensions and Variables</h2>
+        <table class="detail-table">
+          <tbody>
+            <tr>
+              <td><code>cad.variable(value=None, fixed=False)</code></td>
+              <td>
+                Creates a scalar variable ref such as <code>d1</code>. Use it in dimensions directly
+                or inside arithmetic expressions.
+              </td>
+            </tr>
+            <tr><td><code>cad.distance(p0, p1, distance)</code></td><td>Sets the distance between two points. Keyword or positional form is supported.</td></tr>
+            <tr><td><code>cad.length(line, length)</code></td><td>Sets a line length.</td></tr>
+            <tr><td><code>cad.radius(circle, radius)</code></td><td>Sets a circle radius.</td></tr>
+            <tr><td><code>cad.angle(line1, line2, angle=None)</code></td><td>Constrains the angle between two lines. If the angle is omitted, the app records the relation without a fixed value.</td></tr>
+            <tr><td><code>cad.pointlinedistance(point, line, distance)</code></td><td>Sets the perpendicular distance from a point to a line.</td></tr>
+            <tr><td><code>cad.fraction(...)</code></td><td>Advanced fractional constraint helper. Pass keyword arguments only.</td></tr>
+          </tbody>
+        </table>
+        <pre><code>width = cad.variable(80, fixed=True)
+clearance = cad.variable(12)
+cad.length(line, width * 2 + clearance)</code></pre>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Updates and Editing Helpers</h2>
+        <table class="detail-table">
+          <tbody>
+            <tr><td><code>cad.merge_points(source, target)</code></td><td>Merges two points so they become one shared point in the model.</td></tr>
+            <tr><td><code>cad.mirror(elements, symmetry_line)</code></td><td>Mirrors a list of elements across a symmetry line.</td></tr>
+            <tr><td><code>cad.update(changes)</code></td><td>Updates existing geometry properties, usually point coordinates such as <code>{p1: {"x": 10, "y": 20}}</code>.</td></tr>
+            <tr><td><code>cad.ensure_convergence()</code></td><td>Forces an explicit sketch solve when a script wants to converge before continuing.</td></tr>
+            <tr><td><code>cad.label_offset(key, dx, dy)</code></td><td>Adjusts a dimension or annotation label offset by key.</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Bodies, Analysis, and Custom Planes</h2>
+        <table class="detail-table">
+          <tbody>
+            <tr><td><code>cad.extrude(plane, region, distance, direction=None, quality=None)</code></td><td>Creates a solid by extruding a region on a given plane. Returns a body ref.</td></tr>
+            <tr><td><code>cad.revolve(plane, region, axis, angle, quality=None)</code></td><td>Creates a revolved body from a region and selected axis line.</td></tr>
+            <tr><td><code>cad.loft(start_plane, start_region, end_plane, end_region, quality=None)</code></td><td>Creates a lofted body between two regions on different planes.</td></tr>
+            <tr><td><code>cad.bool_union(*bodies, quality=None)</code></td><td>Creates the boolean union of two or more bodies.</td></tr>
+            <tr><td><code>cad.bool_difference(*bodies, quality=None)</code></td><td>Subtracts later bodies from the first body.</td></tr>
+            <tr><td><code>cad.bool_intersection(*bodies, quality=None)</code></td><td>Keeps only the shared volume between bodies.</td></tr>
+            <tr><td><code>cad.section(body, plane)</code></td><td>Creates a section curve of a body on a target plane.</td></tr>
+            <tr><td><code>cad.project(body, plane)</code></td><td>Projects body silhouette-style geometry onto a target plane.</td></tr>
+            <tr><td><code>cad.project_point(point, plane)</code></td><td>Projects a topology point onto another plane.</td></tr>
+            <tr><td><code>cad.create_sketch_plane(p1, p2, p3, name=None)</code></td><td>Creates a named custom sketch plane from three 3D points or topology refs.</td></tr>
+          </tbody>
+        </table>
+        <div class="notice">
+          <strong>Body refs:</strong> body-producing commands return refs that expose topology points
+          such as <code>body1.v0</code>, <code>body1.v1</code>, or similar names. Those are what you
+          pass into <code>create_sketch_plane(...)</code>, <code>project_point(...)</code>, or helper
+          functions that need body topology.
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Including a Separate Python File</h2>
+        <p>
+          Put the helper module next to the main script you open in FlywheelCAD. The app executes the
+          document using that folder as the working directory, so sibling imports work directly.
+        </p>
+        <pre><code>MyProject/
+  gearbox.py
+  CADgears.py
+  CADpolygons.py</code></pre>
+        <pre><code>from flywheelcad import *
+from CADgears import gear_outline
+from CADpolygons import regular_polygon
+
+cad = FlyWheelCAD()
+
+cad.with_sketch("xy")
+regular_polygon(center_x=0, center_y=0, side_count=6, radius=80, plane_name="xy")
+gear = gear_outline(center_x=180, center_y=0, tooth_count=18, module=5.0, plane_name="xy")
+gear_body = cad.extrude("xy", gear["region_ring"], 24, quality="high")</code></pre>
+        <p>
+          This is the same pattern used by the included test projects, especially the gear examples.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
