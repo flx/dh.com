@@ -8,7 +8,7 @@
       name="description"
       content="How FlywheelCAD's 3D view, sketch editor, drawing tools, constraints, dimensions, and body tools work in practice."
     />
-    <link rel="stylesheet" href="/assets/styles.css?v=20260208d" />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260308b" />
     <link rel="icon" href="/favicon-20260208d.ico?v=20260208d" sizes="any" />
     <link rel="shortcut icon" href="/favicon-20260208d.ico?v=20260208d" type="image/x-icon" />
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png?v=20260208d" />
@@ -37,11 +37,12 @@
           script editor that stays synchronized with the model. This page focuses on how to operate
           the visible interface efficiently.
         </p>
-        <div class="cta-row">
-          <a class="button button-soft" href="/flywheelcad/">FlywheelCAD overview</a>
-          <a class="button button-soft" href="/flywheelcad/python-script-backend/">Python Script Backend</a>
-          <a class="button button-soft" href="/flywheelcad/python-syntax/">Python Syntax</a>
-        </div>
+        <nav class="doc-tabs" aria-label="FlywheelCAD pages">
+          <a class="doc-tab" href="/flywheelcad/">Overview</a>
+          <a class="doc-tab is-active" href="/flywheelcad/ui-interactions/">UI interactions</a>
+          <a class="doc-tab" href="/flywheelcad/python-script-backend/">Python Script Backend</a>
+          <a class="doc-tab" href="/flywheelcad/python-syntax/">Python Syntax</a>
+        </nav>
       </section>
 
       <section class="section-panel animate-rise animate-delay-2">
@@ -246,6 +247,107 @@ plate = cad.extrude("xy", plate_region, 10)</code></pre>
           <code>Enter</code> finishes a spline.
         </div>
       </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Example Gallery</h2>
+        <p>
+          These screenshots come from the bundled example scripts and show the kinds of UI outcomes
+          described above: body creation, multi-plane work, and boolean modeling.
+        </p>
+        <div class="list-grid">
+          <div class="list-panel">
+            <a
+              class="lightbox-trigger"
+              href="/assets/images/flywheelcad/examples/test_extrude_revolve.png"
+              data-lightbox-caption="test_extrude_revolve.py"
+              aria-label="Open larger screenshot for test_extrude_revolve.py"
+            ><img
+              class="example-shot"
+              src="/assets/images/flywheelcad/examples/test_extrude_revolve.png"
+              alt="FlywheelCAD screenshot from test_extrude_revolve.py showing an extruded plate and a revolved body."
+              loading="lazy"
+            /></a>
+            <h3><code>test_extrude_revolve.py</code></h3>
+            <p>
+              A typical sketch-to-body workflow: closed regions selected in sketch mode, then turned
+              into an extrude and a revolve.
+            </p>
+          </div>
+          <div class="list-panel">
+            <a
+              class="lightbox-trigger"
+              href="/assets/images/flywheelcad/examples/test_loft.png"
+              data-lightbox-caption="test_loft.py"
+              aria-label="Open larger screenshot for test_loft.py"
+            ><img
+              class="example-shot"
+              src="/assets/images/flywheelcad/examples/test_loft.png"
+              alt="FlywheelCAD screenshot from test_loft.py showing a loft between planes."
+              loading="lazy"
+            /></a>
+            <h3><code>test_loft.py</code></h3>
+            <p>
+              Shows the handoff from a sketch on one plane to a custom-plane feature and a lofted
+              result in 3D view.
+            </p>
+          </div>
+          <div class="list-panel">
+            <a
+              class="lightbox-trigger"
+              href="/assets/images/flywheelcad/examples/test_boolean.png"
+              data-lightbox-caption="test_boolean.py"
+              aria-label="Open larger screenshot for test_boolean.py"
+            ><img
+              class="example-shot"
+              src="/assets/images/flywheelcad/examples/test_boolean.png"
+              alt="FlywheelCAD screenshot from test_boolean.py showing a subtraction example."
+              loading="lazy"
+            /></a>
+            <h3><code>test_boolean.py</code></h3>
+            <p>
+              A straightforward subtractive modeling flow after creating the source bodies from
+              sketches.
+            </p>
+          </div>
+          <div class="list-panel">
+            <a
+              class="lightbox-trigger"
+              href="/assets/images/flywheelcad/examples/test_boolean_ops.png"
+              data-lightbox-caption="test_boolean_ops.py"
+              aria-label="Open larger screenshot for test_boolean_ops.py"
+            ><img
+              class="example-shot"
+              src="/assets/images/flywheelcad/examples/test_boolean_ops.png"
+              alt="FlywheelCAD screenshot from test_boolean_ops.py showing overlapping boolean results."
+              loading="lazy"
+            /></a>
+            <h3><code>test_boolean_ops.py</code></h3>
+            <p>
+              Overlapping bodies selected and combined through union, intersection, and subtraction
+              in the Bodies menu.
+            </p>
+          </div>
+          <div class="list-panel">
+            <a
+              class="lightbox-trigger"
+              href="/assets/images/flywheelcad/examples/test_gears.png"
+              data-lightbox-caption="test_gears.py"
+              aria-label="Open larger screenshot for test_gears.py"
+            ><img
+              class="example-shot"
+              src="/assets/images/flywheelcad/examples/test_gears.png"
+              alt="FlywheelCAD screenshot from test_gears.py showing generated gears."
+              loading="lazy"
+            /></a>
+            <h3><code>test_gears.py</code></h3>
+            <p>
+              Imported helper code generating dense sketch geometry that still ends up as normal,
+              inspectable bodies in the same UI.
+            </p>
+          </div>
+        </div>
+      </section>
+      <script defer src="/assets/lightbox.js?v=20260308b"></script>
     </main>
   </body>
 </html>

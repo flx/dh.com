@@ -8,7 +8,7 @@
       name="description"
       content="FlywheelCAD is a Python-first, constraint-driven CAD app with interactive sketch tools, a live script editor, and reproducible Python workflows."
     />
-    <link rel="stylesheet" href="/assets/styles.css?v=20260208d" />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260308b" />
     <link rel="icon" href="/favicon-20260208d.ico?v=20260208d" sizes="any" />
     <link rel="shortcut icon" href="/favicon-20260208d.ico?v=20260208d" type="image/x-icon" />
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png?v=20260208d" />
@@ -42,49 +42,12 @@
           <a class="button button-soft" href="/downloads/FlyWheelCAD-UserManual.md">Download User Manual</a>
           <a class="button button-soft" href="/downloads/TestProjects.zip?v=20260308a">Download Test Projects</a>
         </div>
-        <div class="cta-row">
-          <a class="button button-soft" href="/flywheelcad/ui-interactions/">UI interactions</a>
-          <a class="button button-soft" href="/flywheelcad/python-script-backend/">Python Script Backend</a>
-          <a class="button button-soft" href="/flywheelcad/python-syntax/">Python Syntax</a>
-        </div>
-      </section>
-
-      <section class="section-panel animate-rise animate-delay-2">
-        <h2>Documentation</h2>
-        <div class="list-grid">
-          <div class="list-panel">
-            <h3>UI interactions</h3>
-            <p>
-              How the 3D view and sketch mode fit together, how drawing tools behave, and how to
-              add constraints, dimensions, and body features from the toolbar.
-            </p>
-            <a class="button button-soft" href="/flywheelcad/ui-interactions/">Open guide</a>
-          </div>
-          <div class="list-panel">
-            <h3>Python Script Backend</h3>
-            <p>
-              How UI actions become Python lines, how the right-hand script editor stays editable,
-              and what happens internally when you rerun the script.
-            </p>
-            <a class="button button-soft" href="/flywheelcad/python-script-backend/">Open guide</a>
-          </div>
-          <div class="list-panel">
-            <h3>Python Syntax</h3>
-            <p>
-              Reference for the FlywheelCAD Python API, command signatures, parameters, return
-              values, and how to split reusable helpers into separate Python files.
-            </p>
-            <a class="button button-soft" href="/flywheelcad/python-syntax/">Open reference</a>
-          </div>
-          <div class="list-panel">
-            <h3>Downloads</h3>
-            <p>
-              The beta DMG, the current user manual, and the repository TestProjects bundle are all
-              mirrored from the current FlyWheelCAD project into this site.
-            </p>
-            <a class="button button-soft" href="/downloads/TestProjects.zip?v=20260308a">Get the bundle</a>
-          </div>
-        </div>
+        <nav class="doc-tabs" aria-label="FlywheelCAD pages">
+          <a class="doc-tab is-active" href="/flywheelcad/">Overview</a>
+          <a class="doc-tab" href="/flywheelcad/ui-interactions/">UI interactions</a>
+          <a class="doc-tab" href="/flywheelcad/python-script-backend/">Python Script Backend</a>
+          <a class="doc-tab" href="/flywheelcad/python-syntax/">Python Syntax</a>
+        </nav>
       </section>
 
       <section class="section-panel animate-rise animate-delay-3">
@@ -130,6 +93,96 @@
         </p>
         <div class="list-grid">
           <div class="list-panel">
+            <a
+              class="lightbox-trigger"
+              href="/assets/images/flywheelcad/examples/test_extrude_revolve.png"
+              data-lightbox-caption="test_extrude_revolve.py"
+              aria-label="Open larger screenshot for test_extrude_revolve.py"
+            ><img
+              class="example-shot"
+              src="/assets/images/flywheelcad/examples/test_extrude_revolve.png"
+              alt="FlywheelCAD screenshot from test_extrude_revolve.py showing an extruded plate and a revolved feature."
+              loading="lazy"
+            /></a>
+            <h3><code>test_extrude_revolve.py</code></h3>
+            <p>
+              Builds a constrained plate with a circular hole and then creates a second feature by
+              revolving a semicircular profile around a construction axis.
+            </p>
+          </div>
+          <div class="list-panel">
+            <a
+              class="lightbox-trigger"
+              href="/assets/images/flywheelcad/examples/test_loft.png"
+              data-lightbox-caption="test_loft.py"
+              aria-label="Open larger screenshot for test_loft.py"
+            ><img
+              class="example-shot"
+              src="/assets/images/flywheelcad/examples/test_loft.png"
+              alt="FlywheelCAD screenshot from test_loft.py showing lofting between sketch planes."
+              loading="lazy"
+            /></a>
+            <h3><code>test_loft.py</code> and <code>test_sketch_planes.py</code></h3>
+            <p>
+              Show how to derive a custom plane from body topology and continue modeling on that new
+              plane for lofts and follow-on features.
+            </p>
+          </div>
+          <div class="list-panel">
+            <a
+              class="lightbox-trigger"
+              href="/assets/images/flywheelcad/examples/test_boolean.png"
+              data-lightbox-caption="test_boolean.py"
+              aria-label="Open larger screenshot for test_boolean.py"
+            ><img
+              class="example-shot"
+              src="/assets/images/flywheelcad/examples/test_boolean.png"
+              alt="FlywheelCAD screenshot from test_boolean.py showing a boolean subtraction workflow."
+              loading="lazy"
+            /></a>
+            <h3><code>test_boolean.py</code></h3>
+            <p>
+              A direct subtraction example: extrude a box, extrude a cylinder, then remove the
+              cylinder from the box with a simple boolean difference.
+            </p>
+          </div>
+          <div class="list-panel">
+            <a
+              class="lightbox-trigger"
+              href="/assets/images/flywheelcad/examples/test_boolean_ops.png"
+              data-lightbox-caption="test_boolean_ops.py"
+              aria-label="Open larger screenshot for test_boolean_ops.py"
+            ><img
+              class="example-shot"
+              src="/assets/images/flywheelcad/examples/test_boolean_ops.png"
+              alt="FlywheelCAD screenshot from test_boolean_ops.py showing union, intersection, and subtraction."
+              loading="lazy"
+            /></a>
+            <h3><code>test_boolean_ops.py</code></h3>
+            <p>
+              Extends the boolean workflow to cover union, intersection, and subtraction on reused
+              overlapping bodies.
+            </p>
+          </div>
+          <div class="list-panel">
+            <a
+              class="lightbox-trigger"
+              href="/assets/images/flywheelcad/examples/test_gears.png"
+              data-lightbox-caption="test_gears.py"
+              aria-label="Open larger screenshot for test_gears.py"
+            ><img
+              class="example-shot"
+              src="/assets/images/flywheelcad/examples/test_gears.png"
+              alt="FlywheelCAD screenshot from test_gears.py showing generated gear profiles and extruded bodies."
+              loading="lazy"
+            /></a>
+            <h3><code>test_gears.py</code> and <code>CADgears.py</code></h3>
+            <p>
+              Programmatic geometry generation from helper code: an imported gear profile, a meshing
+              pair, and a boolean keyway cut generated from ordinary Python logic.
+            </p>
+          </div>
+          <div class="list-panel">
             <h3><code>test_drawing.py</code></h3>
             <p>
               A symmetric house sketch showing line drawing, construction geometry, a circle,
@@ -152,38 +205,10 @@
             </p>
           </div>
           <div class="list-panel">
-            <h3><code>test_extrude_revolve.py</code></h3>
-            <p>
-              Builds a constrained plate with a circular hole and then creates a second feature by
-              revolving a semicircular profile around a construction axis.
-            </p>
-          </div>
-          <div class="list-panel">
-            <h3><code>test_loft.py</code> and <code>test_sketch_planes.py</code></h3>
-            <p>
-              Show how to derive a custom plane from body topology and continue modeling on that new
-              plane for lofts and follow-on features.
-            </p>
-          </div>
-          <div class="list-panel">
-            <h3><code>test_boolean.py</code> and <code>test_boolean_ops.py</code></h3>
-            <p>
-              Cover box-minus-cylinder subtraction plus union, intersection, and subtraction on
-              reused input bodies.
-            </p>
-          </div>
-          <div class="list-panel">
             <h3><code>test_section_project.py</code></h3>
             <p>
               Uses an existing body to generate a section curve, a projection, and a projected
               topology point on other sketch planes.
-            </p>
-          </div>
-          <div class="list-panel">
-            <h3><code>test_gears.py</code> and <code>CADgears.py</code></h3>
-            <p>
-              Programmatic geometry generation from helper code: an imported gear profile, a meshing
-              pair, and a boolean keyway cut generated from ordinary Python logic.
             </p>
           </div>
         </div>
@@ -221,6 +246,7 @@ body = cad.extrude("xy", gear["region_ring"], 24, quality="high")</code></pre>
           <a class="button button-soft" href="/flywheelcad/python-syntax/">Read the syntax reference</a>
         </div>
       </section>
+      <script defer src="/assets/lightbox.js?v=20260308b"></script>
     </main>
   </body>
 </html>
