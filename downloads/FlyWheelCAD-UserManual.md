@@ -5,7 +5,7 @@
 FlyWheelCAD is a Python-first, constraint-driven CAD application.
 
 - You draw and edit sketches interactively in the UI.
-- You can also script everything in `.py` files.
+- You can also script everything in `.py` files (which are plain Python files).
 - Geometry is solved by constraints and dimensions.
 - Closed sketch areas can be turned into 3D bodies (extrude/revolve), then combined with boolean operations.
 
@@ -76,7 +76,7 @@ When solving or replaying scripts, the UI shows a computing overlay (`Computing.
 
 ## 4.1 `.py` Files
 
-A FlyWheelCAD script file is plain Python that imports `flywheelcad`:
+A `.py` file is plain Python that imports `flywheelcad`:
 
 ```python
 from flywheelcad import *
@@ -87,7 +87,7 @@ When executed, this Python script emits intermediate CAD commands to stdout; the
 
 ## 4.2 Local Python Modules
 
-You can place helper `.py` files next to your main `.py` file and import them directly.
+You can place helper `.py` files next to your `.py` file and import them directly.
 
 - Working directory for execution is the document folder.
 - That folder is also put on `PYTHONPATH`.
@@ -142,15 +142,18 @@ Custom origins are available as `origin_<planeName>` once that sketch context is
 - `cad.pointlinecoincident(point=p1, line=l1)`
 - `cad.pointoncircle(point=p1, circle=c1)`
 - `cad.pointonellipse(point=p1, ellipse=e1)`
-- `cad.circletangentline(circle=c1, line=l1)`
+- `tp1 = cad.circletangentline(circle=c1, line=l1)`
 - `cad.circletangentcircle(circle1=c1, circle2=c2)`
-- `cad.ellipsetangentline(ellipse=e1, line=l1)`
+- `tp2 = cad.ellipsetangentline(ellipse=e1, line=l1)`
 - `cad.equallines(line1=l1, line2=l2)`
 - `cad.equalradius(circle1=c1, circle2=c2)`
 
 ### 5.4 Dimensions and Variables
 
-- `d1 = cad.variable(100.0, fixed=True)`
+- `d1 = cad.variable(100.0, fixed=True)` — permanently pinned constant
+- `d2 = cad.variable(30.0, driving=True)` — driving dimension: pinned during solves (drives bound geometry to its value), but editable later via `cad.update({d2: {"value": 45.0}})` or the variables panel; constraints re-solve after the edit
+- `d3 = cad.variable(30.0)` — free solved parameter: an ordinary solver unknown, the solver may move it toward the geometry (use this for reference/derived values, not for dimensions that should drive geometry)
+- `fixed=True` and `driving=True` together is an error.
 - `cad.distance(p0=p1, p1=p2, distance=d1)`
 - `cad.pointlinedistance(point=p1, line=l1, distance=d1)`
 - `cad.length(line=l1, length=d1)`
@@ -171,20 +174,89 @@ Use explicit API calls for dimensions in Python (`cad.length`, `cad.radius`, etc
 
 - `cad.merge_points(source, target)`
 - `cad.update({p1: {"x": 10.0, "y": 20.0}})`
+- `cad.update({d2: {"value": 45.0}})` — set a scalar variable's value (geometry bound to a fixed/driving variable follows after the re-solve)
 - `cad.ensure_convergence()`
 
 ### 5.6 3D Operations
 
-- `cad.extrude(plane, boundary, inside, distance, direction=None, quality=None)`
-- `cad.revolve(plane, boundary, inside, axis, angle, quality=None)`
-- `cad.bool_union(body1, body2, ..., quality=None)`
-- `cad.bool_difference(bodyA, bodyB, ..., quality=None)`
-- `cad.bool_intersection(body1, body2, ..., quality=None)`
+- `cad.region(loop=[...], holes=[[...]], inside=(x, y))` — a region is identified by its directed boundary loop (the outer element cycle, with `rev(e)` or `"-name"` marking an element traversed against its intrinsic direction), optional hole loops, and an optional `inside` point to disambiguate twin regions tracing the same loop. `loop=` is required.
+- `cad.extrude(plane, region_intent, distance, direction=None, quality=None, edge_radius=None)`
+- `cad.revolve(plane, region_intent, axis, angle, quality=None, edge_radius=None)`
+- `cad.loft(start_plane=..., start_region=..., end_plane=..., end_region=..., quality=None, edge_radius=None)`
+- `cad.bool_union(body1, body2, ..., quality=None, blend=None, radius=None)`
+- `cad.bool_difference(bodyA, bodyB, ..., quality=None, blend=None, radius=None)`
+- `cad.bool_intersection(body1, body2, ..., quality=None, blend=None, radius=None)`
+- `cad.offset(body, distance=...)`
 - `cad.section(body, plane)`
 - `cad.project(body, plane)`
 - `cad.project_point(point, plane)`
+- `cad.delete_body(body)` (or `body.delete()`) — deletes a body, cascading to any boolean/offset bodies built from it
 
 Quality values: `"preview"`, `"standard"`, `"high"`, `"ultra"`.
+
+#### Region Identity
+
+The primary way to name a region is its **directed boundary loop**: the outer
+boundary as an ordered cycle of elements, each traversed either along its
+intrinsic direction or against it (wrap with `rev(...)`, or use a `"-name"`
+string). Holes are listed as their own loops, and a single `inside=(x, y)`
+material point disambiguates twin regions that trace the same loop.
+
+```python
+# Middle-left face of a circle crossed by chords: down the left arc,
+# east along l10, then back up l7 and west along l4 against their
+# intrinsic p1->p2 directions.
+body = cad.extrude("xy", region(loop=[c1, l10, rev(l7), rev(l4)]), 5)
+
+# Full disk (all chord seams cancel) with an inside point:
+body = cad.extrude("xy", region(loop=[c1], inside=(0, 0)), 5)
+
+# Square with a circular hole:
+body = cad.extrude("xy", region(loop=[l1, l2, l3, l4], holes=[[c1]]), 5)
+```
+
+Loop matching is rotation-invariant (any starting element works) and accepts
+a fully reversed loop (a hand-written clockwise cycle). Intrinsic directions:
+lines run p1 → p2, circles/arcs/ellipses are counter-clockwise, splines follow
+control-point order.
+
+The `required`/`witness`/`adjacent`/`side` fields are the legacy region
+identity; old scripts using them keep replaying, but the UI no longer
+generates `adjacent`/`side` hints.
+
+#### Edge Rounding
+
+`edge_radius` rounds the sharp edges where a 2D profile meets the extrusion/revolve/loft caps. The value is the fillet radius in model units. Omit or set to `0` for sharp edges (default).
+
+```python
+body = cad.extrude("xy", region(...), 10.0, edge_radius=1.5)
+rbody = cad.revolve("xy", region(...), l1, 180.0, edge_radius=2.0)
+lbody = cad.loft(start_plane="xy", ..., edge_radius=1.0)
+```
+
+#### Boolean Blends
+
+`blend` and `radius` control the seam shape where two bodies meet in a boolean operation.
+
+- `blend="smooth"` — rounded fillet (polynomial smooth-min/max).
+- `blend="chamfer"` — flat 45° bevel.
+- `radius` — blend size in model units.
+
+Omit both for the default hard boolean edges.
+
+```python
+result = cad.bool_union(body1, body2, blend="smooth", radius=2.0)
+result = cad.bool_difference(body1, body2, blend="chamfer", radius=1.5)
+```
+
+#### Offset (Shell)
+
+`offset` expands or contracts a body's surface uniformly. Positive distance expands outward, negative shrinks inward.
+
+```python
+bigger = cad.offset(body1, distance=0.5)
+smaller = cad.offset(body1, distance=-1.0)
+```
 
 ### 5.7 Custom Sketch Planes
 
@@ -225,8 +297,10 @@ w = cad.variable(240.0, fixed=True)
 cad.length(line=l1, length=w)
 
 c1 = cad.circle2d(origin_xy, 20)
-outer = cad.extrude("xy", [l1, l2, l3, l4], (0, 0), 30, quality="high")
-inner = cad.extrude("xy", [c1], (0, 0), 30, quality="high")
+outer_region = cad.region(loop=[l1, l2, l3, l4], inside=(100, 0))
+inner_region = cad.region(loop=[c1], inside=(0, 0))
+outer = cad.extrude("xy", outer_region, 30, quality="high")
+inner = cad.extrude("xy", inner_region, 30, quality="high")
 plate = cad.bool_difference(outer, inner, quality="high")
 ```
 
@@ -254,8 +328,8 @@ cad.with_sketch("xy")
 regular_polygon(center_x=0, center_y=0, side_count=6, radius=80, plane_name="xy")
 
 gear = gear_outline(center_x=260, center_y=0, tooth_count=18, module=5.0, plane_name="xy")
-body = cad.extrude("xy", gear["profile"], gear["profile_inside"], 35, quality="high")
-bore = cad.extrude("xy", [gear["bore"]], gear["bore_inside"], 35, quality="high")
+body = cad.extrude("xy", cad.region(loop=gear["profile"], inside=gear["profile_inside"]), 35, quality="high")
+bore = cad.extrude("xy", cad.region(loop=[gear["bore"]], inside=gear["bore_inside"]), 35, quality="high")
 gear_body = cad.bool_difference(body, bore, quality="high")
 ```
 
@@ -275,28 +349,24 @@ l2 = cad.line2d(p2, p3)
 l3 = cad.line2d(p3, p4)
 l4 = cad.line2d(p4, p1)
 
-body = cad.extrude("xy", [l1, l2, l3, l4], (0, 0), 40)
+body = cad.extrude("xy", cad.region(loop=[l1, l2, l3, l4], inside=(0, 0)), 40)
 
 top_plane = cad.create_sketch_plane(body.v0, body.v1, body.v2, name="top_plane_a")
 cad.with_sketch("top_plane_a")
 c1 = cad.circle2d(origin_top_plane_a, 12)
-cap = cad.extrude("top_plane_a", [c1], (0, 0), 20)
+cap = cad.extrude("top_plane_a", cad.region(loop=[c1], inside=(0, 0)), 20)
 ```
 
 ## 7. Included Repository Examples
 
 This repo contains ready-to-run imported examples:
 
-- `TestProjects/test_drawing.py`
-- `TestProjects/test_constraints.py`
-- `TestProjects/test_trim.py`
-- `TestProjects/test_extrude_revolve.py`
-- `TestProjects/test_boolean.py`
-- `TestProjects/test_boolean_ops.py`
-- `TestProjects/test_loft.py`
-- `TestProjects/test_sketch_planes.py`
-- `TestProjects/test_section_project.py`
+- `TestProjects/test.py`
+- `TestProjects/test_polygons.py`
 - `TestProjects/test_gears.py`
+- `TestProjects/test_showcase.py`
+- `TestProjects/CADtriangle.py`
+- `TestProjects/CADpolygons.py`
 - `TestProjects/CADgears.py`
 
 These are good templates for building your own helper libraries.
@@ -308,15 +378,15 @@ These are good templates for building your own helper libraries.
 - Use canonical plane names (`xy`, `yz`, `zx`) or an existing custom sketch name.
 - Avoid legacy `_plane` suffix.
 
-### 8.2 `No area matches boundary=[...]`
+### 8.2 `No region traces loop (...)`
 
-- The boundary list and `inside` point must identify the same closed region.
-- If the boundary has holes, the inside point must be in the intended material region.
-- For ring-like geometry, center points may fall into the hole and fail selection.
+- Loop element names must resolve to existing sketch elements in the active plane.
+- The loop must list the boundary elements in traversal order (rotation-invariant and reversal-lenient); use `rev(e)` to mark an element traversed against its intrinsic direction.
+- The `inside` point is optional, but when several regions trace the same loop it disambiguates them — it must lie in the intended region's material (not inside a hole).
 
 ### 8.3 Helper Module Import Fails
 
-- Confirm helper `.py` is in the same folder as the main `.py` file, or otherwise reachable on `PYTHONPATH`.
+- Confirm helper `.py` is in the same folder as the `.py` file, or otherwise reachable on `PYTHONPATH`.
 - Confirm module/file names match import names exactly.
 
 ### 8.4 Script Runs but Geometry Did Not Change

@@ -221,7 +221,10 @@
             <h3>Solver feedback</h3>
             <p>
               After a constraint or dimension is added, the sketch re-solves asynchronously so the UI
-              stays responsive instead of freezing during convergence work.
+              stays responsive instead of freezing during convergence work. A status badge reports
+              whether the sketch is under-, fully-, or over-constrained &mdash; including how many
+              degrees of freedom remain &mdash; and, when constraints conflict, names the ones the
+              solver cannot satisfy.
             </p>
           </div>
         </div>
@@ -233,12 +236,15 @@
           When you have one or more closed selected areas, use the extrude/revolve tool in the
           toolbar. The app opens a small panel for operation type, distance, direction, or revolve
           angle. After the operation completes, return to 3D view to inspect the result and combine
-          it with booleans or other downstream features.
+          it with booleans or other downstream features. Bodies stay tied to the sketch they came
+          from &mdash; edit that geometry and they re-derive &mdash; and selecting a body in the 3D
+          view lets you delete it, which cascades to any boolean or offset bodies built on top of
+          it.
         </p>
         <pre><code># Typical sketch-to-body progression
 cad.with_sketch("xy")
 ...
-plate_region = cad.region(required=[la1, la2, la3, la4, hole], witness=[(-50, 0)])
+plate_region = cad.region(loop=[la1, la2, la3, la4], holes=[[hole]], inside=(-50, 0))
 plate = cad.extrude("xy", plate_region, 10)</code></pre>
         <div class="notice">
           <strong>Useful keys:</strong> <code>Esc</code> cancels the current drawing operation or
