@@ -328,9 +328,8 @@ cad.with_sketch("xy")
 regular_polygon(center_x=0, center_y=0, side_count=6, radius=80, plane_name="xy")
 
 gear = gear_outline(center_x=260, center_y=0, tooth_count=18, module=5.0, plane_name="xy")
-body = cad.extrude("xy", cad.region(loop=gear["profile"], inside=gear["profile_inside"]), 35, quality="high")
-bore = cad.extrude("xy", cad.region(loop=[gear["bore"]], inside=gear["bore_inside"]), 35, quality="high")
-gear_body = cad.bool_difference(body, bore, quality="high")
+# region_ring is the toothed outline with the bore already cut as a hole.
+gear_body = cad.extrude("xy", gear["region_ring"], 35, quality="high")
 ```
 
 ## 6.3 Custom Plane From Body Topology
@@ -359,15 +358,18 @@ cap = cad.extrude("top_plane_a", cad.region(loop=[c1], inside=(0, 0)), 20)
 
 ## 7. Included Repository Examples
 
-This repo contains ready-to-run imported examples:
+The `TestProjects` bundle contains ready-to-run examples:
 
-- `TestProjects/test.py`
-- `TestProjects/test_polygons.py`
-- `TestProjects/test_gears.py`
-- `TestProjects/test_showcase.py`
-- `TestProjects/CADtriangle.py`
-- `TestProjects/CADpolygons.py`
-- `TestProjects/CADgears.py`
+- `TestProjects/test_drawing.py` — lines, construction geometry, circle, ellipse, mirror
+- `TestProjects/test_constraints.py` — broad constraint and dimension sampler
+- `TestProjects/test_trim.py` — trimming lines and circles into reusable fragments
+- `TestProjects/test_extrude_revolve.py` — extruded plate plus a revolved feature
+- `TestProjects/test_loft.py`, `TestProjects/test_sketch_planes.py` — custom planes and lofts
+- `TestProjects/test_boolean.py`, `TestProjects/test_boolean_ops.py` — union, intersection, difference
+- `TestProjects/test_smooth_booleans.py`, `TestProjects/test_edge_rounding.py` — blends and rounded edges
+- `TestProjects/test_offset.py` — shell/offset bodies
+- `TestProjects/test_section_project.py` — sections and projections from a body
+- `TestProjects/test_gears.py`, `TestProjects/CADgears.py` — programmatic involute gears (arc profiles)
 
 These are good templates for building your own helper libraries.
 
