@@ -180,7 +180,7 @@ Use explicit API calls for dimensions in Python (`cad.length`, `cad.radius`, etc
 ### 5.6 3D Operations
 
 - `cad.region(loop=[...], holes=[[...]], inside=(x, y))` — a region is identified by its directed boundary loop (the outer element cycle, with `rev(e)` or `"-name"` marking an element traversed against its intrinsic direction), optional hole loops, and an optional `inside` point to disambiguate twin regions tracing the same loop. `loop=` is required.
-- `cad.extrude(plane, region_intent, distance, direction=None, quality=None, edge_radius=None)`
+- `cad.extrude(plane, region_intent, distance, direction=None, quality=None, edge_radius=None, offset=None, draft=None, twist=None, twist_center=None)`
 - `cad.revolve(plane, region_intent, axis, angle, quality=None, edge_radius=None)`
 - `cad.loft(start_plane=..., start_region=..., end_plane=..., end_region=..., quality=None, edge_radius=None)`
 - `cad.bool_union(body1, body2, ..., quality=None, blend=None, radius=None)`
@@ -226,12 +226,28 @@ generates `adjacent`/`side` hints.
 
 #### Edge Rounding
 
-`edge_radius` rounds the sharp edges where a 2D profile meets the extrusion/revolve/loft caps. The value is the fillet radius in model units. Omit or set to `0` for sharp edges (default).
+`edge_radius` rounds every sharp edge of an extruded, revolved, or lofted body uniformly — the vertical/side edges as well as the top and bottom caps. The value is the fillet radius in model units. Omit or set to `0` for sharp edges (default).
 
 ```python
 body = cad.extrude("xy", region(...), 10.0, edge_radius=1.5)
 rbody = cad.revolve("xy", region(...), l1, 180.0, edge_radius=2.0)
 lbody = cad.loft(start_plane="xy", ..., edge_radius=1.0)
+```
+
+#### Extrude Shaping: Draft, Offset, and Twist
+
+Extrude takes three optional shaping parameters in addition to `edge_radius`:
+
+- `draft` tapers the side walls by an angle in degrees, measured from the sketch-side face (which keeps the original profile size). Positive draft slopes the walls outward (the far face is larger); negative slopes inward.
+- `offset` shifts the whole body along the plane normal before extruding (`0` starts on the sketch plane; negative is allowed). A body lifted off the plane exposes its bottom face as a real surface you can build a new sketch plane on.
+- `twist` rotates the cross-section as it rises — the total rotation in degrees over the full `distance` — about `twist_center` (an `(x, y)` axis; defaults to the region centroid). This is how the helical and herringbone gear examples are built.
+
+```python
+# Tapered boss, lifted 5 above the plane, with rounded edges:
+body = cad.extrude("xy", region(...), 20, draft=8, offset=5, edge_radius=1)
+
+# Helical gear: a 30-degree twist over the face height about the gear centre:
+gear = cad.extrude("xy", gear["region_ring"], 24, twist=30, twist_center=(0, 0))
 ```
 
 #### Boolean Blends

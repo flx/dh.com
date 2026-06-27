@@ -381,6 +381,22 @@ p {
   box-shadow: 0 12px 26px rgba(31, 36, 44, 0.08);
 }
 
+.example-pair {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.example-pair .lightbox-trigger {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.example-pair .example-shot {
+  height: 168px;
+  margin-bottom: 0;
+}
+
 .lightbox-trigger {
   display: block;
   text-decoration: none;

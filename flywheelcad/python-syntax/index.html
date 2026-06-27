@@ -173,10 +173,11 @@ cad = FlyWheelCAD()</code></pre>
         <table class="detail-table">
           <tbody>
             <tr>
-              <td><code>cad.variable(value=None, fixed=False)</code></td>
+              <td><code>cad.variable(value=None, fixed=False, driving=False)</code></td>
               <td>
                 Creates a scalar variable ref such as <code>d1</code>. Use it in dimensions directly
-                or inside arithmetic expressions.
+                or inside arithmetic expressions. <code>fixed=True</code> pins the value;
+                <code>driving=True</code> exposes it as an editable driving dimension.
               </td>
             </tr>
             <tr><td><code>cad.distance(p0, p1, distance)</code></td><td>Sets the distance between two points. Keyword or positional form is supported.</td></tr>
@@ -209,7 +210,7 @@ cad.length(line, width * 2 + clearance)</code></pre>
         <h2>Bodies, Analysis, and Custom Planes</h2>
         <table class="detail-table">
           <tbody>
-            <tr><td><code>cad.extrude(plane, region, distance, direction=None, quality=None, edge_radius=None)</code></td><td>Creates a solid by extruding a region on a given plane. Returns a body ref. <code>edge_radius</code> rounds the cap edges.</td></tr>
+            <tr><td><code>cad.extrude(plane, region, distance, direction=None, quality=None, edge_radius=None, offset=None, draft=None, twist=None, twist_center=None)</code></td><td>Creates a solid by extruding a region on a given plane. Returns a body ref. <code>edge_radius</code> fillets every edge of the prism uniformly &mdash; the vertical corners as well as the top and bottom rims. <code>offset</code> shifts the whole body along the plane normal (<code>0</code> starts on the plane; negative is allowed). <code>draft</code> tapers the walls by an angle in degrees (positive slopes outward, negative inward), measured from the sketch-side face. <code>twist</code> rotates the cross-section as it rises (degrees over the full height) about <code>twist_center</code> (default: the region centroid) &mdash; this is how the helical and herringbone gear examples are built.</td></tr>
             <tr><td><code>cad.revolve(plane, region, axis, angle, quality=None, edge_radius=None)</code></td><td>Creates a revolved body from a region and selected axis line.</td></tr>
             <tr><td><code>cad.loft(start_plane, start_region, end_plane, end_region, quality=None, edge_radius=None)</code></td><td>Creates a lofted body between two regions on different planes.</td></tr>
             <tr><td><code>cad.bool_union(*bodies, quality=None, blend=None, radius=None)</code></td><td>Creates the boolean union of two or more bodies. <code>blend="smooth"</code> or <code>"chamfer"</code> with a <code>radius</code> rounds or bevels the seam.</td></tr>
