@@ -409,6 +409,34 @@ body = cad.extrude("xy", gear["region_ring"], 24, quality="high")</code></pre>
           <a class="button button-soft" href="/flywheelcad/python-syntax/">Read the syntax reference</a>
         </div>
       </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Bring Your Own AI</h2>
+        <p>
+          FlywheelCAD contains no AI integration &mdash; no cloud connection, no account, nothing
+          leaves your machine. It doesn&rsquo;t need one: because every document is ordinary
+          Python, any coding agent you already use can write and refactor your models for you.
+        </p>
+        <p>
+          That is what the <strong>AI Scripting Guide</strong> is for. It packs the whole scripting
+          surface &mdash; the rules an agent must follow, the full command reference, and worked
+          patterns &mdash; into one Markdown file sized for an assistant&rsquo;s context window.
+          Drop it into a session with the coding agent of your choice, describe the part you want,
+          and let the agent work out the hard geometry: circular-arc approximations of involute
+          gear teeth, accurate NACA airfoil sections, parametric part families driven by a handful
+          of variables. The meshing gear pairs in the test projects and the NACA-profile glider
+          wing in the samples are exactly this kind of generated-from-math geometry &mdash;
+          ordinary Python logic emitting FlywheelCAD commands.
+        </p>
+        <p>
+          Whatever the agent writes stays a plain <code>.py</code> file: open it in the app, run
+          it, inspect the result, and keep editing by hand or by prompt &mdash; the script remains
+          the single, reproducible source of truth either way.
+        </p>
+        <div class="cta-row">
+          <a class="button button-primary" href="/downloads/FlyWheelCAD-AI-Scripting-Guide.md?v=20260701a">Download AI Scripting Guide</a>
+        </div>
+      </section>
       <script defer src="/assets/lightbox.js?v=20260308b"></script>
     </main>
   </body>
