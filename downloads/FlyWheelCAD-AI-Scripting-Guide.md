@@ -158,12 +158,15 @@ cad.mirror([l1, l2, c1], symmetry_line=axis)   # mirror elements across a line
 cad.merge_points(p_src, p_dst)                  # weld two points
 cad.ensure_convergence()                        # force a solve of the current sketch
 
-# Round the corner where two lines share an endpoint: both lines retract to
-# the tangent points and a tangent arc bridges them (tangency + radius are
-# constrained, so the fillet stays valid on re-solve). l1/l2 keep referring
-# to the retracted lines; the returned arc goes into region loops between
-# them: region(loop=[l1, f1, l2, ...]).
+# Round the corner where two elements (lines OR arcs, any mix) share an
+# endpoint: both retract to the tangent points and a tangent arc bridges them
+# (tangency + radius are constrained, so the fillet stays valid on re-solve).
+# The element variables keep referring to the retracted elements; the returned
+# arc goes into region loops between them: region(loop=[l1, f1, l2, ...]).
+# Rejected when the join is already tangent-continuous (no corner) or the
+# radius doesn't leave part of both elements.
 f1 = cad.fillet(l1, l2, radius=4)
+f2 = cad.fillet(l3, a1, radius=2)   # line–arc and arc–arc corners work too
 ```
 
 ---
