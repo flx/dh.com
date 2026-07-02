@@ -143,6 +143,18 @@ cad = FlyWheelCAD()</code></pre>
                 element ref and a secondary split ref when trim produces two pieces.
               </td>
             </tr>
+            <tr>
+              <td><code>cad.fillet(line1, line2, radius)</code></td>
+              <td>
+                Rounds the corner where two lines share an endpoint: both lines retract to the
+                tangent points and a tangent arc of the given radius bridges them, with tangency
+                and radius constrained so the fillet stays valid when the sketch re-solves. The
+                line refs keep referring to the retracted lines; the returned arc slots between
+                them in region loops: <code>region(loop=[l1, f1, l2, ...])</code>. Also available
+                in the UI: select the two lines, then <em>Modify &rarr; Fillet Corner&hellip;</em>
+                or the fillet toolbar button.
+              </td>
+            </tr>
           </tbody>
         </table>
       </section>
