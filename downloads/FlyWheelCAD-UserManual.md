@@ -180,7 +180,7 @@ Use explicit API calls for dimensions in Python (`cad.length`, `cad.radius`, etc
 ### 5.6 3D Operations
 
 - `cad.region(loop=[...], holes=[[...]], inside=(x, y))` — a region is identified by its directed boundary loop (the outer element cycle, with `rev(e)` or `"-name"` marking an element traversed against its intrinsic direction), optional hole loops, and an optional `inside` point to disambiguate twin regions tracing the same loop. `loop=` is required.
-- `cad.extrude(plane, region_intent, distance, direction=None, quality=None, edge_radius=None, offset=None, draft=None, twist=None, twist_center=None)`
+- `cad.extrude(plane, region_intent, distance, direction=None, quality=None, edge_radius=None)`
 - `cad.revolve(plane, region_intent, axis, angle, quality=None, edge_radius=None)`
 - `cad.loft(start_plane=..., start_region=..., end_plane=..., end_region=..., quality=None, edge_radius=None)`
 - `cad.bool_union(body1, body2, ..., quality=None, blend=None, radius=None)`
@@ -226,28 +226,12 @@ generates `adjacent`/`side` hints.
 
 #### Edge Rounding
 
-`edge_radius` rounds every sharp edge of an extruded, revolved, or lofted body uniformly — the vertical/side edges as well as the top and bottom caps. The value is the fillet radius in model units. Omit or set to `0` for sharp edges (default).
+`edge_radius` rounds the sharp edges where a 2D profile meets the extrusion/revolve/loft caps. The value is the fillet radius in model units. Omit or set to `0` for sharp edges (default).
 
 ```python
 body = cad.extrude("xy", region(...), 10.0, edge_radius=1.5)
 rbody = cad.revolve("xy", region(...), l1, 180.0, edge_radius=2.0)
 lbody = cad.loft(start_plane="xy", ..., edge_radius=1.0)
-```
-
-#### Extrude Shaping: Draft, Offset, and Twist
-
-Extrude takes three optional shaping parameters in addition to `edge_radius`:
-
-- `draft` tapers the side walls by an angle in degrees, measured from the sketch-side face (which keeps the original profile size). Positive draft slopes the walls outward (the far face is larger); negative slopes inward.
-- `offset` shifts the whole body along the plane normal before extruding (`0` starts on the sketch plane; negative is allowed). A body lifted off the plane exposes its bottom face as a real surface you can build a new sketch plane on.
-- `twist` rotates the cross-section as it rises — the total rotation in degrees over the full `distance` — about `twist_center` (an `(x, y)` axis; defaults to the region centroid). This is how the helical and herringbone gear examples are built.
-
-```python
-# Tapered boss, lifted 5 above the plane, with rounded edges:
-body = cad.extrude("xy", region(...), 20, draft=8, offset=5, edge_radius=1)
-
-# Helical gear: a 30-degree twist over the face height about the gear centre:
-gear = cad.extrude("xy", gear["region_ring"], 24, twist=30, twist_center=(0, 0))
 ```
 
 #### Boolean Blends
@@ -276,14 +260,36 @@ smaller = cad.offset(body1, distance=-1.0)
 
 ### 5.7 Custom Sketch Planes
 
-- `cad.create_sketch_plane(p1, p2, p3, name=None)`
+- `cad.point(x, y, z, name=None)` — a fixed 3D reference point at world coordinates
+- `cad.create_sketch_plane(p1, p2, p3, name=None)` — origin is `p1`; the plane normal is `(p2 - p1) × (p3 - p1)`
 
-Example:
+The three points may be body topology points (`body1.v0`), existing sketch
+points, or standalone reference points created with `cad.point(...)`.
+
+From topology points:
 
 ```python
 endface = cad.create_sketch_plane(body1.v1, body1.v2, body1.v0, name="endface")
 cad.with_sketch("endface")
 ```
+
+From explicit coordinates — useful for laying out a series of parametric
+planes (e.g. an airfoil with twist, one plane per spanwise station, then
+`cad.loft(...)` between the sketched profiles):
+
+```python
+p1 = cad.point(0, 0, 0)
+p2 = cad.point(100, 0, 0)
+p3 = cad.point(0, 0, 20)
+station1 = cad.create_sketch_plane(p1, p2, p3, name="station1")
+cad.with_sketch("station1")
+```
+
+In the GUI, **Sketch ▸ New Sketch from Coordinates…** opens a dialog with a
+sketch name and three X/Y/Z rows (origin + two points). It creates the three
+points and the plane, logging them exactly as above. **Sketch ▸ New Sketch
+from 3 Selected Points** does the same from three points selected in the 3D
+view.
 
 ## 6. Working Examples
 
@@ -344,8 +350,9 @@ cad.with_sketch("xy")
 regular_polygon(center_x=0, center_y=0, side_count=6, radius=80, plane_name="xy")
 
 gear = gear_outline(center_x=260, center_y=0, tooth_count=18, module=5.0, plane_name="xy")
-# region_ring is the toothed outline with the bore already cut as a hole.
-gear_body = cad.extrude("xy", gear["region_ring"], 35, quality="high")
+body = cad.extrude("xy", cad.region(loop=gear["profile"], inside=gear["profile_inside"]), 35, quality="high")
+bore = cad.extrude("xy", cad.region(loop=[gear["bore"]], inside=gear["bore_inside"]), 35, quality="high")
+gear_body = cad.bool_difference(body, bore, quality="high")
 ```
 
 ## 6.3 Custom Plane From Body Topology
@@ -374,18 +381,15 @@ cap = cad.extrude("top_plane_a", cad.region(loop=[c1], inside=(0, 0)), 20)
 
 ## 7. Included Repository Examples
 
-The `TestProjects` bundle contains ready-to-run examples:
+This repo contains ready-to-run imported examples:
 
-- `TestProjects/test_drawing.py` — lines, construction geometry, circle, ellipse, mirror
-- `TestProjects/test_constraints.py` — broad constraint and dimension sampler
-- `TestProjects/test_trim.py` — trimming lines and circles into reusable fragments
-- `TestProjects/test_extrude_revolve.py` — extruded plate plus a revolved feature
-- `TestProjects/test_loft.py`, `TestProjects/test_sketch_planes.py` — custom planes and lofts
-- `TestProjects/test_boolean.py`, `TestProjects/test_boolean_ops.py` — union, intersection, difference
-- `TestProjects/test_smooth_booleans.py`, `TestProjects/test_edge_rounding.py` — blends and rounded edges
-- `TestProjects/test_offset.py` — shell/offset bodies
-- `TestProjects/test_section_project.py` — sections and projections from a body
-- `TestProjects/test_gears.py`, `TestProjects/CADgears.py` — programmatic involute gears (arc profiles)
+- `TestProjects/test.py`
+- `TestProjects/test_polygons.py`
+- `TestProjects/test_gears.py`
+- `TestProjects/test_showcase.py`
+- `TestProjects/CADtriangle.py`
+- `TestProjects/CADpolygons.py`
+- `TestProjects/CADgears.py`
 
 These are good templates for building your own helper libraries.
 

@@ -35,13 +35,16 @@
         <p>
           FlywheelCAD combines direct sketch editing in the UI with a live Python script backend.
           You can draw and constrain geometry interactively, create bodies with extrude, revolve,
-          loft, and booleans, export bodies as <code>.3mf</code> files for 3D printing, then edit
-          or rerun the generated script as the repeatable source of truth.
+          loft, and booleans, compose reusable components into mated assemblies, export bodies as
+          <code>.3mf</code> files for 3D printing, then edit or rerun the generated script as the
+          repeatable source of truth.
         </p>
         <div class="cta-row">
-          <a class="button button-primary" href="/downloads/FlyWheelCAD-0.7.dmg?v=20260627a">Download beta (0.7)</a>
-          <a class="button button-soft" href="/downloads/FlyWheelCAD-UserManual.md?v=20260627a">Download User Manual</a>
-          <a class="button button-soft" href="/downloads/TestProjects.zip?v=20260627a">Download Test Projects</a>
+          <a class="button button-primary" href="/downloads/FlyWheelCAD-0.8.dmg?v=20260701a">Download beta (0.8)</a>
+          <a class="button button-soft" href="/downloads/FlyWheelCAD-UserManual.md?v=20260701a">Download User Manual</a>
+          <a class="button button-soft" href="/downloads/FlyWheelCAD-AI-Scripting-Guide.md?v=20260701a">Download AI Scripting Guide</a>
+          <a class="button button-soft" href="/downloads/TestProjects.zip?v=20260701a">Download Test Projects</a>
+          <a class="button button-soft" href="/downloads/FlyWheelCAD-Samples.zip?v=20260701a">Download Sample Assemblies</a>
         </div>
         <nav class="doc-tabs" aria-label="FlywheelCAD pages">
           <a class="doc-tab is-active" href="/flywheelcad/">Overview</a>
@@ -80,6 +83,20 @@
             <p>
               Sketch on the standard <code>xy</code>, <code>yz</code>, and <code>zx</code> planes,
               then define custom sketch planes directly from topology points of existing bodies.
+              Multi-section lofts sweep one smooth solid through any number of cross-section
+              planes &mdash; the sample aircraft fuselages and wings are built this way.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Compose components into assemblies</h3>
+            <p>
+              Define a part once inside <code>with cad.component(...)</code>, export its bodies and
+              named anchor points, then place it many times with <code>cad.instance(...)</code> &mdash;
+              translated, mirrored, scaled, or rotated &mdash; and snap instances together with mates.
+              Components can be parametric (one wing factory, many wings), live in their own files
+              next to the assembly, and nest into sub-assemblies that re-export parts of their
+              children. Per-body colors and finishes (matte, glossy, metallic, glass) carry into
+              <code>.3mf</code> export.
             </p>
           </div>
           <div class="list-panel">
@@ -87,6 +104,53 @@
             <p>
               The right panel keeps the model as editable Python. Helper modules can live next to
               the main file, so reusable geometry generators stay in ordinary local Python files.
+              Writing scripts with an AI assistant? Drop the
+              <a href="/downloads/FlyWheelCAD-AI-Scripting-Guide.md?v=20260701a">AI scripting guide</a>
+              into its context &mdash; it is the full API reference in one machine-friendly Markdown file.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Sample Assemblies</h2>
+        <p>
+          Three complete multi-file assemblies show the component workflow end to end: components
+          defined in their own files, parametric part factories, instances placed with mirrors and
+          transforms, and mates snapping everything to named anchor points. They are the best
+          reference for structuring a real project &mdash; download them with the
+          <a href="/downloads/FlyWheelCAD-Samples.zip?v=20260701a">Sample Assemblies</a> bundle and
+          open the top-level file as the document. (Assembly geometry lives inside the component
+          files, so these show the composed 3D result; click to enlarge.)
+        </p>
+        <div class="list-grid">
+          <div class="list-panel">
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/glider_3d.png" data-lightbox-caption="Glider — composed assembly" aria-label="Open larger 3D screenshot of the Glider sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/glider_3d.png" alt="FlywheelCAD 3D view of the Glider sample assembly." loading="lazy" /></a>
+            <h3><code>Glider/glider.py</code></h3>
+            <p>
+              A sailplane with a multi-loft fuselage (rounded nose cap, cockpit, tail boom), a
+              parametric NACA-profile wing with non-linear taper, washout, and dihedral &mdash;
+              instanced once per side with the left wing mirrored &mdash; and a symmetric-airfoil
+              T-tail, all placed on a common frame with per-component colors.
+            </p>
+          </div>
+          <div class="list-panel">
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/toy_airplane_3d.png" data-lightbox-caption="Toy Airplane — mated assembly" aria-label="Open larger 3D screenshot of the Toy Airplane sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/toy_airplane_3d.png" alt="FlywheelCAD 3D view of the Toy Airplane sample assembly." loading="lazy" /></a>
+            <h3><code>ToyAirplane/airplane.py</code></h3>
+            <p>
+              The introductory assembly: fuselage, parametric wing (instanced right and mirrored
+              left), and tail, each defined in its own component file and mated to named mount
+              points exported by the fuselage &mdash; move a mount and the parts follow.
+            </p>
+          </div>
+          <div class="list-panel">
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/airplane_nested_3d.png" data-lightbox-caption="Nested Airplane — sub-assemblies" aria-label="Open larger 3D screenshot of the Nested Airplane sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/airplane_nested_3d.png" alt="FlywheelCAD 3D view of the Nested Airplane sample assembly." loading="lazy" /></a>
+            <h3><code>AirplaneNested/airplane.py</code></h3>
+            <p>
+              A two-level assembly demonstrating nesting: leaf parts (fuselage, wing, engine,
+              stabilizer) compose into sub-assemblies (a powered wing, an empennage) that re-export
+              parts and anchors of their children, and the top assembly places and mates the
+              sub-assemblies as opaque units.
             </p>
           </div>
         </div>
