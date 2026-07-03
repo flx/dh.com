@@ -40,11 +40,11 @@
           repeatable source of truth.
         </p>
         <div class="cta-row">
-          <a class="button button-primary" href="/downloads/FlyWheelCAD-0.8.dmg?v=20260702a">Download beta (0.8)</a>
+          <a class="button button-primary" href="/downloads/FlyWheelCAD-0.9.dmg?v=20260703a">Download beta (0.9)</a>
           <a class="button button-soft" href="/downloads/FlyWheelCAD-UserManual.md?v=20260701a">Download User Manual</a>
-          <a class="button button-soft" href="/downloads/FlyWheelCAD-AI-Scripting-Guide.md?v=20260701a">Download AI Scripting Guide</a>
+          <a class="button button-soft" href="/downloads/FlyWheelCAD-AI-Scripting-Guide.md?v=20260703a">Download AI Scripting Guide</a>
           <a class="button button-soft" href="/downloads/TestProjects.zip?v=20260701a">Download Test Projects</a>
-          <a class="button button-soft" href="/downloads/FlyWheelCAD-Samples.zip?v=20260701a">Download Sample Assemblies</a>
+          <a class="button button-soft" href="/downloads/FlyWheelCAD-Samples.zip?v=20260703a">Download Sample Assemblies</a>
         </div>
         <p class="muted">
           The beta is signed but not notarized, so macOS will warn on first launch. If
@@ -80,7 +80,10 @@
               smooth or chamfer blends at the seam), derive sections and projections from bodies, and
               export finished geometry as <code>.3mf</code> for 3D printing. Bodies are parametric:
               edit the sketch they came from and they re-derive, and they can be deleted, cascading
-              to anything built on top of them.
+              to anything built on top of them. Meshing runs on the GPU &mdash; including whole
+              boolean trees evaluated in a single pass &mdash; and when a preset isn&rsquo;t fine
+              enough for a small detail, <code>set_cell_size</code> pins an absolute mesh resolution
+              per body.
             </p>
           </div>
           <div class="list-panel">
@@ -120,11 +123,11 @@
       <section class="section-panel animate-rise animate-delay-3">
         <h2>Sample Assemblies</h2>
         <p>
-          Three complete multi-file assemblies show the component workflow end to end: components
+          Four complete multi-file assemblies show the component workflow end to end: components
           defined in their own files, parametric part factories, instances placed with mirrors and
           transforms, and mates snapping everything to named anchor points. They are the best
           reference for structuring a real project &mdash; download them with the
-          <a href="/downloads/FlyWheelCAD-Samples.zip?v=20260701a">Sample Assemblies</a> bundle and
+          <a href="/downloads/FlyWheelCAD-Samples.zip?v=20260703a">Sample Assemblies</a> bundle and
           open the top-level file as the document. (Assembly geometry lives inside the component
           files, so these show the composed 3D result; click to enlarge.)
         </p>
@@ -156,6 +159,17 @@
               stabilizer) compose into sub-assemblies (a powered wing, an empennage) that re-export
               parts and anchors of their children, and the top assembly places and mates the
               sub-assemblies as opaque units.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3><code>FlyingWing/flying_wing.py</code></h3>
+            <p>
+              A tailless flying wing in the spirit of the Prandtl-D research aircraft: a NACA 4412
+              center section swept and tapered outward with the bell-spanload twist schedule (the
+              tips fly at negative incidence), a pusher motor pod with spinner and prop, and
+              elevons cut from the wing as separate bodies &mdash; a V-groove hinge opens downward
+              from the upper skin, with an embedded servo, control horn, and pushrod on each side.
+              Geometry-heavy generated-from-math modeling throughout.
             </p>
           </div>
         </div>

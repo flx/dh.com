@@ -152,8 +152,9 @@ cad.length(l1, 40)
             <tr>
               <td>6. Rebuild scene</td>
               <td>
-                After execution, FlywheelCAD synchronizes 2D and 3D state, generates missing meshes,
-                then rebuilds the 3D scene so the visual result matches the script.
+                After execution, FlywheelCAD synchronizes 2D and 3D state, generates missing meshes
+                &mdash; on the GPU where possible, including boolean trees evaluated in one pass
+                &mdash; then rebuilds the 3D scene so the visual result matches the script.
               </td>
             </tr>
           </tbody>

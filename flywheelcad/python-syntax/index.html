@@ -237,6 +237,7 @@ cad.length(line, width * 2 + clearance)</code></pre>
             <tr><td><code>cad.bool_difference(*bodies, quality=None, blend=None, radius=None)</code></td><td>Subtracts later bodies from the first body.</td></tr>
             <tr><td><code>cad.bool_intersection(*bodies, quality=None, blend=None, radius=None)</code></td><td>Keeps only the shared volume between bodies.</td></tr>
             <tr><td><code>cad.offset(body, distance)</code></td><td>Shells a body outward (positive) or inward (negative) by an SDF offset.</td></tr>
+            <tr><td><code>cad.set_cell_size(body, cell_size)</code> / <code>body.set_cell_size(...)</code></td><td>Pins an absolute mesh resolution (model units per cell) for one body, overriding the quality preset&rsquo;s model-size-relative grid. Use it when a small feature &mdash; a thin slot, a fine engraving &mdash; needs finer sampling than the preset gives on a large model.</td></tr>
             <tr><td><code>cad.delete_body(body)</code> / <code>body.delete()</code></td><td>Deletes a body, cascading to any boolean or offset bodies built from it.</td></tr>
             <tr><td><code>cad.section(body, plane)</code></td><td>Creates a section curve of a body on a target plane.</td></tr>
             <tr><td><code>cad.project(body, plane)</code></td><td>Projects body silhouette-style geometry onto a target plane.</td></tr>

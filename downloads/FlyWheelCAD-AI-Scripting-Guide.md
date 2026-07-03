@@ -310,6 +310,23 @@ cad.extrude("xy", r, 10).set_color((0.2, 0.4, 1.0), finish="metallic")  # chaina
 - Colors are written into the 3MF export as base-material colors.
 - Colors set **inside a component** propagate to every instance of it.
 
+### Mesh resolution: `set_cell_size`
+
+Sampled meshing (booleans, offsets, lofts, rounded/drafted extrudes) uses a
+quality tier whose cell budget is RELATIVE to the body's size — a large body
+gets large cells, so small features (grooves, pockets, thin rods) can lose
+detail even at `quality="ultra"`. Give such a body an ABSOLUTE cell size in
+model units:
+
+```python
+wing = cad.bool_difference(skin, groove, bay)
+cad.set_cell_size(wing, 0.8)      # 0.8-unit cells regardless of body size
+wing.set_cell_size(0.8)           # chainable form
+```
+
+Clamped to a hard total-cell cap (the console warns when the clamp engages).
+Exactly-meshed plain extrudes/revolves ignore it (they are already exact).
+
 ---
 
 ## 8. Components & assemblies
