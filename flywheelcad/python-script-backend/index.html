@@ -88,11 +88,11 @@
         <h2>What the UI Writes</h2>
         <p>
           A typical UI session quickly becomes ordinary Python lines. The structure is intentionally
-          simple: import, <code>FlyWheelCAD()</code>, sketch context, geometry creation, then
+          simple: import, <code>FlywheelCAD()</code>, sketch context, geometry creation, then
           constraints or body operations.
         </p>
         <pre><code>from flywheelcad import *
-cad = FlyWheelCAD()
+cad = FlywheelCAD()
 
 cad.with_sketch("xy")
 p1 = cad.point2d(-60, -12.5)
@@ -175,14 +175,25 @@ cad.length(l1, 40)
 from CADgears import gear_outline
 from helpers import keyed_slot
 
-cad = FlyWheelCAD()
+cad = FlywheelCAD()
 gear = gear_outline(center_x=0, center_y=0, tooth_count=24, module=5.0, plane_name="xy")
 gear_body = cad.extrude("xy", gear["region_ring"], 24, quality="high")</code></pre>
         <div class="notice">
-          <strong>Important:</strong> repeated calls to <code>FlyWheelCAD()</code> return the same
+          <strong>Important:</strong> repeated calls to <code>FlywheelCAD()</code> return the same
           singleton instance, so helper modules share the same variable-name counter and the same
           origin references.
         </div>
+        <p>
+          The &ldquo;document folder&rdquo; is the enclosing folder for a flat <code>.py</code>, or the
+          bundle itself for a <code>.fwcad</code> <strong>project bundle</strong> &mdash; a folder that
+          packages <code>main.py</code> with everything it imports so the whole design travels as one
+          self-contained item. Either way the folder is the working directory, so imports resolve the
+          same. Catalog parts inserted from a component library are vendored under
+          <code>lib/&lt;library&gt;/</code> in that same folder and imported as
+          <code>from lib.standard.steppers import stepper</code>; a loose helper or component can be
+          copied in with <em>File &rarr; Add File to Project&hellip;</em> or
+          <em>Component &rarr; Insert Component from File&hellip;</em> so it too travels with the design.
+        </p>
       </section>
 
       <section class="section-panel animate-rise animate-delay-3">

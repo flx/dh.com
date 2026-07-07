@@ -1,8 +1,8 @@
-# FlyWheelCAD User Manual
+# FlywheelCAD User Manual
 
-## 1. What FlyWheelCAD Is
+## 1. What FlywheelCAD Is
 
-FlyWheelCAD is a Python-first, constraint-driven CAD application.
+FlywheelCAD is a Python-first, constraint-driven CAD application.
 
 - You draw and edit sketches interactively in the UI.
 - You can also script everything in `.py` files (which are plain Python files).
@@ -80,7 +80,7 @@ A `.py` file is plain Python that imports `flywheelcad`:
 
 ```python
 from flywheelcad import *
-cad = FlyWheelCAD()
+cad = FlywheelCAD()
 ```
 
 When executed, this Python script emits intermediate CAD commands to stdout; the app parses and executes those commands.
@@ -98,6 +98,93 @@ So this works:
 from my_helpers import build_feature
 ```
 
+## 4.2.1 Component Libraries
+
+Reusable catalog parts (motors, bearings, …) come from **component libraries**:
+folders of ordinary Python component modules. The **standard library** ships
+inside the app; add your own libraries as folders under
+`~/Documents/FlywheelCAD/Libraries/` (one folder per library — dropping in a
+downloaded or git-cloned folder is the whole install).
+
+Inserting a part is **copy-on-use**: the app copies the module into your
+document folder under `lib/<library>/`, so the document stays self-contained
+and a later library update never silently changes your design. The vendored
+file carries a provenance header and appears as a read-only library tab in the
+script panel — don't edit it; to customize a part, copy the file up into your
+document folder as a normal user module instead.
+
+- **Component ▸ Insert from Library…** browses the installed libraries, shows
+  each factory's parameters (blank keeps the factory default), copies the
+  files, and appends the script lines:
+
+  ```python
+  from lib.standard.steppers import stepper
+  part1 = stepper(cad, size=17)
+  inst1 = cad.instance(part1)
+  ```
+
+- **Component ▸ Update from Library** refreshes vendored files whose source
+  library has a newer version. Locally edited copies and files from
+  uninstalled libraries are reported in the console and never overwritten.
+
+Library parts export **named anchors** (the stepper: `mount_face`,
+`shaft_tip`, `shaft_base`, `bolt_0..3`) — mate to them like to any instance
+anchor, e.g. `cad.mate_coincident("bracket_1", "hole_0", "inst1.bolt_0")`.
+
+## 4.2.2 Project Bundles (`.fwcad`)
+
+A document can be saved in either of two formats:
+
+- **Flat `.py`** — a single script file. Its helper modules and vendored
+  `lib/` folder live next to it in the enclosing folder.
+- **`.fwcad` project bundle** — a folder (shown as one document icon in
+  Finder) that packages the script as `main.py` together with every file it
+  imports. A bundle is self-contained, so it moves, copies, and shares as a
+  single item without leaving its dependencies behind.
+
+New documents start as bundles. Everything else works the same in both formats
+— the bundle's `main.py` *is* the script you edit, and its folder is the
+working directory that imports resolve against.
+
+File-menu commands for bundles (all operate on the focused document):
+
+- **File ▸ Convert to Project Bundle…** — package a flat `.py` (and the whole
+  dependency closure `ImportScanner` finds) into a new `.fwcad`. The original
+  flat file is left untouched.
+- **File ▸ Export as Flat Script…** — the reverse: write a bundle back out as a
+  flat `.py` plus its `lib/` folder, for sharing as loose files.
+- **File ▸ Show Project Contents** — reveal the document's files in Finder
+  (the bundle's insides, or a flat file's folder). Because a bundle hides its
+  contents behind one icon, use this rather than hand-navigating in Finder.
+- **File ▸ Open Script in External Editor** — open the script (`main.py` inside
+  a bundle) in your default `.py` editor. The document watches the file, so
+  external edits round-trip back into the app.
+
+## 4.2.3 Adding Files and Standalone Components
+
+Two File/Component-menu commands bring a loose `.py` that isn't in a library
+into the current project by **copying** it in (never referencing it in place),
+so the project stays self-contained:
+
+- **File ▸ Add File to Project…** — copy a helper module into the project so
+  the script can `import` it by name. The file lands at the project root under
+  a sanitized module name (a non-identifier filename like `my-helper.py` is
+  renamed to `my_helper.py`); a name clash prompts before replacing. Adding a
+  file does **not** edit the script — you write the `import` yourself, since a
+  helper may be imported by another module rather than `main.py`.
+- **Component ▸ Insert Component from File…** — copy a standalone component
+  `.py` and place one instance. A **factory module** (functions taking `cad`
+  first) opens a parameter sheet, then appends
+  `from <mod> import <factory>` / `part = <factory>(cad, …)` /
+  `inst = cad.instance(part)`. A **fixed-instance component** (a
+  `with cad.component("name")` file) is placed directly with
+  `import <mod>` / `cad.instance("name")`. A plain helper (neither) is declined
+  with a pointer to Add File. The file's own sibling imports are copied along
+  with it.
+
+Both require a saved document (the copy needs somewhere to land). Use **Show
+Project Contents** to see the copied files.
+
 ## 4.3 Plane Naming
 
 Use suffix-free plane names:
@@ -109,7 +196,7 @@ Do not use `_plane` suffix in scripts.
 
 ## 5. Python API Quick Reference
 
-All calls below are on `cad = FlyWheelCAD()`.
+All calls below are on `cad = FlywheelCAD()`.
 
 ### 5.1 Sketch Context
 
@@ -297,7 +384,7 @@ view.
 
 ```python
 from flywheelcad import *
-cad = FlyWheelCAD()
+cad = FlywheelCAD()
 
 cad.with_sketch("xy")
 p1 = cad.point2d(-120, -60)
@@ -344,7 +431,7 @@ from flywheelcad import *
 from CADpolygons import regular_polygon
 from CADgears import gear_outline
 
-cad = FlyWheelCAD()
+cad = FlywheelCAD()
 
 cad.with_sketch("xy")
 regular_polygon(center_x=0, center_y=0, side_count=6, radius=80, plane_name="xy")
@@ -359,7 +446,7 @@ gear_body = cad.bool_difference(body, bore, quality="high")
 
 ```python
 from flywheelcad import *
-cad = FlyWheelCAD()
+cad = FlywheelCAD()
 
 cad.with_sketch("xy")
 p1 = cad.point2d(-40, -40)
@@ -379,19 +466,34 @@ c1 = cad.circle2d(origin_top_plane_a, 12)
 cap = cad.extrude("top_plane_a", cad.region(loop=[c1], inside=(0, 0)), 20)
 ```
 
-## 7. Included Repository Examples
+## 7. Included Examples
 
-This repo contains ready-to-run imported examples:
+Two sets of ready-to-run examples ship alongside the app.
 
-- `TestProjects/test.py`
-- `TestProjects/test_polygons.py`
-- `TestProjects/test_gears.py`
-- `TestProjects/test_showcase.py`
-- `TestProjects/CADtriangle.py`
-- `TestProjects/CADpolygons.py`
-- `TestProjects/CADgears.py`
+**`TestProjects/`** — focused, single-feature demos, indexed in
+`TestProjects/EXAMPLES.md`. Among them:
 
-These are good templates for building your own helper libraries.
+- Sketching & constraints: `test_drawing.py`, `test_constraints.py`,
+  `test_sketch_planes.py`, `test_trim.py`
+- Bodies: `test_extrude_revolve.py`, `test_extrude_draft.py`,
+  `test_extrude_offset.py`, `test_extrude_rounded_corners.py`,
+  `test_edge_rounding.py`, `test_loft.py`, `test_offset.py`
+- Booleans & analysis: `test_boolean.py`, `test_boolean_ops.py`,
+  `test_smooth_booleans.py`, `test_section_project.py`
+- Gears & airfoils (parametric helper modules): `test_gears.py`,
+  `test_helical_gears.py`, `test_herringbone_gears.py`, `CADgears.py`,
+  `naca_4412.py`, `twisted_NACA_4412.py`
+
+**`Samples/`** — complete multi-file assemblies:
+
+- `AirplaneNested/` — a two-level nested assembly with mates and colors
+- `ToyAirplane/`, `Glider/`, `FlyingWing/` — airframes built from
+  imported profile/wing/fuselage modules
+- `MotorMount/` — a standard-library showcase: a NEMA 17 stepper, a servo +
+  control horn, cap screws, and a 608 bearing placed from the component
+  library (its vendored `lib/standard/` travels with the sample)
+
+These are good templates for building your own designs and helper libraries.
 
 ## 8. Troubleshooting
 

@@ -1,6 +1,6 @@
-# FlyWheelCAD — Python Scripting Guide for Coding Agents
+# FlywheelCAD — Python Scripting Guide for Coding Agents
 
-This is a task-oriented reference for an LLM/coding agent authoring a FlyWheelCAD
+This is a task-oriented reference for an LLM/coding agent authoring a FlywheelCAD
 design **in Python**. It covers the mental model, the full API surface, the rules
 that are easy to get wrong, and complete worked examples.
 
@@ -12,10 +12,12 @@ and `Samples/`. When in doubt, read those.
 
 ## 1. The model in 60 seconds
 
-- A FlyWheelCAD **document _is_ a Python script.** Opening a `.py` re-executes it
-  to rebuild the geometry; saving writes the script. There is no separate binary
-  model — **the script is the source of truth.** Write scripts that fully
-  reconstruct the design from scratch, deterministically.
+- A FlywheelCAD **document _is_ a Python script.** Opening it re-executes the
+  script to rebuild the geometry; saving writes the script. There is no separate
+  binary model — **the script is the source of truth.** Write scripts that fully
+  reconstruct the design from scratch, deterministically. (A document is either
+  a flat `.py` or a `.fwcad` project bundle — a folder whose `main.py` is the
+  script; the API is identical either way.)
 - The script doesn't manipulate the model directly. Each `cad.*(...)` call
   **emits a command**; the host runs them in order: solve 2D sketches with a
   constraint solver, then build 3D solids.
@@ -32,7 +34,7 @@ Every script starts the same way:
 
 ```python
 from flywheelcad import *
-cad = FlyWheelCAD()
+cad = FlywheelCAD()
 
 # ... build the design ...
 ```
@@ -406,6 +408,106 @@ cad.mate(b2, "p2", target2)
   sibling `fuselage.py`. Each component file defines (and may instance) its part.
   See `Samples/AirplaneNested/` for a two-level assembly.
 
+### 8.6 Component libraries (vendored parts)
+
+Reusable catalog parts (motors, bearings, fasteners) come from **component
+libraries** — folders of ordinary Python modules. The **standard library** ships
+inside the app; users can add custom library folders. Documents consume library
+parts **copy-on-use**: the module is copied ("vendored") into the document
+folder under `lib/<library>/`, so every document stays self-contained and old
+designs never change when a library updates.
+
+```
+MyRobot/
+  robot.py                  # main file
+  bracket.py                # user components (siblings, as before)
+  lib/
+    standard/steppers.py    # vendored library modules — imported, don't edit
+```
+
+The canonical import line carries the provenance:
+
+```python
+from lib.standard.steppers import stepper
+
+m = stepper(cad, size=17, length=48)        # -> component name (parametric)
+motor = cad.instance(m, translate=(80, 0, 20))
+cad.mate_coincident("bracket_1", "hole_0", "motor.bolt_0")
+```
+
+Library factories take `cad` as the first argument, return a component name for
+`cad.instance(...)`, and export a **documented anchor contract** so parts can be
+mated without reading their source. Treat files under `lib/` as read-only: they
+carry a provenance header (`# flywheelcad-library: <library>/<module> <version>`)
+and are refreshed wholesale by the update flow. To fork one, copy it up into the
+document folder as a user component instead.
+
+When AUTHORING a library module: reference sibling modules of the same library
+with **relative imports** (`from .fasteners import bolt` / `from . import
+shafts`) — those resolve both in the library folder and after vendoring, and
+the copy-on-use step follows them so dependencies vendor together. Declare
+`__library_version__ = "x.y"` at module top level. Factories are public
+module-level functions whose first parameter is `cad`; parameter defaults and
+the docstring's first line surface in the library browser.
+
+**Standard library: `steppers`** (`from lib.standard.steppers import stepper`)
+
+- `stepper(cad, size=17, length=None, shaft_length=None, body="square", quality=None)`
+  — NEMA frame sizes 8, 11, 14, 17, 23, 34; defaults are typical catalog
+  dimensions. `body="square"` is the classic end-bell frame with real bolt
+  holes through the front bell, an inset lamination stack, shaft flat, and
+  wire exit; `body="round"` is a cylindrical can behind a square flange.
+- Orientation: mount face on the XY plane at z=0, shaft up +Z, can extends −Z.
+- Anchors: `mount_face` (flange-face center), `shaft_tip`, `shaft_base`, and
+  `bolt_0..3` (mounting square, CCW from (+x, +y)).
+
+**Standard library: `servos`** (`from lib.standard.servos import servo, horn`)
+
+- `servo(cad, size="standard", quality=None)` — hobby-servo case classes
+  `"sub_micro"` (SG90), `"micro"` (MG90S), `"standard"` (S3003/HS-422 class),
+  `"large"` (HS-805 class): case, mounting flange with screw holes, gear
+  bosses, output spline. Orientation: flange UNDERSIDE on XY at z=0, case
+  hanging −Z, spline up +Z offset toward +X. Anchors: `mount_0..N`,
+  `spline_base`, `spline_tip`.
+- `horn(cad, style="single", spline="standard", length=None, quality=None)` —
+  control horns: `"single"`, `"double"`, `"cross"`, `"disc"`; spline classes
+  `"micro"`/`"standard"`/`"large"`. Anchors: `hub` (mate onto a servo's
+  `spline_tip`) and `tip` / `tip_0..N` / `rim_0..5` at the linkage holes.
+
+**Standard library: `fasteners`** (`from lib.standard.fasteners import ...`)
+
+- `cap_screw(cad, thread="M3", length=12)` (DIN 912), `hex_nut(cad, thread=)`
+  (ISO 4032), `washer(cad, thread=)` (ISO 7089) — threads M2…M8. Screws point
+  −Z with the under-head plane at z=0. Anchors: `under_head`/`head_top`/`tip`;
+  nuts and washers: `bottom`/`top`.
+- **Negative bodies for boolean cuts**: `clearance(cad, thread=, length=,
+  head_pocket=False)` (ISO 273 medium fit + optional DIN 912 counterbore) and
+  `tap(cad, thread=, length=)` (tap-drill volume). Place at the same transform
+  as the screw with `export=False`, then `cad.bool_difference(part, cut)` —
+  place a screw AND cut its hole in two lines.
+
+**Standard library: `bearings`** (`from lib.standard.bearings import bearing`)
+
+- `bearing(cad, designation="608", flanged=False)` — metric deep-groove sizes
+  623/624/625/626/608/688/6000/6001/6800/6801/6900/6902; `flanged=True` adds
+  the F-series locating flange at the z=0 face. Axis +Z. Anchors: `face_a`
+  (z=0), `face_b`, `center`.
+
+**Standard library: `extrusions`** (`from lib.standard.extrusions import rail`)
+
+- `rail(cad, profile="2020", length=100)` — T-slot framing rails: 2020, 2040,
+  4020, 2060, 3030, 3060, 4040, 4080. Profile on XY, extruded +Z. Anchors:
+  `end_a`/`end_b` (profile centers) and `bore_a_i`/`bore_b_i` per cell center
+  bore (tap for end joining).
+
+**Standard library: `linkage`** (`from lib.standard.linkage import ...`)
+
+- `ball_link(cad, thread="M2")`, `clevis(cad, thread="M2")` (M2/M3) — RC rod
+  ends: shank along +Z from z=0, `pivot` anchor at the ball/pin center,
+  `shank_end` at z=0. `pushrod(cad, diameter=2, length=80)` runs z 0→length
+  with `end_a`/`end_b`. Mate pushrod ends to link shank_ends and link pivots
+  to servo-horn tips.
+
 ---
 
 ## 9. Quality & performance knobs
@@ -421,7 +523,7 @@ cad.mate(b2, "p2", target2)
 
 ## 10. Pitfalls checklist (for generated scripts)
 
-- [ ] `from flywheelcad import *` and `cad = FlyWheelCAD()` at the top.
+- [ ] `from flywheelcad import *` and `cad = FlywheelCAD()` at the top.
 - [ ] `cad.with_sketch(...)` set before each batch of 2D geometry.
 - [ ] Every element assigned to a unique, descriptive variable (names come from
       the LHS — don't shadow or reuse).
@@ -444,7 +546,7 @@ cad.mate(b2, "p2", target2)
 
 ```python
 from flywheelcad import *
-cad = FlyWheelCAD()
+cad = FlywheelCAD()
 
 W = cad.variable(40, driving=True)   # width
 H = cad.variable(25, driving=True)   # height
@@ -476,7 +578,7 @@ cad.set_color(plate, "steel", finish="metallic")
 
 ```python
 from flywheelcad import *
-cad = FlyWheelCAD()
+cad = FlywheelCAD()
 
 cad.with_sketch("xy")
 # Closed rectangular profile (x = radius 0..20, y = height 0..40). The left edge
@@ -505,7 +607,7 @@ cad.set_color(cup, "#1565C0", finish="glossy")
 
 ```python
 from flywheelcad import *
-cad = FlyWheelCAD()
+cad = FlywheelCAD()
 
 with cad.component("peg"):
     cad.with_sketch("xy")

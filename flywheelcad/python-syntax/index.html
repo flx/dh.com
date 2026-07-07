@@ -38,12 +38,12 @@
           by the app.
         </p>
         <pre><code>from flywheelcad import *
-cad = FlyWheelCAD()</code></pre>
+cad = FlywheelCAD()</code></pre>
         <p>
           Working with an AI coding assistant? There is a compact, machine-oriented version of this
           reference &mdash; the rules, the full API, and worked patterns in one Markdown file you can
           drop into the assistant's context:
-          <a href="/downloads/FlyWheelCAD-AI-Scripting-Guide.md?v=20260701a">download the AI scripting guide</a>.
+          <a href="/downloads/FlywheelCAD-AI-Scripting-Guide.md?v=20260707a">download the AI scripting guide</a>.
         </p>
         <nav class="doc-tabs" aria-label="FlywheelCAD pages">
           <a class="doc-tab" href="/flywheelcad/">Overview</a>
@@ -58,7 +58,7 @@ cad = FlyWheelCAD()</code></pre>
         <table class="detail-table">
           <tbody>
             <tr>
-              <td><code>FlyWheelCAD()</code></td>
+              <td><code>FlywheelCAD()</code></td>
               <td>
                 Creates or returns the shared API object. Multiple calls return the same singleton,
                 which keeps variable naming and origin references consistent across helper modules.
@@ -310,6 +310,47 @@ cad.mate_coincident(b2, "hole", b1.hole, offset=(0, 0, 5))</code></pre>
       </section>
 
       <section class="section-panel animate-rise animate-delay-3">
+        <h2>Component Libraries</h2>
+        <p>
+          Catalog parts come from <strong>component libraries</strong> &mdash; folders of parametric
+          part modules. A standard library ships in the app; add your own as folders under
+          <code>~/Documents/FlywheelCAD/Libraries/</code>. A library factory takes <code>cad</code>
+          first and returns a component name, so it drops straight into the assembly flow &mdash;
+          call it, then <code>cad.instance(...)</code> the result and mate to its exported anchors.
+        </p>
+        <pre><code>from lib.standard.steppers import stepper
+from lib.standard.bearings import bearing
+
+part = stepper(cad, size=17, length=40)     # a NEMA 17, 40 mm long
+motor = cad.instance(part, translate=(0, 0, 0))
+brg = cad.instance(bearing(cad, designation="608"))
+cad.mate_coincident(brg, "bore", motor.shaft_tip)</code></pre>
+        <p>
+          Inserting through <em>Component &rarr; Insert from Library&hellip;</em> is
+          <strong>copy-on-use</strong>: the module is vendored into the document&rsquo;s
+          <code>lib/&lt;library&gt;/</code> folder (with a provenance header, shown as a read-only tab),
+          so the design stays self-contained and a later library update never silently changes it.
+          The standard library modules:
+        </p>
+        <table class="detail-table">
+          <tbody>
+            <tr><td><code>lib.standard.steppers</code></td><td><code>stepper(cad, size=17, length=None, body="square")</code> &mdash; NEMA 8/11/14/17/23 stepper motors, square or round body.</td></tr>
+            <tr><td><code>lib.standard.servos</code></td><td><code>servo(cad, size="standard")</code>, <code>horn(cad, style="single", spline="standard")</code> &mdash; hobby servos and control horns.</td></tr>
+            <tr><td><code>lib.standard.fasteners</code></td><td><code>cap_screw</code>, <code>hex_nut</code>, <code>washer</code>, <code>clearance</code>, <code>tap</code> <code>(cad, thread="M3", ...)</code> &mdash; metric hardware and the matching holes.</td></tr>
+            <tr><td><code>lib.standard.bearings</code></td><td><code>bearing(cad, designation="608", flanged=False)</code> &mdash; deep-groove ball bearings.</td></tr>
+            <tr><td><code>lib.standard.extrusions</code></td><td><code>rail(cad, profile="2020", length=100.0)</code> &mdash; T-slot aluminum extrusion (20/30/40 series).</td></tr>
+            <tr><td><code>lib.standard.linkage</code></td><td><code>ball_link</code>, <code>clevis</code>, <code>pushrod</code> <code>(cad, ...)</code> &mdash; RC linkage hardware.</td></tr>
+          </tbody>
+        </table>
+        <div class="notice">
+          <strong>Standalone parts:</strong> to place a loose component <code>.py</code> that
+          isn&rsquo;t in a library, use <em>Component &rarr; Insert Component from File&hellip;</em> &mdash;
+          it copies the file into the project and appends the import + instance lines. The
+          <code>MotorMount</code> sample is a full standard-library showcase.
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
         <h2>Including a Separate Python File</h2>
         <p>
           Put the helper module next to the main script you open in FlywheelCAD. The app executes the
@@ -323,7 +364,7 @@ cad.mate_coincident(b2, "hole", b1.hole, offset=(0, 0, 5))</code></pre>
 from CADgears import gear_outline
 from CADpolygons import regular_polygon
 
-cad = FlyWheelCAD()
+cad = FlywheelCAD()
 
 cad.with_sketch("xy")
 regular_polygon(center_x=0, center_y=0, side_count=6, radius=80, plane_name="xy")
@@ -332,6 +373,16 @@ gear_body = cad.extrude("xy", gear["region_ring"], 24, quality="high")</code></p
         <p>
           This is the same pattern used by the included test projects, especially the gear examples.
         </p>
+        <div class="notice">
+          <strong>Flat file or project bundle:</strong> a document is either a plain <code>.py</code>
+          (helper modules and any vendored <code>lib/</code> sit next to it) or a <code>.fwcad</code>
+          <em>project bundle</em> &mdash; a folder whose <code>main.py</code> is the script, packaging
+          every imported file so it travels as one self-contained item. The import rules are identical
+          either way. To pull an existing helper into the project, use
+          <em>File &rarr; Add File to Project&hellip;</em> (it copies the file in under an importable
+          module name); <em>File &rarr; Convert to Project Bundle&hellip;</em> and
+          <em>Export as Flat Script&hellip;</em> convert between the two formats.
+        </div>
       </section>
     </main>
   </body>

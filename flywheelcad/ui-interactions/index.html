@@ -104,6 +104,57 @@
             <p>
               The <code>Bodies</code> menu handles boolean union, difference, and intersection,
               plus section, project, loft, and 3MF export. Mesh quality can also be changed there.
+              Per-body color and finish are set from <code>Bodies &rarr; Set Color&hellip;</code>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Components, Libraries, and Assemblies</h2>
+        <div class="list-grid">
+          <div class="list-panel">
+            <h3>Insert from Library</h3>
+            <p>
+              <code>Component &rarr; Insert from Library&hellip;</code> opens a movable browser of the
+              installed libraries (the built-in standard library of motors, servos, bearings,
+              fasteners, extrusion, and linkage &mdash; plus any of your own under
+              <code>~/Documents/FlywheelCAD/Libraries/</code>). Pick a part, adjust its parameters
+              with a live 3D preview, and insert. The module is copied into the document&rsquo;s
+              <code>lib/</code> folder and the import + factory + instance lines are appended to the
+              script. <code>Update from Library</code> refreshes vendored parts when their source
+              library changes.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Place and mate instances</h3>
+            <p>
+              <code>Component &rarr; Browse / Place Components&hellip;</code> places instances of the
+              components defined in the document. Select an instance anchor and another point in the
+              3D view, then <code>Component &rarr; Mate Points</code> snaps them together &mdash; the
+              same closed-form mate you can write as <code>cad.mate_coincident(...)</code>.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Author and insert your own</h3>
+            <p>
+              <code>Component &rarr; New Component&hellip;</code> starts a standalone component file;
+              <code>Export Selected Body&hellip;</code> and <code>Export Selected Point as
+              Anchor&hellip;</code> promote a body or point while editing one. To place a loose
+              component <code>.py</code> that isn&rsquo;t in a library, use
+              <code>Insert Component from File&hellip;</code> &mdash; it copies the file in and adds the
+              instance.
+            </p>
+          </div>
+          <div class="list-panel">
+            <h3>Project files</h3>
+            <p>
+              A document is a flat <code>.py</code> or a <code>.fwcad</code> <strong>project
+              bundle</strong> &mdash; a folder that keeps the script and everything it imports together.
+              The <code>File</code> menu converts between them (<code>Convert to Project
+              Bundle&hellip;</code> / <code>Export as Flat Script&hellip;</code>), copies a helper in
+              with <code>Add File to Project&hellip;</code>, and reveals a bundle&rsquo;s insides with
+              <code>Show Project Contents</code>.
             </p>
           </div>
         </div>
