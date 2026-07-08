@@ -43,7 +43,7 @@
           <a class="button button-primary" href="/downloads/FlywheelCAD-0.10.dmg?v=20260707a">Download beta (0.10)</a>
           <a class="button button-soft" href="/downloads/FlywheelCAD-UserManual.md?v=20260707a">Download User Manual</a>
           <a class="button button-soft" href="/downloads/FlywheelCAD-AI-Scripting-Guide.md?v=20260707a">Download AI Scripting Guide</a>
-          <a class="button button-soft" href="/downloads/FlywheelCAD-TestProjects.zip?v=20260707a">Download Test Projects</a>
+          <a class="button button-soft" href="/downloads/FlywheelCAD-Showcase.zip?v=20260708a">Download Showcase Projects</a>
           <a class="button button-soft" href="/downloads/FlywheelCAD-Samples.zip?v=20260707a">Download Sample Assemblies</a>
         </div>
         <p class="muted">
@@ -208,216 +208,70 @@
       </section>
 
       <section class="section-panel animate-rise animate-delay-3">
-        <h2>Included Example Projects</h2>
+        <h2>Showcase Projects</h2>
         <p>
-          The current <code>TestProjects</code> bundle is organized as small, focused files. These
-          are the best starting points for learning the app and for copying working patterns into
-          your own models.
-        </p>
-        <p>
-          Each example below shows the rendered 3D body and the underlying 2D sketch &mdash; click
-          either image to enlarge it.
+          Five short, heavily-commented projects teach the FlywheelCAD workflow one concept at a
+          time &mdash; sketching with constraints, body creation, lofting, components, and the
+          standard library. Read the comments top to bottom; they are meant to be learned from, not
+          just run. Download them with the
+          <a href="/downloads/FlywheelCAD-Showcase.zip?v=20260708a">Showcase Projects</a> bundle and
+          open each folder's <code>.py</code> file as the document.
         </p>
         <div class="list-grid">
           <div class="list-panel">
             <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_drawing_3d.png?v=20260707b" data-lightbox-caption="test_drawing.py — 3D view" aria-label="Open larger 3D screenshot for test_drawing.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_drawing_3d.png?v=20260707b" alt="FlywheelCAD 3D view from test_drawing.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_drawing_2d.png?v=20260707b" data-lightbox-caption="test_drawing.py — 2D sketch" aria-label="Open larger 2D sketch for test_drawing.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_drawing_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_drawing.py." loading="lazy" /></a>
+              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_01_bracket_3d.png?v=20260708a" data-lightbox-caption="1 · Sketch bracket — 3D view" aria-label="Open larger 3D screenshot of the sketch-bracket showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_01_bracket_3d.png?v=20260708a" alt="FlywheelCAD 3D view of the constraint-driven mounting bracket." loading="lazy" /></a>
+              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_01_bracket_2d.png?v=20260708a" data-lightbox-caption="1 · Sketch bracket — 2D sketch" aria-label="Open larger 2D sketch of the sketch-bracket showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_01_bracket_2d.png?v=20260708a" alt="FlywheelCAD dimensioned, constrained 2D sketch of the mounting bracket." loading="lazy" /></a>
             </div>
-            <h3><code>test_drawing.py</code></h3>
+            <h3>1 &middot; Sketching, constraints &amp; dimensions &mdash; <code>01_sketch_bracket/bracket.py</code></h3>
             <p>
-              A symmetric house sketch showing line drawing, construction geometry, a circle and
-              ellipse, dimension edits via <code>update</code>, and mirroring across a symmetry axis.
+              A flat mounting bracket drawn as a rough sketch, then pinned with geometric constraints
+              (horizontal / vertical / parallel / perpendicular and a tangent fillet) and dimensions
+              bound to shared variables. Change <code>WIDTH</code>, <code>HEIGHT</code>,
+              <code>HOLE_DIA</code> or <code>SLANT</code> and the whole part re-solves; a light
+              extrude lets the profile read in 3D.
             </p>
           </div>
           <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_constraints_3d.png?v=20260707b" data-lightbox-caption="test_constraints.py — 3D view" aria-label="Open larger 3D screenshot for test_constraints.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_constraints_3d.png?v=20260707b" alt="FlywheelCAD 3D view from test_constraints.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_constraints_2d.png?v=20260707b" data-lightbox-caption="test_constraints.py — 2D sketch" aria-label="Open larger 2D sketch for test_constraints.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_constraints_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_constraints.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_constraints.py</code></h3>
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_02_knob_3d.png?v=20260708a" data-lightbox-caption="2 · Hand-knob — extrude + revolve + booleans" aria-label="Open larger 3D screenshot of the hand-knob showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_02_knob_3d.png?v=20260708a" alt="FlywheelCAD 3D view of a machine hand-knob with scalloped finger grips." loading="lazy" /></a>
+            <h3>2 &middot; Body creation: extrude + revolve + booleans &mdash; <code>02_knob/knob.py</code></h3>
             <p>
-              A broad constraint and dimension sampler: parallel, perpendicular, collinear, tangent,
-              concentric, equal, point-on-curve, angle, distance, shared variables, point merge, and
-              <code>ensure_convergence()</code>.
+              A machine hand-knob built from both body operations: a revolved, dished body, an
+              extruded central boss unioned on, a ring of extruded cylinders unioned then
+              <em>differenced</em> to scallop the rim into finger grips, and a subtracted shaft bore
+              &mdash; along the way showing <code>edge_radius</code>, <code>offset</code>, and boolean
+              union / difference.
             </p>
           </div>
           <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_trim_3d.png?v=20260707b" data-lightbox-caption="test_trim.py — 3D view" aria-label="Open larger 3D screenshot for test_trim.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_trim_3d.png?v=20260707b" alt="FlywheelCAD 3D view from test_trim.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_trim_2d.png?v=20260707b" data-lightbox-caption="test_trim.py — 2D sketch" aria-label="Open larger 2D sketch for test_trim.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_trim_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_trim.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_trim.py</code></h3>
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_03_duct_3d.png?v=20260708a" data-lightbox-caption="3 · Transition duct — multi-level loft" aria-label="Open larger 3D screenshot of the loft-duct showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_03_duct_3d.png?v=20260708a" alt="FlywheelCAD 3D view of a transition duct lofted through four stations." loading="lazy" /></a>
+            <h3>3 &middot; Custom planes &amp; multi-level loft &mdash; <code>03_loft_duct/duct.py</code></h3>
             <p>
-              Trimming lines and circles, keeping both returned references when a trim splits one
-              original element into reusable fragments.
+              A transition fairing that morphs from a nearly-round inlet to a wide, flat outlet.
+              Custom sketch planes stacked along the axis each carry a reusable oval cross-section (a
+              shared <code>profiles.oval(...)</code> helper), and <code>cad.multi_loft(...)</code>
+              sweeps one smooth solid through all four sections with no internal seams.
             </p>
           </div>
           <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_extrude_revolve_3d.png?v=20260707b" data-lightbox-caption="test_extrude_revolve.py — 3D view" aria-label="Open larger 3D screenshot for test_extrude_revolve.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_extrude_revolve_3d.png?v=20260707b" alt="FlywheelCAD 3D body from test_extrude_revolve.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_extrude_revolve_2d.png?v=20260707b" data-lightbox-caption="test_extrude_revolve.py — 2D sketch" aria-label="Open larger 2D sketch for test_extrude_revolve.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_extrude_revolve_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_extrude_revolve.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_extrude_revolve.py</code></h3>
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_04_standoffs_3d.png?v=20260708a" data-lightbox-caption="4 · Standoff kit — fixed + parametric components" aria-label="Open larger 3D screenshot of the standoff-kit showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_04_standoffs_3d.png?v=20260708a" alt="FlywheelCAD 3D view of a base plate with four hex standoffs." loading="lazy" /></a>
+            <h3>4 &middot; Components: fixed + parametric &mdash; <code>04_standoff_kit/standoffs.py</code></h3>
             <p>
-              Builds a constrained plate with a circular hole, then creates a second feature by
-              revolving a semicircular profile around a construction axis.
+              A base plate with four hex standoffs, contrasting the two ways to define reusable parts:
+              a <em>fixed</em> component that builds one specific part and exports named anchor points,
+              and a <em>parametric</em> factory that makes any size on demand and is memoised per size.
+              Instances are placed by mating their base anchor onto the plate's exported anchors.
             </p>
           </div>
           <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_extrude_draft_3d.png?v=20260707b" data-lightbox-caption="test_extrude_draft.py — 3D view" aria-label="Open larger 3D screenshot for test_extrude_draft.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_extrude_draft_3d.png?v=20260707b" alt="FlywheelCAD 3D body from test_extrude_draft.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_extrude_draft_2d.png?v=20260707b" data-lightbox-caption="test_extrude_draft.py — 2D sketch" aria-label="Open larger 2D sketch for test_extrude_draft.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_extrude_draft_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_extrude_draft.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_extrude_draft.py</code></h3>
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_05_bearing_block_3d.png?v=20260708a" data-lightbox-caption="5 · Bearing block — library insertion + mating" aria-label="Open larger 3D screenshot of the bearing-block showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_05_bearing_block_3d.png?v=20260708a" alt="FlywheelCAD 3D view of a pillow bearing block with a 608 bearing and four cap screws." loading="lazy" /></a>
+            <h3>5 &middot; Library insertion &amp; mating &mdash; <code>05_bearing_block/bearing_block.py</code></h3>
             <p>
-              The extrude <code>draft</code> (taper) parameter in degrees: straight walls, walls
-              sloping outward, and walls sloping inward, all measured from the sketch-side face.
-            </p>
-          </div>
-          <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_extrude_offset_3d.png?v=20260707b" data-lightbox-caption="test_extrude_offset.py — 3D view" aria-label="Open larger 3D screenshot for test_extrude_offset.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_extrude_offset_3d.png?v=20260707b" alt="FlywheelCAD 3D body from test_extrude_offset.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_extrude_offset_2d.png?v=20260707b" data-lightbox-caption="test_extrude_offset.py — 2D sketch" aria-label="Open larger 2D sketch for test_extrude_offset.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_extrude_offset_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_extrude_offset.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_extrude_offset.py</code></h3>
-            <p>
-              The extrude <code>offset</code> parameter lifts a body off its sketch plane, exposing
-              its bottom face as a real surface you can build a new sketch plane on.
-            </p>
-          </div>
-          <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_extrude_rounded_corners_3d.png?v=20260707b" data-lightbox-caption="test_extrude_rounded_corners.py — 3D view" aria-label="Open larger 3D screenshot for test_extrude_rounded_corners.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_extrude_rounded_corners_3d.png?v=20260707b" alt="FlywheelCAD 3D body from test_extrude_rounded_corners.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_extrude_rounded_corners_2d.png?v=20260707b" data-lightbox-caption="test_extrude_rounded_corners.py — 2D sketch" aria-label="Open larger 2D sketch for test_extrude_rounded_corners.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_extrude_rounded_corners_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_extrude_rounded_corners.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_extrude_rounded_corners.py</code></h3>
-            <p>
-              Uniform <code>edge_radius</code> rounding on an extrude &mdash; an L-shaped profile
-              shows every edge filleted, including the convex and concave vertical corners.
-            </p>
-          </div>
-          <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_offset_3d.png?v=20260707b" data-lightbox-caption="test_offset.py — 3D view" aria-label="Open larger 3D screenshot for test_offset.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_offset_3d.png?v=20260707b" alt="FlywheelCAD 3D body from test_offset.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_offset_2d.png?v=20260707b" data-lightbox-caption="test_offset.py — 2D sketch" aria-label="Open larger 2D sketch for test_offset.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_offset_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_offset.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_offset.py</code></h3>
-            <p>
-              The <code>offset</code> (shell) command: a box expanded outward, shrunk inward, and a
-              hollow shell made by subtracting the shrunk body from the expanded one.
-            </p>
-          </div>
-          <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_edge_rounding_3d.png?v=20260707b" data-lightbox-caption="test_edge_rounding.py — 3D view" aria-label="Open larger 3D screenshot for test_edge_rounding.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_edge_rounding_3d.png?v=20260707b" alt="FlywheelCAD 3D body from test_edge_rounding.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_edge_rounding_2d.png?v=20260707b" data-lightbox-caption="test_edge_rounding.py — 2D sketch" aria-label="Open larger 2D sketch for test_edge_rounding.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_edge_rounding_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_edge_rounding.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_edge_rounding.py</code></h3>
-            <p>
-              <code>edge_radius</code> applied across all three body types &mdash; extrude, revolve,
-              and loft &mdash; filleting every sharp edge uniformly.
-            </p>
-          </div>
-          <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_boolean_3d.png?v=20260707b" data-lightbox-caption="test_boolean.py — 3D view" aria-label="Open larger 3D screenshot for test_boolean.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_boolean_3d.png?v=20260707b" alt="FlywheelCAD 3D body from test_boolean.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_boolean_2d.png?v=20260707b" data-lightbox-caption="test_boolean.py — 2D sketch" aria-label="Open larger 2D sketch for test_boolean.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_boolean_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_boolean.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_boolean.py</code></h3>
-            <p>
-              A direct subtraction: extrude a box, extrude a cylinder, then remove the cylinder from
-              the box with a boolean difference.
-            </p>
-          </div>
-          <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_boolean_ops_3d.png?v=20260707b" data-lightbox-caption="test_boolean_ops.py — 3D view" aria-label="Open larger 3D screenshot for test_boolean_ops.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_boolean_ops_3d.png?v=20260707b" alt="FlywheelCAD 3D body from test_boolean_ops.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_boolean_ops_2d.png?v=20260707b" data-lightbox-caption="test_boolean_ops.py — 2D sketch" aria-label="Open larger 2D sketch for test_boolean_ops.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_boolean_ops_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_boolean_ops.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_boolean_ops.py</code></h3>
-            <p>
-              Extends the boolean workflow to union, intersection, and subtraction on reused
-              overlapping bodies.
-            </p>
-          </div>
-          <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_smooth_booleans_3d.png?v=20260707b" data-lightbox-caption="test_smooth_booleans.py — 3D view" aria-label="Open larger 3D screenshot for test_smooth_booleans.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_smooth_booleans_3d.png?v=20260707b" alt="FlywheelCAD 3D body from test_smooth_booleans.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_smooth_booleans_2d.png?v=20260707b" data-lightbox-caption="test_smooth_booleans.py — 2D sketch" aria-label="Open larger 2D sketch for test_smooth_booleans.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_smooth_booleans_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_smooth_booleans.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_smooth_booleans.py</code></h3>
-            <p>
-              Smooth and chamfer boolean blends &mdash; a rounded fillet at a union seam and a flat
-              45&deg; bevel around a subtracted hole.
-            </p>
-          </div>
-          <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_sketch_planes_3d.png?v=20260707b" data-lightbox-caption="test_sketch_planes.py — 3D view" aria-label="Open larger 3D screenshot for test_sketch_planes.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_sketch_planes_3d.png?v=20260707b" alt="FlywheelCAD 3D body from test_sketch_planes.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_sketch_planes_2d.png?v=20260707b" data-lightbox-caption="test_sketch_planes.py — 2D sketch" aria-label="Open larger 2D sketch for test_sketch_planes.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_sketch_planes_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_sketch_planes.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_sketch_planes.py</code></h3>
-            <p>
-              Builds a box on XY, derives an oblique custom plane from three of its topology points,
-              then sketches and extrudes a circle on that new plane.
-            </p>
-          </div>
-          <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_loft_3d.png?v=20260707b" data-lightbox-caption="test_loft.py — 3D view" aria-label="Open larger 3D screenshot for test_loft.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_loft_3d.png?v=20260707b" alt="FlywheelCAD 3D body from test_loft.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_loft_2d.png?v=20260707b" data-lightbox-caption="test_loft.py — 2D sketch" aria-label="Open larger 2D sketch for test_loft.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_loft_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_loft.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_loft.py</code></h3>
-            <p>
-              Lofts a solid between profiles on two parallel planes, blending one cross-section into
-              another.
-            </p>
-          </div>
-          <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_section_project_3d.png?v=20260707b" data-lightbox-caption="test_section_project.py — 3D view" aria-label="Open larger 3D screenshot for test_section_project.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_section_project_3d.png?v=20260707b" alt="FlywheelCAD 3D body from test_section_project.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_section_project_2d.png?v=20260707b" data-lightbox-caption="test_section_project.py — 2D sketch" aria-label="Open larger 2D sketch for test_section_project.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_section_project_2d.png?v=20260707b" alt="FlywheelCAD 2D sketch from test_section_project.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_section_project.py</code></h3>
-            <p>
-              Uses an existing body to generate a section curve, a silhouette projection, and a
-              projected topology point on other sketch planes.
-            </p>
-          </div>
-          <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_gears_3d.png?v=20260707b" data-lightbox-caption="test_gears.py — 3D view" aria-label="Open larger 3D screenshot for test_gears.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_gears_3d.png?v=20260707b" alt="FlywheelCAD 3D bodies from test_gears.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_gears_2d.png?v=20260707b" data-lightbox-caption="test_gears.py — 2D sketch" aria-label="Open larger 2D sketch for test_gears.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_gears_2d.png?v=20260707b" alt="FlywheelCAD 2D gear profiles from test_gears.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_gears.py</code> and <code>CADgears.py</code></h3>
-            <p>
-              Programmatic geometry from helper code: involute gear profiles built from exact tip and
-              root arcs with circular-arc flanks, a meshing pair, and a boolean keyway cut &mdash; all
-              generated from ordinary Python logic.
-            </p>
-          </div>
-          <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_helical_gears_3d.png?v=20260707b" data-lightbox-caption="test_helical_gears.py — 3D view" aria-label="Open larger 3D screenshot for test_helical_gears.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_helical_gears_3d.png?v=20260707b" alt="FlywheelCAD 3D bodies from test_helical_gears.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_helical_gears_2d.png?v=20260707b" data-lightbox-caption="test_helical_gears.py — 2D sketch" aria-label="Open larger 2D sketch for test_helical_gears.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_helical_gears_2d.png?v=20260707b" alt="FlywheelCAD 2D gear profiles from test_helical_gears.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_helical_gears.py</code></h3>
-            <p>
-              Helical gears built by twisting the extrude cross-section as it rises
-              (<code>twist</code> + <code>twist_center</code>), including a meshing right/left-hand
-              pair.
-            </p>
-          </div>
-          <div class="list-panel">
-            <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_herringbone_gears_3d.png?v=20260707b" data-lightbox-caption="test_herringbone_gears.py — 3D view" aria-label="Open larger 3D screenshot for test_herringbone_gears.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_herringbone_gears_3d.png?v=20260707b" alt="FlywheelCAD 3D bodies from test_herringbone_gears.py." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/test_herringbone_gears_2d.png?v=20260707b" data-lightbox-caption="test_herringbone_gears.py — 2D sketch" aria-label="Open larger 2D sketch for test_herringbone_gears.py"><img class="example-shot" src="/assets/images/flywheelcad/examples/test_herringbone_gears_2d.png?v=20260707b" alt="FlywheelCAD 2D gear profiles from test_herringbone_gears.py." loading="lazy" /></a>
-            </div>
-            <h3><code>test_herringbone_gears.py</code></h3>
-            <p>
-              Herringbone (double-helical) gears: two opposite-hand helical halves unioned into a
-              chevron with its apex at mid-height.
+              A pillow-style bearing block with a 608 ball bearing pressed into its bore and four cap
+              screws holding it down &mdash; catalog parts (<code>bearing</code>, <code>cap_screw</code>)
+              pulled straight from the standard component library and mated onto the block's anchors.
+              Its vendored <code>lib/standard/</code> travels with the sample, so it opens
+              self-contained.
             </p>
           </div>
         </div>
