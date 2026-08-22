@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FEdit | Digital Handstand</title>
+    <meta
+      name="description"
+      content="FEdit is a lightweight, memory-frugal macOS text editor with a folder sidebar, native Markdown preview, and always-on autosave. Free and open source."
+    />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260308b" />
+    <link rel="icon" href="/favicon-20260208d.ico?v=20260208d" sizes="any" />
+    <link rel="shortcut icon" href="/favicon-20260208d.ico?v=20260208d" type="image/x-icon" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png?v=20260208d" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png?v=20260208d" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=20260208d" />
+  </head>
+  <body>
+    <main class="site-shell">
+      <header class="topbar animate-rise">
+        <a class="brand" href="/"><img class="brand-icon" src="/assets/images/digitalhandstand-mark-64.png?v=20260208d" alt="" /><span>Digital Handstand</span></a>
+      </header>
+
+      <a class="back-link" href="/">&larr; Back to all apps</a>
+
+      <section class="hero animate-rise animate-delay-1">
+        <span class="eyebrow">Open Source</span>
+        <div class="app-head">
+          <img class="app-icon" src="/assets/images/fedit-1024.png" alt="FEdit app icon" />
+          <div>
+            <h1>FEdit</h1>
+            <p class="muted">A lightweight, memory-frugal text editor for macOS.</p>
+          </div>
+        </div>
+        <p>
+          Editing a couple of kB of text should not cost a gigabyte of RAM. FEdit deliberately
+          avoids heavyweight machinery: native AppKit text views instead of a web-based editor, and
+          a native Markdown renderer instead of an embedded browser. In practice it settles at
+          roughly 80&ndash;190&nbsp;MB with small files open &mdash; the point is the order of
+          magnitude, not a race to the bottom.
+        </p>
+        <div class="meta-row">
+          <span class="meta-chip">Platform: macOS 26 or later</span>
+          <span class="meta-chip">Swift, SwiftUI and AppKit</span>
+          <span class="meta-chip">No third-party dependencies</span>
+          <span class="meta-chip">GPL-3.0-or-later</span>
+        </div>
+        <div class="cta-row">
+          <a
+            class="button button-primary"
+            href="https://github.com/flx/FEdit"
+            target="_blank"
+            rel="noopener"
+            >View source on GitHub</a
+          >
+          <a
+            class="button button-soft"
+            href="https://github.com/flx/FEdit#readme"
+            target="_blank"
+            rel="noopener"
+            >Read the README</a
+          >
+          <a
+            class="button button-soft"
+            href="https://github.com/flx/FEdit/issues"
+            target="_blank"
+            rel="noopener"
+            >Report an issue</a
+          >
+        </div>
+        <p class="muted">
+          There is no App Store build and no signed download: FEdit is source you build yourself,
+          in Xcode or with the one-line installer below.
+        </p>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-2">
+        <h2>What you can do</h2>
+        <div class="list-grid">
+          <div class="list-panel">
+            <h3>Three columns, one window</h3>
+            <ul>
+              <li>Folder sidebar, editor, and a Markdown preview that appears only for Markdown files.</li>
+              <li>Draggable, persisted splits, each column under a fixed header strip.</li>
+              <li>Windows are independent: own folders, filter, open file, and cursor.</li>
+            </ul>
+          </div>
+          <div class="list-panel">
+            <h3>A sidebar that survives big folders</h3>
+            <ul>
+              <li>Open several top-level folders at once, each its own section.</li>
+              <li>Filter with a small boolean query language: <code>.py OR .swift</code>.</li>
+              <li>Scanning runs off the main thread, so the window stays usable while a large root fills in.</li>
+              <li>Files that differ from <code>HEAD</code> get a read-only &ldquo;(changed)&rdquo; badge in a git repo.</li>
+            </ul>
+          </div>
+          <div class="list-panel">
+            <h3>Editor, with the essentials only</h3>
+            <ul>
+              <li>Line numbers, soft wrapping, and font size zoom that persists.</li>
+              <li>Lightweight syntax highlighting for Swift, Python, and Markdown.</li>
+              <li>Opens any UTF-8 text file, with a Latin-1 fallback.</li>
+            </ul>
+          </div>
+          <div class="list-panel">
+            <h3>Find that stays out of the way</h3>
+            <ul>
+              <li>&#8984;F opens a find bar over the editor text, never the preview.</li>
+              <li>Literal matching with a visible <em>Case sensitive</em> checkbox, off by default.</li>
+              <li>Every match highlighted, a <code>3 of 17</code> count, and wrap-around stepping.</li>
+              <li>In a narrow column the bar wraps to a second row rather than spilling over the dividers.</li>
+            </ul>
+          </div>
+          <div class="list-panel">
+            <h3>Markdown, rendered natively</h3>
+            <ul>
+              <li>No WKWebView: the preview is a real text stack, not a browser.</li>
+              <li>GFM pipe tables become properly aligned grids, with a bold header row.</li>
+              <li>The preview follows the first line visible in the editor.</li>
+            </ul>
+          </div>
+          <div class="list-panel">
+            <h3>Saving you never think about</h3>
+            <ul>
+              <li>Autosave is unconditional and always on &mdash; no toggle, no &ldquo;Save changes?&rdquo; dialog.</li>
+              <li>Writes on a typing pause, on file switch, and on window close or quit.</li>
+              <li>A clean buffer reloads when the file changes underneath you; a dirty one is kept.</li>
+              <li>Sessions restore folders, last file, cursor position, splits, and windows.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="notice">
+          Light appearance only, deliberately &mdash; no dark mode and no themes. Tabs, split
+          editors, and search-and-replace are non-goals too.
+        </p>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Keyboard</h2>
+        <table class="detail-table">
+          <tbody>
+            <tr>
+              <td>&#8984;N</td>
+              <td>New&hellip; &mdash; create a file in the open file&rsquo;s folder</td>
+            </tr>
+            <tr>
+              <td>&#8984;O</td>
+              <td>Open Folder&hellip; &mdash; opens a new window and prompts for its root</td>
+            </tr>
+            <tr>
+              <td>&#8679;&#8984;O</td>
+              <td>Add Folder to Window&hellip;</td>
+            </tr>
+            <tr>
+              <td>&#8984;S</td>
+              <td>Save (autosave is always on regardless)</td>
+            </tr>
+            <tr>
+              <td>&#8984;F</td>
+              <td>Find &mdash; open the find bar over the editor text</td>
+            </tr>
+            <tr>
+              <td>&#8984;G / &#8679;&#8984;G</td>
+              <td>Find Next / Find Previous, wrapping at either end</td>
+            </tr>
+            <tr>
+              <td>&#8984;+ / &#8984;&minus; / &#8984;0</td>
+              <td>Increase, decrease, or reset the editor font size</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section-panel">
+        <h2>Install and build</h2>
+        <p>
+          There are no third-party dependencies, so a clone and a build is the whole story. The
+          installer builds the Release configuration, installs <code>FEdit.app</code> into
+          <code>/Applications</code>, and drops a <code>fedit</code> command on your
+          <code>PATH</code>. It never uses <code>sudo</code>.
+        </p>
+        <pre><code>git clone https://github.com/flx/FEdit.git
+cd FEdit
+scripts/install.sh</code></pre>
+        <p>
+          Or open <code>FEdit.xcodeproj</code> in Xcode&nbsp;26 and hit Run. Building needs
+          macOS&nbsp;26 and Xcode&nbsp;26.
+        </p>
+      </section>
+
+      <section class="section-panel">
+        <h2>From the command line</h2>
+        <p>
+          Each path opens in its own new window, and a file&rsquo;s containing folder becomes that
+          window&rsquo;s sidebar root. Existing windows are never disturbed.
+        </p>
+        <pre><code>fedit notes.md            # one file, folder as root
+fedit .                   # the current directory
+fedit src/a.py docs/b.md  # one window each
+fedit --wait notes.md     # block until it closes</code></pre>
+        <p>
+          Because <code>--wait</code> blocks until the window closes, FEdit works as your git
+          editor:
+        </p>
+        <pre><code>git config --global core.editor "fedit --wait"</code></pre>
+        <p class="notice">
+          FEdit autosaves, so there is no &ldquo;close without saving&rdquo;. To abort a commit,
+          delete the whole message text and then close the window &mdash; git sees an empty message
+          and stops.
+        </p>
+      </section>
+
+      <section class="section-panel">
+        <h2>App details</h2>
+        <table class="detail-table">
+          <tbody>
+            <tr>
+              <td>Developer</td>
+              <td>Digital Handstand</td>
+            </tr>
+            <tr>
+              <td>Source</td>
+              <td>
+                <a href="https://github.com/flx/FEdit" target="_blank" rel="noopener"
+                  >github.com/flx/FEdit</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>License</td>
+              <td>GNU General Public License v3.0 or later</td>
+            </tr>
+            <tr>
+              <td>Requirements</td>
+              <td>macOS 26 or later; Xcode 26 to build</td>
+            </tr>
+            <tr>
+              <td>Contact</td>
+              <td><a href="mailto:digitalhandstand@gmail.com">digitalhandstand@gmail.com</a></td>
+            </tr>
+            <tr>
+              <td>Last updated</td>
+              <td>August 22, 2026</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+    </main>
+  </body>
+</html>
