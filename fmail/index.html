@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FMail | Digital Handstand</title>
+    <meta
+      name="description"
+      content="FMail is a macOS menu-bar companion for Apple Mail: a trustworthy unread count, a real search query language, and a priority split that keeps real replies above the newsletters. Free and open source."
+    />
+    <link rel="stylesheet" href="/assets/styles.css?v=20260308b" />
+    <link rel="icon" href="/favicon-20260208d.ico?v=20260208d" sizes="any" />
+    <link rel="shortcut icon" href="/favicon-20260208d.ico?v=20260208d" type="image/x-icon" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32.png?v=20260208d" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16.png?v=20260208d" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png?v=20260208d" />
+  </head>
+  <body>
+    <main class="site-shell">
+      <header class="topbar animate-rise">
+        <a class="brand" href="/"><img class="brand-icon" src="/assets/images/digitalhandstand-mark-64.png?v=20260208d" alt="" /><span>Digital Handstand</span></a>
+      </header>
+
+      <a class="back-link" href="/">&larr; Back to all apps</a>
+
+      <section class="hero animate-rise animate-delay-1">
+        <span class="eyebrow">Open Source</span>
+        <div class="app-head">
+          <img class="app-icon" src="/assets/images/fmail-1024.png" alt="FMail app icon" />
+          <div>
+            <h1>FMail</h1>
+            <p class="muted">A menu-bar companion for Apple Mail.</p>
+          </div>
+        </div>
+        <p>
+          Apple Mail keeps your mail; FMail fixes what is awkward about getting at it. It lives
+          entirely in the menu bar &mdash; no window, no Dock icon &mdash; reads Mail&rsquo;s on-disk
+          store read-only, and mirrors the metadata into its own SQLite&nbsp;+&nbsp;FTS5 index. Click
+          the envelope and you get an unread count that matches reality, a search box that takes a
+          real query language, and a list split so the reply you are waiting on sits above the
+          newsletters. Reading and replying stay in Mail.app.
+        </p>
+        <div class="meta-row">
+          <span class="meta-chip">Platform: macOS 14 or later</span>
+          <span class="meta-chip">Swift 6, AppKit and SwiftUI</span>
+          <span class="meta-chip">Menu bar only &mdash; no window, no Dock icon</span>
+          <span class="meta-chip">GPL-3.0-or-later</span>
+        </div>
+        <div class="cta-row">
+          <a
+            class="button button-primary"
+            href="https://github.com/flx/FMail"
+            target="_blank"
+            rel="noopener"
+            >View source on GitHub</a
+          >
+          <a
+            class="button button-soft"
+            href="https://github.com/flx/FMail#readme"
+            target="_blank"
+            rel="noopener"
+            >Read the README</a
+          >
+          <a
+            class="button button-soft"
+            href="https://github.com/flx/FMail/issues"
+            target="_blank"
+            rel="noopener"
+            >Report an issue</a
+          >
+        </div>
+        <p class="muted">
+          There is no App Store build and no signed download &mdash; GPL-3.0 is incompatible with App
+          Store distribution. FMail is source you build yourself, in Xcode or from the command line.
+        </p>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-2">
+        <h2>What you can do</h2>
+        <div class="list-grid">
+          <div class="list-panel">
+            <h3>A dropdown instead of a window</h3>
+            <ul>
+              <li>Your unread mail, newest first, under Today / Yesterday / date separators.</li>
+              <li>Up to 15 rows per block, each with an unread dot and a checkbox.</li>
+              <li>The menu-bar icon carries the global unread count as a badge.</li>
+            </ul>
+          </div>
+          <div class="list-panel">
+            <h3>Real replies above the noise</h3>
+            <ul>
+              <li>The list splits into <em>Priority Messages</em> and <em>Other Messages</em>.</li>
+              <li>Anyone you have emailed counts as priority, derived from your sent mail automatically.</li>
+              <li>A supplemental list covers senders you only ever receive from: a full address, a bare word or domain, or a <code>*</code>&thinsp;/&thinsp;<code>?</code> wildcard.</li>
+              <li>Add or remove a sender straight from that message&rsquo;s submenu.</li>
+            </ul>
+          </div>
+          <div class="list-panel">
+            <h3>Mark read without leaving the menu</h3>
+            <ul>
+              <li>Per-block <em>Mark displayed &hellip; as read / as unread</em> commands.</li>
+              <li>Tick a few rows and they collapse to <em>Mark N as read / as unread</em>.</li>
+              <li>A command that would change nothing is greyed out rather than quietly doing nothing.</li>
+            </ul>
+          </div>
+          <div class="list-panel">
+            <h3>Search that composes</h3>
+            <ul>
+              <li><code>AND</code>, <code>OR</code>, <code>NOT</code>, parentheses, and quoted phrases.</li>
+              <li>Field operators for sender, recipient, subject, body, attachment, account, mailbox, flags and dates.</li>
+              <li>Attachment queries by family and size: <code>attachment-type:pdf attachment-size:&gt;1mb</code>.</li>
+              <li>Results replace the list and stay split into Priority and Other.</li>
+            </ul>
+          </div>
+          <div class="list-panel">
+            <h3>Reading and replying stay in Mail.app</h3>
+            <ul>
+              <li><em>Open in Mail</em> hands the message off; FMail never renders a body itself.</li>
+              <li>Reply, Reply All and Forward drive Mail&rsquo;s own AppleScript, so the familiar compose window opens with the original properly quoted.</li>
+              <li>No SMTP, no sync layer, no cloud &mdash; nothing is ever sent by FMail.</li>
+            </ul>
+          </div>
+          <div class="list-panel">
+            <h3>An index that keeps up</h3>
+            <ul>
+              <li>Mirrors Apple&rsquo;s Envelope Index on launch, then incrementally via file-system events plus a 60-second safety net.</li>
+              <li>Opening the menu runs a fast read/unread reconcile, so what you did in Mail.app is already reflected.</li>
+              <li>Bodies fill in on a background sweep of the <code>.emlx</code> files: new mail is findable by subject, sender and attachment name at once, by body text shortly after.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="notice">
+          Menu-bar only, deliberately. FMail started as a three-pane window app with in-app HTML
+          rendering; that UI was removed rather than maintained. Rendering message bodies and
+          composing mail are non-goals &mdash; Mail.app already does both, and better.
+        </p>
+      </section>
+
+      <section class="section-panel animate-rise animate-delay-3">
+        <h2>Why it exists</h2>
+        <table class="detail-table">
+          <tbody>
+            <tr>
+              <td>Drifting unread counts</td>
+              <td>
+                Mail&rsquo;s badge and its actual unread set disagree. FMail recomputes the count
+                from the Envelope Index every time you open the menu, and shows you the messages it
+                counted.
+              </td>
+            </tr>
+            <tr>
+              <td>Weak search</td>
+              <td>
+                No real boolean operators, awkward dates, no way to scope by topic, time and person
+                at once. FMail&rsquo;s search box takes a structured query language instead.
+              </td>
+            </tr>
+            <tr>
+              <td>Real replies buried under noise</td>
+              <td>
+                A busy unread list mixes the answer you are waiting on with receipts and
+                newsletters. The Priority / Other split puts correspondence first.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="section-panel">
+        <h2>Search syntax</h2>
+        <p>
+          Adjacent terms are AND-ed, and everything composes freely with <code>AND</code>,
+          <code>OR</code>, <code>NOT</code> (or a <code>-</code> prefix), parentheses and quoted
+          phrases. Unquoted terms match by prefix, so <code>subject:v</code> finds
+          <em>vermont</em>.
+        </p>
+        <table class="detail-table">
+          <tbody>
+            <tr>
+              <td><code>from:</code> <code>to:</code> <code>cc:</code></td>
+              <td>Sender or recipient, address or display name. Domain-style works: <code>from:vendor.com</code>.</td>
+            </tr>
+            <tr>
+              <td><code>subject:</code> <code>body:</code></td>
+              <td>One field only, rather than everything at once.</td>
+            </tr>
+            <tr>
+              <td><code>attachment:</code> <code>attachment-type:</code> <code>attachment-size:</code></td>
+              <td>Filename, family (<code>pdf</code>, <code>word</code>, <code>image</code>, <code>archive</code>, &hellip;), or byte size with a comparator and unit.</td>
+            </tr>
+            <tr>
+              <td><code>account:</code> <code>in:</code></td>
+              <td>Scope to one account, or to a mailbox kind: <code>inbox</code>, <code>sent</code>, <code>archive</code>, <code>trash</code>, <code>junk</code>, <code>all</code>.</td>
+            </tr>
+            <tr>
+              <td><code>is:</code> <code>has:</code></td>
+              <td><code>is:unread</code>, <code>is:read</code>, <code>is:flagged</code>, <code>has:attachment</code>.</td>
+            </tr>
+            <tr>
+              <td><code>before:</code> <code>after:</code> <code>on:</code></td>
+              <td>ISO dates, month names, or relative forms: <code>7d</code>, <code>2w</code>, <code>"last 30 days"</code>.</td>
+            </tr>
+            <tr>
+              <td><code>thread:</code></td>
+              <td>Scope to a single conversation &mdash; useful with <code>body:</code> to grep inside a thread.</td>
+            </tr>
+          </tbody>
+        </table>
+        <pre><code>from:alice subject:invoice
+"exact phrase" -draft
+(from:alice OR from:bob) is:unread
+account:gmail.com (subject:invoice OR subject:receipt) after:2024
+in:sent has:attachment after:"last 30 days"
+from:bank attachment-type:pdf attachment-size:&gt;1mb</code></pre>
+      </section>
+
+      <section class="section-panel">
+        <h2>An optional MCP server</h2>
+        <p>
+          FMail ships a read-only MCP (Model Context Protocol) server, so an LLM client &mdash;
+          Claude Code on the same Mac, or a claude.ai connector &mdash; can search the index, read
+          threads, pull attachments to disk and export a conversation to Markdown. Twelve tools,
+          none of them destructive: mail state only ever changes through Mail.app.
+        </p>
+        <p>
+          It listens on <code>127.0.0.1</code> and is gated by a bearer token, or by an OAuth
+          session you approve in a time-limited window. A Cloudflare tunnel can put it on a public
+          hostname for remote access, but only ever when you click to open it &mdash; and if a
+          tunnel is configured without a credential the server fails closed and refuses every
+          request.
+        </p>
+        <p class="notice">
+          Attachment bytes are attacker-controlled by definition &mdash; anyone can email you a
+          file. Writes requested over a tunnel are therefore confined to
+          <code>iCloud Drive/FMail</code>, with <code>..</code> and symlink escapes rejected. That
+          folder is iCloud-synced on purpose: a file you ask for from your phone lands in the Files
+          app.
+        </p>
+      </section>
+
+      <section class="section-panel">
+        <h2>Install and build</h2>
+        <p>
+          The Xcode project is generated from <code>project.yml</code> and deliberately not checked
+          in, so the build starts with
+          <a href="https://github.com/yonaskolb/XcodeGen" target="_blank" rel="noopener">XcodeGen</a>.
+          Regenerate it whenever the file set changes.
+        </p>
+        <pre><code>brew install xcodegen
+git clone https://github.com/flx/FMail.git
+cd FMail
+xcodegen generate
+xcodebuild -project FMail.xcodeproj -scheme FMail -configuration Debug build</code></pre>
+        <p>
+          Or open the generated <code>FMail.xcodeproj</code> and hit Run. Building needs Xcode&nbsp;16
+          or later for Swift&nbsp;6 language mode; it is developed and tested on Xcode&nbsp;26. Run it
+          once and look for the envelope in the menu bar &mdash; there is no window and no Dock icon.
+        </p>
+        <p class="notice">
+          Two permissions are needed. <strong>Full Disk Access</strong>, so FMail can read
+          <code>~/Library/Mail</code> &mdash; until it is granted, the dropdown shows a
+          &ldquo;Grant Full Disk Access&hellip;&rdquo; item that opens the right System Settings
+          pane. And <strong>Automation</strong> for Mail.app, which is what marking read or unread
+          and Reply / Forward drive.
+        </p>
+      </section>
+
+      <section class="section-panel">
+        <h2>App details</h2>
+        <table class="detail-table">
+          <tbody>
+            <tr>
+              <td>Developer</td>
+              <td>Digital Handstand</td>
+            </tr>
+            <tr>
+              <td>Source</td>
+              <td>
+                <a href="https://github.com/flx/FMail" target="_blank" rel="noopener"
+                  >github.com/flx/FMail</a
+                >
+              </td>
+            </tr>
+            <tr>
+              <td>License</td>
+              <td>GNU General Public License v3.0 or later</td>
+            </tr>
+            <tr>
+              <td>Requirements</td>
+              <td>macOS 14 or later, with Apple Mail set up; Xcode 16 or later to build</td>
+            </tr>
+            <tr>
+              <td>Privacy</td>
+              <td>Reads Apple Mail&rsquo;s local store only. No servers, no accounts, no telemetry.</td>
+            </tr>
+            <tr>
+              <td>Contact</td>
+              <td><a href="mailto:digitalhandstand@gmail.com">digitalhandstand@gmail.com</a></td>
+            </tr>
+            <tr>
+              <td>Last updated</td>
+              <td>August 22, 2026</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+    </main>
+  </body>
+</html>

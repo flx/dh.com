@@ -13,6 +13,7 @@ Static website for Digital Handstand.
   - `/flywheelcad/python-script-backend/`
   - `/flywheelcad/python-syntax/`
   - `/fedit/`
+  - `/fmail/`
 - App Store-ready legal/support URLs:
   - `/pawnpilot/privacy/`
   - `/pawnpilot/support/`
@@ -28,6 +29,7 @@ Static website for Digital Handstand.
 - `nummern/` - Nummern pages
 - `flywheelcad/` - FlywheelCAD overview and docs pages
 - `fedit/` - FEdit page (open source; links out to https://github.com/flx/FEdit)
+- `fmail/` - FMail page (open source; links out to https://github.com/flx/FMail)
 - `downloads/` - DMGs, manuals, and project bundles
 - `assets/styles.css` - shared styling
 - `assets/images/` - app icons
