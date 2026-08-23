@@ -1,0 +1,15 @@
+# Disk images are NOT committed here and must not be.
+#
+# Cloudflare Pages refuses any single asset over 25 MiB, and a Git-connected
+# deploy uploads the whole repo — so one oversized file fails the ENTIRE
+# deploy, silently leaving the live site on the previous commit. FlywheelCAD
+# 0.20 is 29.5 MiB (it bundles a CPython runtime; the 0.7-0.10 builds were
+# 6-10 MiB and slipped under the limit).
+#
+# Disk images live in the public repo `flx/flywheelcad-releases` instead. Copy
+# the build there as FlywheelCAD-<X.Y>.dmg, commit, push, then point the
+# download button at
+#   https://github.com/flx/flywheelcad-releases/raw/main/FlywheelCAD-<X.Y>.dmg
+# (The application source stays private; only the built image is published.)
+downloads/*.dmg
+.DS_Store
