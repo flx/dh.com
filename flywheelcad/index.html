@@ -26,7 +26,7 @@
       <section class="hero animate-rise animate-delay-1">
         <span class="eyebrow">Beta Download</span>
         <div class="app-head">
-          <img class="app-icon" src="/assets/images/flywheelcad-1024.png" alt="FlywheelCAD icon" />
+          <img class="app-icon" src="/assets/images/flywheelcad-1024.png?v=20260823a" alt="FlywheelCAD icon" />
           <div>
             <h1>FlywheelCAD</h1>
             <p class="muted">Python-first, constraint-driven CAD for reproducible sketch and body workflows.</p>
@@ -40,11 +40,11 @@
           repeatable source of truth.
         </p>
         <div class="cta-row">
-          <a class="button button-primary" href="/downloads/FlywheelCAD-0.10.dmg?v=20260707a">Download beta (0.10)</a>
-          <a class="button button-soft" href="/downloads/FlywheelCAD-UserManual.md?v=20260707a">Download User Manual</a>
-          <a class="button button-soft" href="/downloads/FlywheelCAD-AI-Scripting-Guide.md?v=20260707a">Download AI Scripting Guide</a>
-          <a class="button button-soft" href="/downloads/FlywheelCAD-Showcase.zip?v=20260708a">Download Showcase Projects</a>
-          <a class="button button-soft" href="/downloads/FlywheelCAD-Samples.zip?v=20260707a">Download Sample Assemblies</a>
+          <a class="button button-primary" href="/downloads/FlywheelCAD-0.20.dmg?v=20260823a">Download beta (0.20)</a>
+          <a class="button button-soft" href="/flywheelcad/manual/">Read the User Manual</a>
+          <a class="button button-soft" href="/downloads/FlywheelCAD-AI-Scripting-Guide.md?v=20260823a">Download AI Scripting Guide</a>
+          <a class="button button-soft" href="/downloads/FlywheelCAD-Showcase.zip?v=20260823a">Download Showcase Projects</a>
+          <a class="button button-soft" href="/downloads/FlywheelCAD-Samples.zip?v=20260823a">Download Sample Assemblies</a>
         </div>
         <p class="muted">
           The beta is signed but not notarized, so macOS will warn on first launch. If
@@ -53,6 +53,7 @@
         </p>
         <nav class="doc-tabs" aria-label="FlywheelCAD pages">
           <a class="doc-tab is-active" href="/flywheelcad/">Overview</a>
+          <a class="doc-tab" href="/flywheelcad/manual/">User Manual</a>
           <a class="doc-tab" href="/flywheelcad/ui-interactions/">UI interactions</a>
           <a class="doc-tab" href="/flywheelcad/python-script-backend/">Python Script Backend</a>
           <a class="doc-tab" href="/flywheelcad/python-syntax/">Python Syntax</a>
@@ -133,7 +134,7 @@
               with <em>File &rarr; Add File to Project&hellip;</em>, or place a loose component with
               <em>Component &rarr; Insert Component from File&hellip;</em>). Writing scripts with an AI
               assistant? Drop the
-              <a href="/downloads/FlywheelCAD-AI-Scripting-Guide.md?v=20260707a">AI scripting guide</a>
+              <a href="/downloads/FlywheelCAD-AI-Scripting-Guide.md?v=20260823a">AI scripting guide</a>
               into its context &mdash; it is the full API reference in one machine-friendly Markdown file.
             </p>
           </div>
@@ -148,14 +149,14 @@
           transforms, mates snapping everything to named anchor points, and catalog parts pulled
           from the standard component library. They are the best reference for structuring a real
           project &mdash; download them with the
-          <a href="/downloads/FlywheelCAD-Samples.zip?v=20260707a">Sample Assemblies</a> bundle and
+          <a href="/downloads/FlywheelCAD-Samples.zip?v=20260823a">Sample Assemblies</a> bundle and
           open the top-level file as the document. (Assembly geometry lives inside the component
           files, so these show the composed 3D result; click to enlarge.)
         </p>
         <div class="list-grid">
           <div class="list-panel">
-            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/glider_3d.png?v=20260707b" data-lightbox-caption="Glider — composed assembly" aria-label="Open larger 3D screenshot of the Glider sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/glider_3d.png?v=20260707b" alt="FlywheelCAD 3D view of the Glider sample assembly." loading="lazy" /></a>
-            <h3><code>Glider/glider.py</code></h3>
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/glider_3d.png?v=20260823a" data-lightbox-caption="Glider — composed assembly" aria-label="Open larger 3D screenshot of the Glider sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/glider_3d.png?v=20260823a" alt="FlywheelCAD 3D view of the Glider sample assembly." loading="lazy" /></a>
+            <h3><code>Glider.fwcad/main.py</code></h3>
             <p>
               A sailplane with a multi-loft fuselage (rounded nose cap, cockpit, tail boom), a
               parametric NACA-profile wing with non-linear taper, washout, and dihedral &mdash;
@@ -164,8 +165,8 @@
             </p>
           </div>
           <div class="list-panel">
-            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/toy_airplane_3d.png?v=20260707b" data-lightbox-caption="Toy Airplane — mated assembly" aria-label="Open larger 3D screenshot of the Toy Airplane sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/toy_airplane_3d.png?v=20260707b" alt="FlywheelCAD 3D view of the Toy Airplane sample assembly." loading="lazy" /></a>
-            <h3><code>ToyAirplane/airplane.py</code></h3>
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/toy_airplane_3d.png?v=20260823a" data-lightbox-caption="Toy Airplane — mated assembly" aria-label="Open larger 3D screenshot of the Toy Airplane sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/toy_airplane_3d.png?v=20260823a" alt="FlywheelCAD 3D view of the Toy Airplane sample assembly." loading="lazy" /></a>
+            <h3><code>ToyAirplane.fwcad/main.py</code></h3>
             <p>
               The introductory assembly: fuselage, parametric wing (instanced right and mirrored
               left), and tail, each defined in its own component file and mated to named mount
@@ -173,8 +174,8 @@
             </p>
           </div>
           <div class="list-panel">
-            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/airplane_nested_3d.png?v=20260707b" data-lightbox-caption="Nested Airplane — sub-assemblies" aria-label="Open larger 3D screenshot of the Nested Airplane sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/airplane_nested_3d.png?v=20260707b" alt="FlywheelCAD 3D view of the Nested Airplane sample assembly." loading="lazy" /></a>
-            <h3><code>AirplaneNested/airplane.py</code></h3>
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/airplane_nested_3d.png?v=20260823a" data-lightbox-caption="Nested Airplane — sub-assemblies" aria-label="Open larger 3D screenshot of the Nested Airplane sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/airplane_nested_3d.png?v=20260823a" alt="FlywheelCAD 3D view of the Nested Airplane sample assembly." loading="lazy" /></a>
+            <h3><code>AirplaneNested.fwcad/main.py</code></h3>
             <p>
               A two-level assembly demonstrating nesting: leaf parts (fuselage, wing, engine,
               stabilizer) compose into sub-assemblies (a powered wing, an empennage) that re-export
@@ -183,7 +184,8 @@
             </p>
           </div>
           <div class="list-panel">
-            <h3><code>FlyingWing/flying_wing.py</code></h3>
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/flying_wing_3d.png?v=20260823a" data-lightbox-caption="Flying Wing — composed assembly" aria-label="Open larger 3D screenshot of the Flying Wing sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/flying_wing_3d.png?v=20260823a" alt="FlywheelCAD 3D view of the Flying Wing sample assembly." loading="lazy" /></a>
+            <h3><code>FlyingWing.fwcad/main.py</code></h3>
             <p>
               A tailless flying wing in the spirit of the Prandtl-D research aircraft: a NACA 4412
               center section swept and tapered outward with the bell-spanload twist schedule (the
@@ -194,7 +196,8 @@
             </p>
           </div>
           <div class="list-panel">
-            <h3><code>MotorMount/motor_mount.py</code></h3>
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/motor_mount_3d.png?v=20260823a" data-lightbox-caption="Motor Mount — standard-library assembly" aria-label="Open larger 3D screenshot of the Motor Mount sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/motor_mount_3d.png?v=20260823a" alt="FlywheelCAD 3D view of the Motor Mount sample assembly." loading="lazy" /></a>
+            <h3><code>MotorMount.fwcad/main.py</code></h3>
             <p>
               A standard-library showcase: a mounting plate whose every cutout is a declared region
               hole, populated with catalog parts placed straight from the component library &mdash; a
@@ -202,6 +205,18 @@
               M3 cap screws, and a 608 bearing pressed into its seat, each in its own display color.
               Its vendored <code>lib/standard/</code> travels with the sample, so it opens and builds
               self-contained.
+            </p>
+          </div>
+          <div class="list-panel">
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/axial_flux_motor_3d.png?v=20260823a" data-lightbox-caption="Axial Flux Motor — printable machine" aria-label="Open larger 3D screenshot of the Axial Flux Motor sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/axial_flux_motor_3d.png?v=20260823a" alt="FlywheelCAD 3D view of the Axial Flux Motor sample assembly." loading="lazy" /></a>
+            <h3><code>AxialFluxMotor.fwcad/main.py</code></h3>
+            <p>
+              The largest sample: a double-rotor, coreless-stator axial flux machine roughly
+              400&nbsp;mm across &mdash; 32 poles, 24 coils, three phase. Every structural part is
+              modelled to print flat, and the rest of the bill of materials is deliberately
+              off-the-shelf (block magnets, 6902 bearings, a 15&nbsp;mm shaft), so the document
+              doubles as a build guide. A stress test of booleans and patterning at scale; its
+              build notes recommend High or Ultra mesh quality before exporting for print.
             </p>
           </div>
         </div>
@@ -214,16 +229,16 @@
           time &mdash; sketching with constraints, body creation, lofting, components, and the
           standard library. Read the comments top to bottom; they are meant to be learned from, not
           just run. Download them with the
-          <a href="/downloads/FlywheelCAD-Showcase.zip?v=20260708a">Showcase Projects</a> bundle and
+          <a href="/downloads/FlywheelCAD-Showcase.zip?v=20260823a">Showcase Projects</a> bundle and
           open each folder's <code>.py</code> file as the document.
         </p>
         <div class="list-grid">
           <div class="list-panel">
             <div class="example-pair">
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_01_bracket_3d.png?v=20260708a" data-lightbox-caption="1 · Sketch bracket — 3D view" aria-label="Open larger 3D screenshot of the sketch-bracket showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_01_bracket_3d.png?v=20260708a" alt="FlywheelCAD 3D view of the constraint-driven mounting bracket." loading="lazy" /></a>
-              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_01_bracket_2d.png?v=20260708a" data-lightbox-caption="1 · Sketch bracket — 2D sketch" aria-label="Open larger 2D sketch of the sketch-bracket showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_01_bracket_2d.png?v=20260708a" alt="FlywheelCAD dimensioned, constrained 2D sketch of the mounting bracket." loading="lazy" /></a>
+              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_01_bracket_3d.png?v=20260823a" data-lightbox-caption="1 · Sketch bracket — 3D view" aria-label="Open larger 3D screenshot of the sketch-bracket showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_01_bracket_3d.png?v=20260823a" alt="FlywheelCAD 3D view of the constraint-driven mounting bracket." loading="lazy" /></a>
+              <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_01_bracket_2d.png?v=20260823a" data-lightbox-caption="1 · Sketch bracket — 2D sketch" aria-label="Open larger 2D sketch of the sketch-bracket showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_01_bracket_2d.png?v=20260823a" alt="FlywheelCAD dimensioned, constrained 2D sketch of the mounting bracket." loading="lazy" /></a>
             </div>
-            <h3>1 &middot; Sketching, constraints &amp; dimensions &mdash; <code>01_sketch_bracket/bracket.py</code></h3>
+            <h3>1 &middot; Sketching, constraints &amp; dimensions &mdash; <code>01_sketch_bracket.fwcad/main.py</code></h3>
             <p>
               A flat mounting bracket drawn as a rough sketch, then pinned with geometric constraints
               (horizontal / vertical / parallel / perpendicular and a tangent fillet) and dimensions
@@ -233,8 +248,8 @@
             </p>
           </div>
           <div class="list-panel">
-            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_02_knob_3d.png?v=20260708a" data-lightbox-caption="2 · Hand-knob — extrude + revolve + booleans" aria-label="Open larger 3D screenshot of the hand-knob showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_02_knob_3d.png?v=20260708a" alt="FlywheelCAD 3D view of a machine hand-knob with scalloped finger grips." loading="lazy" /></a>
-            <h3>2 &middot; Body creation: extrude + revolve + booleans &mdash; <code>02_knob/knob.py</code></h3>
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_02_knob_3d.png?v=20260823a" data-lightbox-caption="2 · Hand-knob — extrude + revolve + booleans" aria-label="Open larger 3D screenshot of the hand-knob showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_02_knob_3d.png?v=20260823a" alt="FlywheelCAD 3D view of a machine hand-knob with scalloped finger grips." loading="lazy" /></a>
+            <h3>2 &middot; Body creation: extrude + revolve + booleans &mdash; <code>02_knob.fwcad/main.py</code></h3>
             <p>
               A machine hand-knob built from both body operations: a revolved, dished body, an
               extruded central boss unioned on, a ring of extruded cylinders unioned then
@@ -244,8 +259,8 @@
             </p>
           </div>
           <div class="list-panel">
-            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_03_duct_3d.png?v=20260708a" data-lightbox-caption="3 · Transition duct — multi-level loft" aria-label="Open larger 3D screenshot of the loft-duct showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_03_duct_3d.png?v=20260708a" alt="FlywheelCAD 3D view of a transition duct lofted through four stations." loading="lazy" /></a>
-            <h3>3 &middot; Custom planes &amp; multi-level loft &mdash; <code>03_loft_duct/duct.py</code></h3>
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_03_duct_3d.png?v=20260823a" data-lightbox-caption="3 · Transition duct — multi-level loft" aria-label="Open larger 3D screenshot of the loft-duct showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_03_duct_3d.png?v=20260823a" alt="FlywheelCAD 3D view of a transition duct lofted through four stations." loading="lazy" /></a>
+            <h3>3 &middot; Custom planes &amp; multi-level loft &mdash; <code>03_loft_duct.fwcad/main.py</code></h3>
             <p>
               A transition fairing that morphs from a nearly-round inlet to a wide, flat outlet.
               Custom sketch planes stacked along the axis each carry a reusable oval cross-section (a
@@ -254,8 +269,8 @@
             </p>
           </div>
           <div class="list-panel">
-            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_04_standoffs_3d.png?v=20260708a" data-lightbox-caption="4 · Standoff kit — fixed + parametric components" aria-label="Open larger 3D screenshot of the standoff-kit showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_04_standoffs_3d.png?v=20260708a" alt="FlywheelCAD 3D view of a base plate with four hex standoffs." loading="lazy" /></a>
-            <h3>4 &middot; Components: fixed + parametric &mdash; <code>04_standoff_kit/standoffs.py</code></h3>
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_04_standoffs_3d.png?v=20260823a" data-lightbox-caption="4 · Standoff kit — fixed + parametric components" aria-label="Open larger 3D screenshot of the standoff-kit showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_04_standoffs_3d.png?v=20260823a" alt="FlywheelCAD 3D view of a base plate with four hex standoffs." loading="lazy" /></a>
+            <h3>4 &middot; Components: fixed + parametric &mdash; <code>04_standoff_kit.fwcad/main.py</code></h3>
             <p>
               A base plate with four hex standoffs, contrasting the two ways to define reusable parts:
               a <em>fixed</em> component that builds one specific part and exports named anchor points,
@@ -264,8 +279,8 @@
             </p>
           </div>
           <div class="list-panel">
-            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_05_bearing_block_3d.png?v=20260708a" data-lightbox-caption="5 · Bearing block — library insertion + mating" aria-label="Open larger 3D screenshot of the bearing-block showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_05_bearing_block_3d.png?v=20260708a" alt="FlywheelCAD 3D view of a pillow bearing block with a 608 bearing and four cap screws." loading="lazy" /></a>
-            <h3>5 &middot; Library insertion &amp; mating &mdash; <code>05_bearing_block/bearing_block.py</code></h3>
+            <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_05_bearing_block_3d.png?v=20260823a" data-lightbox-caption="5 · Bearing block — library insertion + mating" aria-label="Open larger 3D screenshot of the bearing-block showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_05_bearing_block_3d.png?v=20260823a" alt="FlywheelCAD 3D view of a pillow bearing block with a 608 bearing and four cap screws." loading="lazy" /></a>
+            <h3>5 &middot; Library insertion &amp; mating &mdash; <code>05_bearing_block.fwcad/main.py</code></h3>
             <p>
               A pillow-style bearing block with a 608 ball bearing pressed into its bore and four cap
               screws holding it down &mdash; catalog parts (<code>bearing</code>, <code>cap_screw</code>)
@@ -334,7 +349,7 @@ body = cad.extrude("xy", gear["region_ring"], 24, quality="high")</code></pre>
           the single, reproducible source of truth either way.
         </p>
         <div class="cta-row">
-          <a class="button button-primary" href="/downloads/FlywheelCAD-AI-Scripting-Guide.md?v=20260707a">Download AI Scripting Guide</a>
+          <a class="button button-primary" href="/downloads/FlywheelCAD-AI-Scripting-Guide.md?v=20260823a">Download AI Scripting Guide</a>
         </div>
       </section>
       <script defer src="/assets/lightbox.js?v=20260308b"></script>
