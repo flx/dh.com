@@ -33,12 +33,17 @@
           </div>
         </div>
         <p>
-          FlywheelCAD combines direct sketch editing in the UI with a live Python script backend.
-          You can draw and constrain geometry interactively, create bodies with extrude, revolve,
-          loft, and booleans, compose reusable components into mated assemblies, export bodies as
-          <code>.3mf</code> files for 3D printing, then edit or rerun the generated script as the
-          repeatable source of truth.
+          Direct <strong>sketch</strong> editing in the UI, backed by a live <strong>Python</strong>
+          script. <strong>Constrain</strong> geometry, build bodies with <strong>extrude</strong>,
+          <strong>revolve</strong>, <strong>loft</strong> and <strong>booleans</strong>, compose
+          reusable <strong>components</strong> into mated <strong>assemblies</strong>, and export
+          bodies as mesh files for 3D printing in various formats (<code>.3mf</code>,
+          <code>.stl</code>, <code>.obj</code>). The script stays the source of truth.
         </p>
+        <div class="meta-row">
+          <span class="meta-chip">Mesh export: 3MF, STL, OBJ</span>
+          <span class="meta-chip">No account, no cloud</span>
+        </div>
         <div class="cta-row">
           <a class="button button-primary" href="https://github.com/flx/flywheelcad-releases/releases/download/v0.22/FlywheelCAD-0.22.dmg">Download beta (0.22)</a>
           <a class="button button-soft" href="/flywheelcad/manual/">Read the User Manual</a>
@@ -46,10 +51,7 @@
           <a class="button button-soft" href="/downloads/FlywheelCAD-Showcase.zip?v=20260823a">Download Showcase Projects</a>
           <a class="button button-soft" href="/downloads/FlywheelCAD-Samples.zip?v=20260823a">Download Sample Assemblies</a>
         </div>
-        <p class="muted">
-          Signed with a Developer ID and notarized by Apple, so it opens normally &mdash; no
-          security warning and no right-click workaround. Requires macOS on Apple silicon.
-        </p>
+        <p class="muted">Requires macOS 15.6 or later on Apple silicon.</p>
         <nav class="doc-tabs" aria-label="FlywheelCAD pages">
           <a class="doc-tab is-active" href="/flywheelcad/">Overview</a>
           <a class="doc-tab" href="/flywheelcad/manual/">User Manual</a>
@@ -65,77 +67,84 @@
         <div class="list-grid">
           <div class="list-panel">
             <h3>Sketch and constrain</h3>
-            <p>
-              Create points, lines, circles, arcs, ellipses, splines, and trimmed geometry, then
-              solve sketches with geometric constraints, dimensions, and shared variables. A live
-              status badge tells you whether a sketch is under-, fully-, or over-constrained, and
-              which constraints conflict.
-            </p>
+            <ul>
+              <li>Points, lines, circles, arcs, ellipses, splines, trims.</li>
+              <li>Solve a <strong>sketch</strong> with geometric <strong>constraints</strong>,
+                <strong>dimensions</strong> and shared <strong>variables</strong>.</li>
+              <li>Live badge: under-, fully- or over-constrained, and which constraints
+                conflict.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <h3>Build bodies and analyze them</h3>
-            <p>
-              Turn closed regions into solids with extrude, revolve, and loft &mdash; with optional
-              edge rounding, wall taper (draft), plane-normal offset, and twist for helical and
-              herringbone shapes. Then use boolean union, subtraction, and intersection (with optional
-              smooth or chamfer blends at the seam), derive sections and projections from bodies, and
-              export finished geometry as <code>.3mf</code> for 3D printing. Bodies are parametric:
-              edit the sketch they came from and they re-derive, and they can be deleted, cascading
-              to anything built on top of them. Meshing runs on the GPU &mdash; including whole
-              boolean trees evaluated in a single pass &mdash; and when a preset isn&rsquo;t fine
-              enough for a small detail, <code>set_cell_size</code> pins an absolute mesh resolution
-              per body.
-            </p>
+            <ul>
+              <li><strong>Extrude</strong>, <strong>revolve</strong> and <strong>loft</strong> closed
+                regions into solids.</li>
+              <li>Edge rounding, wall taper (draft), plane-normal offset, twist for helical and
+                herringbone shapes.</li>
+              <li><strong>Booleans</strong> &mdash; union, subtract, intersect, with an optional
+                smooth or chamfer blend at the seam.</li>
+              <li>Sections and projections derived from bodies.</li>
+              <li>Mesh export for 3D printing in various formats: <code>.3mf</code>,
+                <code>.stl</code>, <code>.obj</code>.</li>
+              <li><strong>Parametric</strong>: edit a body&rsquo;s sketch and it re-derives; delete
+                it and everything built on it cascades.</li>
+              <li>GPU meshing &mdash; whole boolean trees in one pass;
+                <code>set_cell_size</code> pins an absolute resolution per body.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <h3>Work across multiple planes</h3>
-            <p>
-              Sketch on the standard <code>xy</code>, <code>yz</code>, and <code>zx</code> planes,
-              then define custom sketch planes directly from topology points of existing bodies.
-              Multi-section lofts sweep one smooth solid through any number of cross-section
-              planes &mdash; the sample aircraft fuselages and wings are built this way.
-            </p>
+            <ul>
+              <li>Standard <code>xy</code>, <code>yz</code> and <code>zx</code> sketch planes.</li>
+              <li><strong>Custom sketch planes</strong> from three points &mdash; picked off the
+                topology of existing bodies, or defined directly as typed X/Y/Z coordinates.</li>
+              <li>Multi-section <strong>lofts</strong> sweep one smooth solid through any number of
+                cross-sections &mdash; how the sample fuselages and wings are built.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <h3>Compose components into assemblies</h3>
-            <p>
-              Define a part once inside <code>with cad.component(...)</code>, export its bodies and
-              named anchor points, then place it many times with <code>cad.instance(...)</code> &mdash;
-              translated, mirrored, scaled, or rotated &mdash; and snap instances together with mates.
-              Components can be parametric (one wing factory, many wings), live in their own files
-              next to the assembly, and nest into sub-assemblies that re-export parts of their
-              children. Per-body colors and finishes (matte, glossy, metallic, glass) carry into
-              <code>.3mf</code> export.
-            </p>
+            <ul>
+              <li>Define a part once in <code>with cad.component(...)</code>; export its bodies and
+                named <strong>anchor points</strong>.</li>
+              <li>Place it repeatedly with <code>cad.instance(...)</code> &mdash; translated,
+                mirrored, scaled, rotated.</li>
+              <li>Snap instances together with <strong>mates</strong>.</li>
+              <li><strong>Parametric</strong> components (one wing factory, many wings), each in its
+                own file, nesting into sub-assemblies.</li>
+              <li>Per-body <strong>colors and finishes</strong> (matte, glossy, metallic, glass)
+                carry into <code>.3mf</code> and <code>.obj</code> export &mdash; the latter via a
+                sibling <code>.mtl</code>. <code>.stl</code> is geometry only.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <h3>Place parts from component libraries</h3>
-            <p>
-              Catalog parts come from <strong>component libraries</strong> &mdash; folders of
-              parametric part modules. A standard library ships in the app (NEMA stepper motors,
-              hobby servos and control horns, metric cap screws / nuts / washers, deep-groove ball
-              bearings, T-slot extrusion, and RC linkage hardware); add your own as folders under
-              <code>~/Documents/FlywheelCAD/Libraries/</code>. <em>Component &rarr; Insert from
-              Library&hellip;</em> browses them with a live 3D preview and parameter fields.
-              Inserting is <strong>copy-on-use</strong>: the module is vendored into the
-              document&rsquo;s <code>lib/</code> folder, so a design stays self-contained and a later
-              library update never silently changes it &mdash; <em>Update from Library</em> refreshes
-              vendored parts on your terms.
-            </p>
+            <ul>
+              <li><strong>Component libraries</strong> are folders of parametric part modules.</li>
+              <li>A standard library ships in the app: NEMA steppers, hobby servos and horns, metric
+                cap screws / nuts / washers, ball bearings, T-slot extrusion, RC linkage.</li>
+              <li>Add your own under <code>~/Documents/FlywheelCAD/Libraries/</code>.</li>
+              <li><em>Component &rarr; Insert from Library&hellip;</em> &mdash; live 3D preview and
+                parameter fields.</li>
+              <li><strong>Copy-on-use</strong>: the module is vendored into the document&rsquo;s
+                <code>lib/</code>, so a design stays self-contained and a library update never
+                silently changes it. <em>Update from Library</em> refreshes on your terms.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <h3>Keep everything reproducible</h3>
-            <p>
-              The right panel keeps the model as editable Python. A document is a plain
-              <code>.py</code> file or a <code>.fwcad</code> <strong>project bundle</strong> &mdash; a
-              folder that packages the script with everything it imports, so it moves and shares as a
-              single self-contained item. Helper modules live next to the main file (or drop one in
-              with <em>File &rarr; Add File to Project&hellip;</em>, or place a loose component with
-              <em>Component &rarr; Insert Component from File&hellip;</em>). Writing scripts with an AI
-              assistant? Drop the
-              <a href="/downloads/FlywheelCAD-AI-Scripting-Guide.md?v=20260823a">AI scripting guide</a>
-              into its context &mdash; it is the full API reference in one machine-friendly Markdown file.
-            </p>
+            <ul>
+              <li>The right panel holds the model as editable <strong>Python</strong>.</li>
+              <li>A document is a plain <code>.py</code> file or a <code>.fwcad</code>
+                <strong>project bundle</strong> &mdash; a folder packaging the script with everything
+                it imports.</li>
+              <li>Helper modules sit next to the main file (<em>File &rarr; Add File to
+                Project&hellip;</em>).</li>
+              <li>Using an AI assistant? Drop in the
+                <a href="/downloads/FlywheelCAD-AI-Scripting-Guide.md?v=20260823a">AI scripting
+                guide</a> &mdash; the full API reference in one Markdown file.</li>
+            </ul>
           </div>
         </div>
       </section>
@@ -143,80 +152,80 @@
       <section class="section-panel animate-rise animate-delay-3">
         <h2>Sample Assemblies</h2>
         <p>
-          Five complete multi-file assemblies show the component workflow end to end: components
-          defined in their own files, parametric part factories, instances placed with mirrors and
-          transforms, mates snapping everything to named anchor points, and catalog parts pulled
-          from the standard component library. They are the best reference for structuring a real
-          project &mdash; download them with the
+          Six multi-file assemblies showing the <strong>component</strong> workflow end to end:
+          parts in their own files, parametric factories, instances with mirrors and transforms,
+          <strong>mates</strong> onto named anchor points, catalog parts from the standard library.
+          Download the
           <a href="/downloads/FlywheelCAD-Samples.zip?v=20260823a">Sample Assemblies</a> bundle and
-          open the top-level file as the document. (Assembly geometry lives inside the component
-          files, so these show the composed 3D result; click to enlarge.)
+          open the top-level file. Click a shot to enlarge.
         </p>
         <div class="list-grid">
           <div class="list-panel">
             <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/glider_3d.png?v=20260823a" data-lightbox-caption="Glider — composed assembly" aria-label="Open larger 3D screenshot of the Glider sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/glider_3d.png?v=20260823a" alt="FlywheelCAD 3D view of the Glider sample assembly." loading="lazy" /></a>
             <h3><code>Glider.fwcad/main.py</code></h3>
-            <p>
-              A sailplane with a multi-loft fuselage (rounded nose cap, cockpit, tail boom), a
-              parametric NACA-profile wing with non-linear taper, washout, and dihedral &mdash;
-              instanced once per side with the left wing mirrored &mdash; and a symmetric-airfoil
-              T-tail, all placed on a common frame with per-component colors.
-            </p>
+            <ul>
+              <li>Multi-<strong>loft</strong> fuselage: nose cap, cockpit, tail boom.</li>
+              <li>Parametric NACA wing &mdash; non-linear taper, washout, dihedral; instanced per
+                side, left mirrored.</li>
+              <li>Symmetric-airfoil T-tail, per-component colors.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/toy_airplane_3d.png?v=20260823a" data-lightbox-caption="Toy Airplane — mated assembly" aria-label="Open larger 3D screenshot of the Toy Airplane sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/toy_airplane_3d.png?v=20260823a" alt="FlywheelCAD 3D view of the Toy Airplane sample assembly." loading="lazy" /></a>
             <h3><code>ToyAirplane.fwcad/main.py</code></h3>
-            <p>
-              The introductory assembly: fuselage, parametric wing (instanced right and mirrored
-              left), and tail, each defined in its own component file and mated to named mount
-              points exported by the fuselage &mdash; move a mount and the parts follow.
-            </p>
+            <ul>
+              <li>The introductory assembly: fuselage, parametric wing (right instanced, left
+                mirrored), tail.</li>
+              <li>Each part its own component file, <strong>mated</strong> to mount points the
+                fuselage exports.</li>
+              <li>Move a mount, the parts follow.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/airplane_nested_3d.png?v=20260823a" data-lightbox-caption="Nested Airplane — sub-assemblies" aria-label="Open larger 3D screenshot of the Nested Airplane sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/airplane_nested_3d.png?v=20260823a" alt="FlywheelCAD 3D view of the Nested Airplane sample assembly." loading="lazy" /></a>
             <h3><code>AirplaneNested.fwcad/main.py</code></h3>
-            <p>
-              A two-level assembly demonstrating nesting: leaf parts (fuselage, wing, engine,
-              stabilizer) compose into sub-assemblies (a powered wing, an empennage) that re-export
-              parts and anchors of their children, and the top assembly places and mates the
-              sub-assemblies as opaque units.
-            </p>
+            <ul>
+              <li>Two-level <strong>nesting</strong>: leaf parts (fuselage, wing, engine,
+                stabilizer) into sub-assemblies &mdash; a powered wing, an empennage.</li>
+              <li>Sub-assemblies re-export their children&rsquo;s parts and anchors.</li>
+              <li>The top assembly mates them as opaque units.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/flying_wing_3d.png?v=20260823a" data-lightbox-caption="Flying Wing — composed assembly" aria-label="Open larger 3D screenshot of the Flying Wing sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/flying_wing_3d.png?v=20260823a" alt="FlywheelCAD 3D view of the Flying Wing sample assembly." loading="lazy" /></a>
             <h3><code>FlyingWing.fwcad/main.py</code></h3>
-            <p>
-              A tailless flying wing in the spirit of the Prandtl-D research aircraft: a NACA 4412
-              center section swept and tapered outward with the bell-spanload twist schedule (the
-              tips fly at negative incidence), a pusher motor pod with spinner and prop, and
-              elevons cut from the wing as separate bodies &mdash; a V-groove hinge opens downward
-              from the upper skin, with an embedded servo, control horn, and pushrod on each side.
-              Geometry-heavy generated-from-math modeling throughout.
-            </p>
+            <ul>
+              <li>Prandtl-D-style tailless wing: NACA 4412 center section, swept and tapered on a
+                bell-spanload twist schedule &mdash; tips at negative incidence.</li>
+              <li>Pusher motor pod with spinner and prop.</li>
+              <li>Elevons cut as separate bodies: V-groove hinge opening from the upper skin,
+                embedded servo, control horn and pushrod per side.</li>
+              <li>Heavy generated-from-math geometry throughout.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/motor_mount_3d.png?v=20260823a" data-lightbox-caption="Motor Mount — standard-library assembly" aria-label="Open larger 3D screenshot of the Motor Mount sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/motor_mount_3d.png?v=20260823a" alt="FlywheelCAD 3D view of the Motor Mount sample assembly." loading="lazy" /></a>
             <h3><code>MotorMount.fwcad/main.py</code></h3>
-            <p>
-              A standard-library showcase: a mounting plate whose every cutout is a declared region
-              hole, populated with catalog parts placed straight from the component library &mdash; a
-              NEMA&nbsp;17 stepper, a servo with a control horn mated onto its output spline, four
-              M3 cap screws, and a 608 bearing pressed into its seat, each in its own display color.
-              Its vendored <code>lib/standard/</code> travels with the sample, so it opens and builds
-              self-contained.
-            </p>
+            <ul>
+              <li>Standard-library showcase: a plate whose every cutout is a declared region
+                hole.</li>
+              <li>Catalog parts straight from the library &mdash; NEMA&nbsp;17 stepper, servo with a
+                horn mated to its output spline, four M3 cap screws, a 608 bearing in its seat.</li>
+              <li>Its vendored <code>lib/standard/</code> travels with the sample.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/axial_flux_motor_3d.png?v=20260823a" data-lightbox-caption="Axial Flux Motor — printable machine" aria-label="Open larger 3D screenshot of the Axial Flux Motor sample"><img class="example-shot" src="/assets/images/flywheelcad/examples/axial_flux_motor_3d.png?v=20260823a" alt="FlywheelCAD 3D view of the Axial Flux Motor sample assembly." loading="lazy" /></a>
             <h3><code>AxialFluxMotor.fwcad/main.py</code></h3>
-            <p>
-              The largest sample: a double-rotor, coreless-stator axial flux machine roughly
-              400&nbsp;mm across &mdash; 32 poles, 24 coils, three phase. Every structural part is
-              modelled to print flat, and the rest of the bill of materials is deliberately
-              off-the-shelf (block magnets, 6902 bearings, a 15&nbsp;mm shaft), so the document
-              doubles as a build guide. A stress test of booleans and patterning at scale; its
-              build notes recommend High or Ultra mesh quality before exporting for print.
-            </p>
+            <ul>
+              <li>The largest sample: double-rotor, coreless-stator axial flux machine, roughly
+                400&nbsp;mm across &mdash; 32 poles, 24 coils, three phase.</li>
+              <li>Every structural part prints flat; the rest of the bill of materials is
+                off-the-shelf (block magnets, 6902 bearings, a 15&nbsp;mm shaft), so the document
+                doubles as a build guide.</li>
+              <li>A stress test of <strong>booleans</strong> and patterning &mdash; its notes
+                recommend High or Ultra mesh quality before exporting for print.</li>
+            </ul>
           </div>
         </div>
       </section>
@@ -224,12 +233,12 @@
       <section class="section-panel animate-rise animate-delay-3">
         <h2>Showcase Projects</h2>
         <p>
-          Five short, heavily-commented projects teach the FlywheelCAD workflow one concept at a
-          time &mdash; sketching with constraints, body creation, lofting, components, and the
-          standard library. Read the comments top to bottom; they are meant to be learned from, not
-          just run. Download them with the
+          Five short, heavily-commented projects, one concept each: <strong>sketching</strong> with
+          <strong>constraints</strong>, body creation, lofting, <strong>components</strong>, the
+          standard library. Read the comments top to bottom &mdash; they are meant to be learned
+          from, not just run. Download the
           <a href="/downloads/FlywheelCAD-Showcase.zip?v=20260823a">Showcase Projects</a> bundle and
-          open each folder's <code>.py</code> file as the document.
+          open each folder&rsquo;s <code>.py</code> file.
         </p>
         <div class="list-grid">
           <div class="list-panel">
@@ -238,55 +247,60 @@
               <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_01_bracket_2d.png?v=20260823a" data-lightbox-caption="1 · Sketch bracket — 2D sketch" aria-label="Open larger 2D sketch of the sketch-bracket showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_01_bracket_2d.png?v=20260823a" alt="FlywheelCAD dimensioned, constrained 2D sketch of the mounting bracket." loading="lazy" /></a>
             </div>
             <h3>1 &middot; Sketching, constraints &amp; dimensions &mdash; <code>01_sketch_bracket.fwcad/main.py</code></h3>
-            <p>
-              A flat mounting bracket drawn as a rough sketch, then pinned with geometric constraints
-              (horizontal / vertical / parallel / perpendicular and a tangent fillet) and dimensions
-              bound to shared variables. Change <code>WIDTH</code>, <code>HEIGHT</code>,
-              <code>HOLE_DIA</code> or <code>SLANT</code> and the whole part re-solves; a light
-              extrude lets the profile read in 3D.
-            </p>
+            <ul>
+              <li>A flat bracket drawn rough, then pinned with geometric
+                <strong>constraints</strong> &mdash; horizontal, vertical, parallel, perpendicular,
+                tangent fillet.</li>
+              <li><strong>Dimensions</strong> bound to shared <strong>variables</strong>: change
+                <code>WIDTH</code>, <code>HEIGHT</code>, <code>HOLE_DIA</code> or <code>SLANT</code>
+                and the part re-solves.</li>
+              <li>A light extrude makes the profile read in 3D.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_02_knob_3d.png?v=20260823a" data-lightbox-caption="2 · Hand-knob — extrude + revolve + booleans" aria-label="Open larger 3D screenshot of the hand-knob showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_02_knob_3d.png?v=20260823a" alt="FlywheelCAD 3D view of a machine hand-knob with scalloped finger grips." loading="lazy" /></a>
             <h3>2 &middot; Body creation: extrude + revolve + booleans &mdash; <code>02_knob.fwcad/main.py</code></h3>
-            <p>
-              A machine hand-knob built from both body operations: a revolved, dished body, an
-              extruded central boss unioned on, a ring of extruded cylinders unioned then
-              <em>differenced</em> to scallop the rim into finger grips, and a subtracted shaft bore
-              &mdash; along the way showing <code>edge_radius</code>, <code>offset</code>, and boolean
-              union / difference.
-            </p>
+            <ul>
+              <li>A hand-knob from both body operations: revolved dished body, extruded boss unioned
+                on.</li>
+              <li>A ring of cylinders unioned, then <em>differenced</em> to scallop the rim into
+                finger grips; a subtracted shaft bore.</li>
+              <li>Shows <code>edge_radius</code>, <code>offset</code>, boolean union /
+                difference.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_03_duct_3d.png?v=20260823a" data-lightbox-caption="3 · Transition duct — multi-level loft" aria-label="Open larger 3D screenshot of the loft-duct showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_03_duct_3d.png?v=20260823a" alt="FlywheelCAD 3D view of a transition duct lofted through four stations." loading="lazy" /></a>
             <h3>3 &middot; Custom planes &amp; multi-level loft &mdash; <code>03_loft_duct.fwcad/main.py</code></h3>
-            <p>
-              A transition fairing that morphs from a nearly-round inlet to a wide, flat outlet.
-              Custom sketch planes stacked along the axis each carry a reusable oval cross-section (a
-              shared <code>profiles.oval(...)</code> helper), and <code>cad.multi_loft(...)</code>
-              sweeps one smooth solid through all four sections with no internal seams.
-            </p>
+            <ul>
+              <li>A transition fairing: near-round inlet to wide, flat outlet.</li>
+              <li>Custom <strong>sketch planes</strong> stacked along the axis, each with a reusable
+                oval section (<code>profiles.oval(...)</code>).</li>
+              <li><code>cad.multi_loft(...)</code> through all four sections, no internal seams.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_04_standoffs_3d.png?v=20260823a" data-lightbox-caption="4 · Standoff kit — fixed + parametric components" aria-label="Open larger 3D screenshot of the standoff-kit showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_04_standoffs_3d.png?v=20260823a" alt="FlywheelCAD 3D view of a base plate with four hex standoffs." loading="lazy" /></a>
             <h3>4 &middot; Components: fixed + parametric &mdash; <code>04_standoff_kit.fwcad/main.py</code></h3>
-            <p>
-              A base plate with four hex standoffs, contrasting the two ways to define reusable parts:
-              a <em>fixed</em> component that builds one specific part and exports named anchor points,
-              and a <em>parametric</em> factory that makes any size on demand and is memoised per size.
-              Instances are placed by mating their base anchor onto the plate's exported anchors.
-            </p>
+            <ul>
+              <li>A base plate with four hex standoffs &mdash; both ways to define reusable parts,
+                side by side.</li>
+              <li><em>Fixed</em> component: one specific part, exporting named anchors.</li>
+              <li><em>Parametric</em> factory: any size on demand, memoised per size.</li>
+              <li>Instances <strong>mated</strong> by their base anchor onto the plate&rsquo;s
+                anchors.</li>
+            </ul>
           </div>
           <div class="list-panel">
             <a class="lightbox-trigger" href="/assets/images/flywheelcad/examples/sc_05_bearing_block_3d.png?v=20260823a" data-lightbox-caption="5 · Bearing block — library insertion + mating" aria-label="Open larger 3D screenshot of the bearing-block showcase"><img class="example-shot" src="/assets/images/flywheelcad/examples/sc_05_bearing_block_3d.png?v=20260823a" alt="FlywheelCAD 3D view of a pillow bearing block with a 608 bearing and four cap screws." loading="lazy" /></a>
             <h3>5 &middot; Library insertion &amp; mating &mdash; <code>05_bearing_block.fwcad/main.py</code></h3>
-            <p>
-              A pillow-style bearing block with a 608 ball bearing pressed into its bore and four cap
-              screws holding it down &mdash; catalog parts (<code>bearing</code>, <code>cap_screw</code>)
-              pulled straight from the standard component library and mated onto the block's anchors.
-              Its vendored <code>lib/standard/</code> travels with the sample, so it opens
-              self-contained.
-            </p>
+            <ul>
+              <li>A pillow bearing block: a 608 bearing pressed into the bore, four cap screws
+                holding it down.</li>
+              <li>Catalog parts (<code>bearing</code>, <code>cap_screw</code>) from the standard
+                <strong>component library</strong>, mated onto the block&rsquo;s anchors.</li>
+              <li>Its vendored <code>lib/standard/</code> travels with the sample.</li>
+            </ul>
           </div>
         </div>
       </section>
@@ -294,9 +308,8 @@
       <section class="section-panel animate-rise animate-delay-3">
         <h2>Script Quick Start</h2>
         <p>
-          A FlywheelCAD file is ordinary Python. The minimal pattern is to import the API, create a
-          <code>FlywheelCAD</code> object, enter a sketch context, then emit geometry and body
-          operations.
+          A FlywheelCAD file is ordinary Python: import the API, create a <code>FlywheelCAD</code>
+          object, enter a <strong>sketch</strong> context, emit geometry and body operations.
         </p>
         <pre><code>from flywheelcad import *
 cad = FlywheelCAD()
@@ -308,8 +321,8 @@ line = cad.line2d(p1, p2)
 cad.horizontal(line)
 cad.length(line, 40)</code></pre>
         <p>
-          When you need reusable logic, keep helper files next to the main script and import them
-          directly. The included gear examples use exactly that pattern.
+          Reusable logic goes in helper files next to the main script &mdash; the gear examples use
+          exactly that pattern.
         </p>
         <pre><code>from flywheelcad import *
 from CADgears import gear_outline
@@ -327,25 +340,26 @@ body = cad.extrude("xy", gear["region_ring"], 24, quality="high")</code></pre>
       <section class="section-panel animate-rise animate-delay-3">
         <h2>Bring Your Own AI</h2>
         <p>
-          FlywheelCAD contains no AI integration &mdash; no cloud connection, no account, nothing
-          leaves your machine. It doesn&rsquo;t need one: because every document is ordinary
-          Python, any coding agent you already use can write and refactor your models for you.
+          <strong>No AI integration</strong> &mdash; no cloud connection, no account, nothing leaves
+          your machine. It doesn&rsquo;t need one: every document is ordinary
+          <strong>Python</strong>, so any coding agent you already use can write and refactor your
+          models.
         </p>
         <p>
-          That is what the <strong>AI Scripting Guide</strong> is for. It packs the whole scripting
-          surface &mdash; the rules an agent must follow, the full command reference, and worked
-          patterns &mdash; into one Markdown file sized for an assistant&rsquo;s context window.
-          Drop it into a session with the coding agent of your choice, describe the part you want,
-          and let the agent work out the hard geometry: circular-arc approximations of involute
-          gear teeth, accurate NACA airfoil sections, parametric part families driven by a handful
-          of variables. The meshing gear pairs in the test projects and the NACA-profile glider
-          wing in the samples are exactly this kind of generated-from-math geometry &mdash;
-          ordinary Python logic emitting FlywheelCAD commands.
+          The <strong>AI Scripting Guide</strong> is the whole scripting surface in one Markdown file
+          sized for an assistant&rsquo;s context window:
         </p>
+        <ul>
+          <li>Agent rules, full command reference, worked patterns.</li>
+          <li>Drop it into a session, describe the part, and let the agent do the hard geometry:
+            involute gear teeth as circular arcs, accurate NACA airfoil sections, parametric part
+            families.</li>
+          <li>The meshing gear pairs and the NACA glider wing are exactly that &mdash; ordinary
+            Python emitting FlywheelCAD commands.</li>
+        </ul>
         <p>
-          Whatever the agent writes stays a plain <code>.py</code> file: open it in the app, run
-          it, inspect the result, and keep editing by hand or by prompt &mdash; the script remains
-          the single, reproducible source of truth either way.
+          Whatever the agent writes stays a plain <code>.py</code> file: open it, run it, keep
+          editing by hand or by prompt. The script stays the reproducible source of truth.
         </p>
         <div class="cta-row">
           <a class="button button-primary" href="/downloads/FlywheelCAD-AI-Scripting-Guide.md?v=20260823a">Download AI Scripting Guide</a>

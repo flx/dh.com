@@ -264,8 +264,8 @@ cad.length(line, width * 2 + clearance)</code></pre>
             <tr><td><code>cad.scale(body, factor=None, sx=None, sy=None, sz=None)</code></td><td>Scales a body uniformly (<code>factor</code>) or per axis.</td></tr>
             <tr><td><code>cad.mirror_body(body, plane="yz")</code></td><td>Mirrors a body across a standard or custom plane.</td></tr>
             <tr><td><code>cad.copy(body)</code></td><td>Duplicates a body in place (identity transform).</td></tr>
-            <tr><td><code>cad.set_color(body, color, finish=None)</code> / <code>body.set_color(...)</code></td><td>Sets a display color (named color or hex) and an optional finish &mdash; <code>"matte"</code>, <code>"glossy"</code>, <code>"metallic"</code>, or <code>"glass"</code>. Colors carry into <code>.3mf</code> export.</td></tr>
-            <tr><td><code>body.set_export(False)</code></td><td>Excludes a body from <code>.3mf</code> export (intermediate construction bodies).</td></tr>
+            <tr><td><code>cad.set_color(body, color, finish=None)</code> / <code>body.set_color(...)</code></td><td>Sets a display color (named color or hex) and an optional finish &mdash; <code>"matte"</code>, <code>"glossy"</code>, <code>"metallic"</code>, or <code>"glass"</code>. Colors carry into <code>.3mf</code> and <code>.obj</code> export (<code>.stl</code> is geometry only).</td></tr>
+            <tr><td><code>body.set_export(False)</code></td><td>Excludes a body from mesh export &mdash; <code>.3mf</code>, <code>.stl</code> and <code>.obj</code> alike (intermediate construction bodies).</td></tr>
           </tbody>
         </table>
       </section>
