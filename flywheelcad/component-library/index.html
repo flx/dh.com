@@ -45,7 +45,7 @@
       <section class="hero animate-rise animate-delay-1">
         <span class="eyebrow">Reference</span>
         <div class="app-head">
-          <img class="app-icon" src="/assets/images/flywheelcad-1024.png?v=20260823a" alt="FlywheelCAD icon" />
+          <img class="app-icon" src="/assets/images/flywheelcad-1024.png" alt="FlywheelCAD icon" />
           <div>
             <h1>Component Library</h1>
             <p class="muted">A standard library of 100+ parametric maker parts &mdash; insert, size, mate and re-use.</p>
@@ -201,11 +201,11 @@ screw = cad.instance(cap_screw(cad, thread="M3", length=10))</code></pre>
             <img src="images/transmission.png" alt="transmission library parts" loading="lazy" width="1200" height="1200" />
           </figure>
           <div class="lib-body">
-            <h3><code>transmission</code> <span class="lib-count">5 parts</span></h3>
+            <h3><code>transmission</code> <span class="lib-count">6 parts</span></h3>
             <p class="muted">Roller-chain sprockets, V-belt/idler pulleys, belts, worms</p>
             <table class="detail-table lib-table">
               <thead><tr><th>Factory</th><th>What it is</th><th>Parameters</th></tr></thead>
-              <tbody><tr><td><code>sprocket</code></td><td>A roller-chain sprocket: a flat disc (thickness 4) at the chain's</td><td class="lib-params"><code>teeth</code> (16)<br><code>chain</code> #25 &middot; #35 &middot; #40<br><code>bore</code> (8.0)</td></tr><tr><td><code>v_pulley</code></td><td>A V-belt pulley: an annular disc (width 12) with a single-V groove</td><td class="lib-params"><code>od</code> (40.0)<br><code>bore</code> (8.0)</td></tr><tr><td><code>idler_pulley</code></td><td>A smooth belt idler/tensioner wheel: two flange lips (dia od+3)</td><td class="lib-params"><code>od</code> (18.0)<br><code>bore</code> (3.0)</td></tr><tr><td><code>timing_belt</code></td><td>A GT2 timing-belt loop shown as a thin closed racetrack band (teeth</td><td class="lib-params"><code>length</code> (200.0)<br><code>width</code> (6.0)</td></tr><tr><td><code>worm</code></td><td>A worm-drive worm: a plain cylindrical blank (dia od, `length`) with</td><td class="lib-params"><code>length</code> (30.0)<br><code>od</code> (12.0)<br><code>bore</code> (6.0)</td></tr></tbody>
+              <tbody><tr><td><code>sprocket</code></td><td>A roller-chain sprocket: a flat disc (thickness 4) at the chain's</td><td class="lib-params"><code>teeth</code> (16)<br><code>chain</code> #25 &middot; #35 &middot; #40<br><code>bore</code> (8.0)</td></tr><tr><td><code>v_pulley</code></td><td>A V-belt pulley: an annular disc (width 12) with a single-V groove</td><td class="lib-params"><code>od</code> (40.0)<br><code>bore</code> (8.0)</td></tr><tr><td><code>idler_pulley</code></td><td>A smooth belt idler/tensioner wheel: two flange lips (dia od+3)</td><td class="lib-params"><code>od</code> (18.0)<br><code>bore</code> (3.0)</td></tr><tr><td><code>timing_belt</code></td><td>A GT2 timing-belt loop shown as a thin closed racetrack band (teeth</td><td class="lib-params"><code>length</code> (200.0)<br><code>width</code> (6.0)</td></tr><tr><td><code>worm</code></td><td>A worm-drive worm: a plain cylindrical blank (dia od, `length`) with</td><td class="lib-params"><code>length</code> (30.0)<br><code>od</code> (12.0)<br><code>bore</code> (6.0)</td></tr><tr><td><code>belt_clamp</code></td><td>A GT2 belt clamp: the toothed block that grips a timing belt's end and</td><td class="lib-params"><code>belt_width</code> (6.0)<br><code>teeth</code> (6)</td></tr></tbody>
             </table>
           </div>
         </article>
@@ -231,7 +231,7 @@ screw = cad.instance(cap_screw(cad, thread="M3", length=10))</code></pre>
             <p class="muted">Compression, extension and torsion springs</p>
             <table class="detail-table lib-table">
               <thead><tr><th>Factory</th><th>What it is</th><th>Parameters</th></tr></thead>
-              <tbody><tr><td><code>compression_spring</code></td><td>A helical compression spring (open-pitch coils). Anchors: bottom (z=0),</td><td class="lib-params"><code>coils</code> (6)<br><code>wire_d</code> (1.5)<br><code>outer_d</code> (12.0)<br><code>free_length</code> (25.0)</td></tr><tr><td><code>extension_spring</code></td><td>A helical extension spring: close-wound body coils plus a loop at each</td><td class="lib-params"><code>coils</code> (8)<br><code>wire_d</code> (1.2)<br><code>outer_d</code> (10.0)</td></tr><tr><td><code>torsion_spring</code></td><td>A helical torsion spring: body coils plus two tangential legs. Anchors:</td><td class="lib-params"><code>coils</code> (5)<br><code>wire_d</code> (1.5)<br><code>outer_d</code> (12.0)<br><code>leg_length</code> (20.0)</td></tr></tbody>
+              <tbody><tr><td><code>compression_spring</code></td><td>A helical compression spring (open-pitch coils). Anchors: bottom (z=0),</td><td class="lib-params"><code>coils</code> (6)<br><code>wire_d</code> (1.5)<br><code>outer_d</code> (12.0)<br><code>free_length</code> (25.0)</td></tr><tr><td><code>extension_spring</code></td><td>A helical extension spring: close-wound body coils plus a loop at each</td><td class="lib-params"><code>coils</code> (8)<br><code>wire_d</code> (1.2)<br><code>outer_d</code> (10.0)</td></tr><tr><td><code>torsion_spring</code></td><td>A helical torsion spring: body coils plus two tangential legs.</td><td class="lib-params"><code>coils</code> (5)<br><code>wire_d</code> (1.5)<br><code>outer_d</code> (12.0)<br><code>leg_length</code> (20.0)<br><code>leg_angle</code> (90.0)</td></tr></tbody>
             </table>
           </div>
         </article>
