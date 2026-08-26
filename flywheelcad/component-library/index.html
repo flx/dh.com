@@ -231,7 +231,7 @@ screw = cad.instance(cap_screw(cad, thread="M3", length=10))</code></pre>
             <p class="muted">Compression, extension and torsion springs</p>
             <table class="detail-table lib-table">
               <thead><tr><th>Factory</th><th>What it is</th><th>Parameters</th></tr></thead>
-              <tbody><tr><td><code>compression_spring</code></td><td>A helical compression spring (open-pitch coils). Anchors: bottom (z=0),</td><td class="lib-params"><code>coils</code> (6)<br><code>wire_d</code> (1.5)<br><code>outer_d</code> (12.0)<br><code>free_length</code> (25.0)</td></tr><tr><td><code>extension_spring</code></td><td>A helical extension spring: close-wound body coils plus a loop at each</td><td class="lib-params"><code>coils</code> (8)<br><code>wire_d</code> (1.2)<br><code>outer_d</code> (10.0)</td></tr><tr><td><code>torsion_spring</code></td><td>A helical torsion spring: body coils plus two tangential legs.</td><td class="lib-params"><code>coils</code> (5)<br><code>wire_d</code> (1.5)<br><code>outer_d</code> (12.0)<br><code>leg_length</code> (20.0)<br><code>leg_angle</code> (90.0)</td></tr></tbody>
+              <tbody><tr><td><code>compression_spring</code></td><td>A helical compression spring.</td><td class="lib-params"><code>coils</code> (6)<br><code>wire_d</code> (1.5)<br><code>outer_d</code> (12.0)<br><code>free_length</code> (25.0)<br><code>ends</code> (closed)</td></tr><tr><td><code>extension_spring</code></td><td>A helical extension spring: close-wound body coils plus a loop at each</td><td class="lib-params"><code>coils</code> (8)<br><code>wire_d</code> (1.2)<br><code>outer_d</code> (10.0)</td></tr><tr><td><code>torsion_spring</code></td><td>A helical torsion spring: body coils plus two tangential legs.</td><td class="lib-params"><code>coils</code> (5)<br><code>wire_d</code> (1.5)<br><code>outer_d</code> (12.0)<br><code>leg_length</code> (20.0)<br><code>leg_angle</code> (90.0)</td></tr></tbody>
             </table>
           </div>
         </article>
@@ -258,6 +258,19 @@ screw = cad.instance(cap_screw(cad, thread="M3", length=10))</code></pre>
             <table class="detail-table lib-table">
               <thead><tr><th>Factory</th><th>What it is</th><th>Parameters</th></tr></thead>
               <tbody><tr><td><code>ball_link</code></td><td>A ball link (rod end): threaded shank into a housing that swivels</td><td class="lib-params"><code>thread</code> M2 &middot; M3</td></tr><tr><td><code>clevis</code></td><td>A clevis (fork) link: threaded shank into a forked end with a</td><td class="lib-params"><code>thread</code> M2 &middot; M3</td></tr><tr><td><code>pushrod</code></td><td>A plain pushrod (threaded ends implied). Runs z = 0 → length.</td><td class="lib-params"><code>diameter</code> (2.0)<br><code>length</code> (80.0)</td></tr></tbody>
+            </table>
+          </div>
+        </article>
+        <article class="lib-module">
+          <figure class="lib-figure">
+            <img src="images/shafting.png" alt="shafting library parts" loading="lazy" width="1200" height="1200" />
+          </figure>
+          <div class="lib-body">
+            <h3><code>shafting</code> <span class="lib-count">4 parts</span></h3>
+            <p class="muted">Shafts with plain/chamfered ends, shaft collars, keys and thrust washers</p>
+            <table class="detail-table lib-table">
+              <thead><tr><th>Factory</th><th>What it is</th><th>Parameters</th></tr></thead>
+              <tbody><tr><td><code>shaft</code></td><td>A plain round shaft. `end="chamfered"` breaks both ends with a 45 deg</td><td class="lib-params"><code>diameter</code> (8.0)<br><code>length</code> (100.0)<br><code>end</code> plain &middot; chamfered</td></tr><tr><td><code>shaft_collar</code></td><td>A set-screw shaft collar: a ring clamped to a shaft to locate a part</td><td class="lib-params"><code>bore</code> (8.0)<br><code>style</code> solid &middot; split</td></tr><tr><td><code>key</code></td><td>A parallel key blank (DIN 6885 A, square ends), sized from the shaft</td><td class="lib-params"><code>shaft_d</code> (8.0)<br><code>length</code> (20.0)</td></tr><tr><td><code>thrust_washer</code></td><td>A plain thrust/shim washer for a shaft: a flat annulus, bronze-coloured</td><td class="lib-params"><code>bore</code> (8.0)</td></tr></tbody>
             </table>
           </div>
         </article>
@@ -327,7 +340,7 @@ screw = cad.instance(cap_screw(cad, thread="M3", length=10))</code></pre>
             <p class="muted">Eye &amp; U-bolts, thumb / self-tapping screws, wing &amp; coupling nuts</p>
             <table class="detail-table lib-table">
               <thead><tr><th>Factory</th><th>What it is</th><th>Parameters</th></tr></thead>
-              <tbody><tr><td><code>eye_bolt</code></td><td>A DIN 444-style lifting eye bolt: a threaded shank topped by a round</td><td class="lib-params"><code>thread</code> M4 &middot; M5 &middot; M6 &middot; M8 &middot; M10</td></tr><tr><td><code>u_bolt</code></td><td>A U-bolt: two vertical threaded legs joined by a semicircular bend.</td><td class="lib-params"><code>thread</code> M4 &middot; M5 &middot; M6 &middot; M8 &middot; M10<br><code>width</code> (30.0)<br><code>height</code> (50.0)</td></tr><tr><td><code>thumb_screw</code></td><td>A knurled thumb screw (hand-tightening fastener): a flat knurled</td><td class="lib-params"><code>thread</code> M3 &middot; M4 &middot; M5 &middot; M6 &middot; M8<br><code>length</code> (12.0)<br><code>threads</code> cosmetic &middot; real</td></tr><tr><td><code>coupling_nut</code></td><td>A long coupling nut (DIN 6334-style): a hex prism with a through</td><td class="lib-params"><code>thread</code> M4 &middot; M5 &middot; M6 &middot; M8 &middot; M10<br><code>threads</code> cosmetic &middot; real</td></tr><tr><td><code>wing_nut</code></td><td>A wing nut (DIN 315-style butterfly nut): a bored cylindrical body</td><td class="lib-params"><code>thread</code> M4 &middot; M5 &middot; M6 &middot; M8 &middot; M10<br><code>threads</code> cosmetic &middot; real</td></tr><tr><td><code>self_tapping_screw</code></td><td>A self-tapping / wood screw: a flat head flush at z = 0, tapering</td><td class="lib-params"><code>diameter</code> (4.0)<br><code>length</code> (16.0)<br><code>threads</code> cosmetic &middot; real</td></tr></tbody>
+              <tbody><tr><td><code>eye_bolt</code></td><td>A DIN 444-style lifting eye bolt: a threaded shank topped by a round</td><td class="lib-params"><code>thread</code> M4 &middot; M5 &middot; M6 &middot; M8 &middot; M10<br><code>threads</code> (cosmetic)</td></tr><tr><td><code>u_bolt</code></td><td>A U-bolt: two vertical threaded legs joined by a semicircular bend.</td><td class="lib-params"><code>thread</code> M4 &middot; M5 &middot; M6 &middot; M8 &middot; M10<br><code>width</code> (30.0)<br><code>height</code> (50.0)<br><code>threads</code> (cosmetic)</td></tr><tr><td><code>thumb_screw</code></td><td>A knurled thumb screw (hand-tightening fastener): a flat knurled</td><td class="lib-params"><code>thread</code> M3 &middot; M4 &middot; M5 &middot; M6 &middot; M8<br><code>length</code> (12.0)<br><code>threads</code> cosmetic &middot; real</td></tr><tr><td><code>coupling_nut</code></td><td>A long coupling nut (DIN 6334-style): a hex prism with a through</td><td class="lib-params"><code>thread</code> M4 &middot; M5 &middot; M6 &middot; M8 &middot; M10<br><code>threads</code> cosmetic &middot; real</td></tr><tr><td><code>wing_nut</code></td><td>A wing nut (DIN 315-style butterfly nut): a bored cylindrical body</td><td class="lib-params"><code>thread</code> M4 &middot; M5 &middot; M6 &middot; M8 &middot; M10<br><code>threads</code> cosmetic &middot; real</td></tr><tr><td><code>self_tapping_screw</code></td><td>A self-tapping / wood screw: a flat head flush at z = 0, tapering</td><td class="lib-params"><code>diameter</code> (4.0)<br><code>length</code> (16.0)<br><code>threads</code> cosmetic &middot; real</td></tr></tbody>
             </table>
           </div>
         </article>
@@ -414,6 +427,19 @@ screw = cad.instance(cap_screw(cad, thread="M3", length=10))</code></pre>
             </table>
           </div>
         </article>
+        <article class="lib-module">
+          <figure class="lib-figure">
+            <img src="images/enclosure.png" alt="enclosure library parts" loading="lazy" width="1200" height="1200" />
+          </figure>
+          <div class="lib-body">
+            <h3><code>enclosure</code> <span class="lib-count">4 parts</span></h3>
+            <p class="muted">DIN rail, draw latches, bar handles and vent grilles</p>
+            <table class="detail-table lib-table">
+              <thead><tr><th>Factory</th><th>What it is</th><th>Parameters</th></tr></thead>
+              <tbody><tr><td><code>din_rail</code></td><td>A TS35 top-hat DIN rail (EN 60715): the 35 mm hat section every</td><td class="lib-params"><code>length</code> (150.0)<br><code>size</code> TS35</td></tr><tr><td><code>draw_latch</code></td><td>A draw (toggle) latch: the base plate that screws to the enclosure and</td><td class="lib-params"><code>size</code> (60.0)</td></tr><tr><td><code>handle</code></td><td>A U-shaped pull handle: two feet and a round bar between them.</td><td class="lib-params"><code>span</code> (120.0)<br><code>height</code> (32.0)<br><code>bar_d</code> (12.0)</td></tr><tr><td><code>vent_grille</code></td><td>A ventilation panel: a plate with a louvre pattern cut through, for</td><td class="lib-params"><code>width</code> (60.0)<br><code>height</code> (40.0)<br><code>pattern</code> slots &middot; grid</td></tr></tbody>
+            </table>
+          </div>
+        </article>
       </section>
       <section class="section-panel animate-rise animate-delay-4">
         <h2>Structural, fluid &amp; mounts</h2>
@@ -429,6 +455,19 @@ screw = cad.instance(cap_screw(cad, thread="M3", length=10))</code></pre>
             <table class="detail-table lib-table">
               <thead><tr><th>Factory</th><th>What it is</th><th>Parameters</th></tr></thead>
               <tbody><tr><td><code>rail</code></td><td>A T-slot extrusion rail.</td><td class="lib-params"><code>profile</code> 2020 &middot; 2040 &middot; 4020 &middot; 2060 &middot; 3030 &middot; 3060 &middot; 4040 &middot; 4080<br><code>length</code> (100.0)</td></tr></tbody>
+            </table>
+          </div>
+        </article>
+        <article class="lib-module">
+          <figure class="lib-figure">
+            <img src="images/framing.png" alt="framing library parts" loading="lazy" width="1200" height="1200" />
+          </figure>
+          <div class="lib-body">
+            <h3><code>framing</code> <span class="lib-count">4 parts</span></h3>
+            <p class="muted">T-slot nuts, corner brackets, angle plates and end caps for those rails</p>
+            <table class="detail-table lib-table">
+              <thead><tr><th>Factory</th><th>What it is</th><th>Parameters</th></tr></thead>
+              <tbody><tr><td><code>t_slot_nut</code></td><td>A T-slot nut: the sliding block that drops into a rail slot and takes a</td><td class="lib-params"><code>size</code> (20)<br><code>thread</code> <span class="lib-opt">optional</span><br><code>style</code> (tee)</td></tr><tr><td><code>corner_bracket</code></td><td>An L bracket joining two rails at 90 deg: two arms, each with a</td><td class="lib-params"><code>size</code> (20)<br><code>thickness</code> <span class="lib-opt">optional</span><br><code>gusset</code> (True)</td></tr><tr><td><code>angle_plate</code></td><td>A flat joining plate (straight, not cornered): a strip with a row of</td><td class="lib-params"><code>size</code> (20)<br><code>holes</code> (2)<br><code>thickness</code> <span class="lib-opt">optional</span></td></tr><tr><td><code>end_cap</code></td><td>A moulded end cap that closes a rail's open end: a plate the size of the</td><td class="lib-params"><code>size</code> (2020)<br><code>thickness</code> (2.5)</td></tr></tbody>
             </table>
           </div>
         </article>

@@ -535,6 +535,15 @@ That last line is the point: the two long edges are not "both 40", they are
 "both `w`". Editing `w` moves both. Expressions work too (`w * 0.5`), and
 `cad.fraction(...)` binds two variables by ratio (§4.5).
 
+> **Declare each variable immediately above the sketch it drives, not in one
+> block at the top of the file.** A `cad.variable(...)` declared BEFORE a sketch
+> that contains `cad.fillet(...)` is dragged off its value by that sketch's
+> solve, silently: bound to a radius in a later sketch the circle comes out at
+> roughly half its value, and bound to an extrude distance the body builds with
+> zero thickness. Neither reports anything. The habit of declaring at the point
+> of use side-steps it entirely and reads better regardless. Repro and the
+> eliminations behind it: `plans/repro-variable-clobbered-by-fillet.md`.
+
 One consequence worth knowing when you choose between them: a dimension bound
 directly to a `cad.variable` is fully GUI-editable — the Edit Dimension sheet
 shows the user the variable by name, so it can replace it with a number or
@@ -979,6 +988,34 @@ cad.ensure_convergence()                        # force a solve of the current s
 f1 = cad.fillet(l1, l2, radius=4)
 f2 = cad.fillet(l3, a1, radius=2)   # line–arc and arc–arc corners work too
 ```
+
+### 4.6b Repeating sketch geometry (there is no sketch pattern command)
+
+Write the loop; two constraints per copy make it parametric (move the source,
+every copy follows). Constrain each copy to the SOURCE, never its predecessor.
+
+```python
+step = cad.variable(60, driving=True)        # editable; `fixed=True` would fold it flat
+c = cad.point2d(0, 0)                        # separate lines: a TUPLE target
+p0 = cad.point2d(25, 0)                      # loses script-name inference
+l0 = cad.line2d(c, p0, construction=True)
+for k, angle in enumerate(ring(6)):          # ring/polar/grid are PURE, emit nothing
+    if k == 0:
+        continue
+    pk = cad.point2d(*polar(25, angle))
+    lk = cad.line2d(c, pk, construction=True)
+    cad.equal_lines(line1=l0, line2=lk)
+    cad.angle(line1=l0, line2=lk, angle=step * k)
+```
+
+Row: rebind `lk = cad.line2d(p0, pk, construction=True)` — from the SOURCE, not
+the centre, or the copies stop following it — then
+`cad.length(line=lk, length=spacing * k)` + `cad.angle(line1=l_ref, line2=lk,
+angle=0)`; a zero angle, not `cad.parallel` (direction-ambiguous, lets a copy
+flip sides). Grid: nest two, row seeds off the source. Cost: 1 line + 2
+constraints PER DEFINING POINT per copy.
+`cad.pattern_linear`/`pattern_circular` stay BODY ops (§6.7b). Full recipe: the
+manual's "Repeating sketch geometry" callout.
 
 ### 4.7 Text
 
@@ -2005,6 +2042,46 @@ the docstring's first line surface in the library browser.
 
 ---
 
+## A ring of instances that follows its source
+
+There is no "pattern instances" command, and none is needed. A mate reads its
+target's position **live** — `InstanceMateConstraint` excludes the target from
+its solver unknowns so the instance moves onto the target and never the reverse,
+but re-reads the target's coordinates every iteration. Point the mates at
+constraint-linked sketch points and the whole ring becomes parametric.
+
+```python
+step = cad.variable(90, driving=True)
+hub = cad.point2d(0, 0)
+seat0 = cad.point2d(40, 0, name="seat0")
+l0 = cad.line2d(hub, seat0, construction=True)
+for k, angle in enumerate(ring(4)):
+    if k == 0:
+        continue
+    sk = cad.point2d(*polar(40, angle), name="seat%d" % k)
+    lk = cad.line2d(hub, sk, construction=True)
+    cad.equal_lines(line1=l0, line2=lk)
+    cad.angle(line1=l0, line2=lk, angle=step * k)
+
+for k in range(4):
+    inst = cad.instance(peg)
+    cad.mate(inst, "base", "seat%d" % k)
+```
+
+Drag `seat0` and every part follows, in the same solve. Edit `step` in the
+variables panel and the ring re-fans — parts included — with no re-run. The
+first half is the constraint-linked sketch pattern (see the manual's "Repeating
+sketch geometry"); this only points mates at it.
+
+**One mate pins POSITION, not orientation.** A coincident mate is three
+residuals against the instance's six placement DOFs, so the copies all keep the
+seed's orientation — a ring of parts that face the same way. To turn them with
+the ring, export a second anchor and use `cad.mate_axis`.
+
+**Assembly level only.** `executeSolvedMate` refuses a solved mate inside a
+`with cad.component(...)` block, so this recipe places instances in the
+assembly, not inside another component.
+
 ## 9. Quality & performance knobs
 
 - `quality=` per body: `"preview"` (fast, coarse) → `"standard"` (the default) →
@@ -2289,3 +2366,4 @@ displays that variable by name, so the user can see what they are replacing),
 while a dimension bound to a python-side variable or an expression is declined
 and left exactly as written. Indented and repeated-elsewhere dimension lines are
 refused too. §D.6 has the full account, including the message texts.
+

@@ -445,7 +445,6 @@ body1 = cad.extrude("xy", r1, 5)      <span class="cmt"># extrude the region 5 u
   <thead><tr><th>Setting</th><th>What it does</th></tr></thead>
   <tbody>
     <tr><td><strong>Orbit / Pan / Zoom sensitivity</strong></td><td>Three 0.1×–5.0× multipliers on the 3D camera gestures. <code>1.0×</code> is the viewport's built-in feel. Orbit is a mouse/trackpad drag, pan is the scroll wheel, and zoom is <kbd>⌥</kbd>+scroll or a trackpad pinch — plain scrolling pans, it does not zoom.</td></tr>
-    <tr><td><strong>Invert zoom direction</strong></td><td>Reverses which way <kbd>⌥</kbd>+scroll or a pinch moves the camera.</td></tr>
     <tr><td><strong>Snap sketch drags to a grid</strong> + <strong>Grid step</strong></td><td>An interactive pointer aid while dragging in a 2D sketch, with a step from 0.01 to 10&nbsp;mm. It is a pointer aid <em>only</em>: coordinates are always committed to 2 decimal places regardless, so turning the grid off never changes what gets stored. Unchecking the box parks your chosen step so re-checking restores it.</td></tr>
   </tbody>
 </table>
@@ -1111,7 +1110,7 @@ fan = cad.pattern_circular(blade, axis=(0, 0, 1), count=3, angle=90, center=(20,
 
 <div class="callout warn">
   <span class="label">Scroll pans, it does not zoom</span>
-  <p>This is the one navigation habit worth unlearning if you come from another CAD package, where scroll is almost always zoom. Here a bare scroll <strong>pans</strong>; zoom is <kbd>⌥</kbd>+scroll or a pinch. <strong>Settings ▸ Interaction</strong> has separate Orbit, Pan and Zoom sensitivity sliders (1.0× is the viewport's built-in feel) and an <strong>Invert zoom direction</strong> toggle — which reverses <kbd>⌥</kbd>+scroll and pinch, since those are the gestures that zoom.</p>
+  <p>This is the one navigation habit worth unlearning if you come from another CAD package, where scroll is almost always zoom. Here a bare scroll <strong>pans</strong>; zoom is <kbd>⌥</kbd>+scroll or a pinch. <strong>Settings ▸ Interaction</strong> has separate Orbit, Pan and Zoom sensitivity sliders (1.0× is the viewport's built-in feel).</p>
 </div>
 
 <p>The camera treats <strong>+Z as up</strong>, matching the coordinate convention the rest of the app uses, so orbiting keeps the model's vertical axis vertical rather than letting the view roll freely.</p>
@@ -1401,6 +1400,37 @@ cad.mate(b2, "a1", point_on_axis)</code></pre>
 <div class="callout tip">
   <span class="label">Choosing a mate</span>
   <p><strong>Snap</strong> (<code>mate_coincident</code> / <code>mate_align</code>) = a direct, closed-form move you can reason about exactly, great for "put this hole on that hole." <strong>Solved</strong> (<code>cad.mate</code>, <code>cad.mate_axis</code>) = let several constraints jointly determine a rigid pose, great for fully locating a part from three known point correspondences — or, with <code>mate_axis</code>, for locating it only as far as you actually want to.</p>
+</div>
+<div class="callout tip">
+  <span class="label">A ring of instances that follows its source</span>
+  <p>There is no "pattern instances" command, and none is needed. A mate reads
+  its target's position <em>live</em> — the solver moves the instance onto the
+  target, never the target onto the instance — so if the targets are themselves
+  constraint-linked sketch points, the whole ring becomes parametric:</p>
+<pre><code>step = cad.variable(90, driving=True)
+hub = cad.point2d(0, 0)
+seat0 = cad.point2d(40, 0, name="seat0")
+l0 = cad.line2d(hub, seat0, construction=True)
+for k, angle in enumerate(ring(4)):
+    if k == 0:
+        continue
+    sk = cad.point2d(*polar(40, angle), name="seat%d" % k)
+    lk = cad.line2d(hub, sk, construction=True)
+    cad.equal_lines(line1=l0, line2=lk)
+    cad.angle(line1=l0, line2=lk, angle=step * k)
+
+for k in range(4):
+    inst = cad.instance(peg)
+    cad.mate(inst, "base", "seat%d" % k)</code></pre>
+  <p>Drag <code>seat0</code> and every part follows. Edit <code>step</code> in
+  the variables panel and the ring re-fans — parts included — with no re-run.
+  The first half is the constraint-linked sketch pattern described under
+  "Repeating sketch geometry" above; this just points mates at it.</p>
+  <p><strong>One mate pins position, not orientation.</strong> A coincident mate
+  is three residuals against the instance's six placement DOFs, so the copies
+  all keep the seed's orientation — a ring of parts that all face the same way.
+  If you want them to turn with the ring, export a second anchor and use
+  <code>cad.mate_axis</code>.</p>
 </div>
 <div class="callout warn">
   <span class="label">mate_axis leaves two DOFs open</span>
@@ -1907,9 +1937,57 @@ part.set_export(False)          <span class="cmt"># chainable form</span></code>
 <tr><td><code>rail = cad.path(plane, chain, name=None)</code></td><td>Open planar path from a line/arc/spline chain (<code>rev(...)</code> for reversed elements); a closed element cannot appear in it.</td></tr>
 <tr><td><code>rail = cad.path3d(points, closed=False, up=None, name=None)</code></td><td>3D free-curve path through named 3D points (chordal Catmull-Rom + rotation-minimizing frame). <code>closed=True</code> not yet supported.</td></tr>
 <tr><td><code>cad.sweep(plane=None, region=None, path=None, sections=None, twist=0.0, quality=None, name=None, export=None, edge_radius=None)</code></td><td>Sweep a profile (<code>plane</code>+<code>region</code>) or a <code>sections=[sweep_section(...), ...]</code> list (mutually exclusive) along <code>path</code>. Profile <code>(x, y)</code> is used unchanged as the local <code>(u, v)</code> offset from the path — draw it centered at the sketch origin to ride ON the path.</td></tr>
+<tr><td><code>ring(count, step=None, start=0.0)</code></td><td>Angles in degrees for <code>count</code> items around a circle — a free function, not a <code>cad.</code> method, and it emits nothing. <code>step</code> defaults to <code>360 / count</code>, the closed ring (the last item stops one step short of the seed instead of on top of it); pass an explicit <code>step</code> for a partial fan. The parameter is a STEP rather than a total sweep because a constraint-linked pattern drives its ring from a <code>cad.variable</code> holding exactly that step — see the pattern recipe below.</td></tr>
+<tr><td><code>polar(radius, angle, center=(0.0, 0.0))</code></td><td>The <code>(x, y)</code> at <code>radius</code> and <code>angle</code> degrees around <code>center</code>. The companion to <code>ring(...)</code>: <code>ring</code> gives the angle a constraint is driven to, <code>polar</code> gives the position to draw the copy at. Angles run counter-clockwise from the sketch plane's +u axis — the same convention the solver measures in.</td></tr>
+<tr><td><code>grid(nx, ny, dx, dy, origin=(0.0, 0.0))</code></td><td><code>nx*ny</code> <code>(x, y)</code> offsets for a rectangular grid, row-major with x varying fastest, seed first. Emits nothing.</td></tr>
 <tr><td><code>sweep_section(fraction, plane, region)</code></td><td>One keyed cross-section for <code>cad.sweep(sections=[...])</code> — a free function, not a <code>cad.</code> method. Fractions must be strictly increasing across the list, first entry <code>0.0</code>, last <code>1.0</code>. Holes are not supported in this form. Two sections that differ only in size must sit on <strong>different</strong> planes, or area detection reads the smaller as a hole in the larger instead of as its own profile. (The older bare <code>section(...)</code> spelling now raises a <code>NameError</code> naming this replacement — it collided with the unrelated <code>cad.section(body, plane)</code> method, §9.1.)</td></tr>
 </tbody>
 </table>
+</div>
+<div class="callout tip">
+<span class="label">Repeating sketch geometry so the copies stay linked</span>
+<p>The sketch has no pattern command. It does not need one: a visible loop plus
+two ordinary constraints per copy makes a repetition that is <em>parametric</em> —
+move the source and every copy follows in the same solve, and the spacing is an
+editable dimension.</p>
+<p>Draw one construction line from the centre to the source and one to each copy,
+then constrain each copy to the <strong>source</strong> (never to its
+predecessor — a chain accumulates error and a ring will not close):</p>
+<pre><code>cad.with_sketch("xy")
+step = cad.variable(60, driving=True)        # the editable dimension
+c  = cad.point2d(0, 0)
+p0 = cad.point2d(25, 0)
+l0 = cad.line2d(c, p0, construction=True)
+
+for k, angle in enumerate(ring(6)):
+    if k == 0:
+        continue                              # k = 0 is the source itself
+    x, y = polar(25, angle)
+    pk = cad.point2d(x, y)
+    lk = cad.line2d(c, pk, construction=True)
+    cad.equal_lines(line1=l0, line2=lk)                    # same radius as the source
+    cad.angle(line1=l0, line2=lk, angle=step * k)          # k steps around from it
+</code></pre>
+<p>Editing <code>step</code> in the variables panel re-fans the whole ring with no
+re-run, because <code>step * k</code> stays a live expression as long as
+<code>step</code> is <code>driving=True</code>. Declare it
+<code>fixed=True</code> instead and the arithmetic is folded to a constant at
+execution time, so the ring only re-fans on a re-run.</p>
+<p>For a row, the construction line runs from the <strong>source</strong>
+rather than from a centre — <code>lk = cad.line2d(p0, pk,
+construction=True)</code>, not <code>cad.line2d(c, pk, ...)</code> — and the two
+constraints become <code>cad.length(line=lk, length=spacing * k)</code> plus
+<code>cad.angle(line1=l_ref, line2=lk, angle=0)</code> against a reference line.
+Anchoring the row on anything other than the source is the one change that
+quietly costs you the property this whole recipe is for: the copies stop
+following when the source moves. Use a zero <strong>angle</strong>,
+<strong>not</strong> <code>cad.parallel(...)</code> — parallel is
+direction-ambiguous, so a copy is free to settle on the wrong side of the
+source. For a grid, nest two of these: row seeds off the source, then column
+members off their own row seed.</p>
+<p>Each copy costs one construction line and two constraints <em>per defining
+point</em>, so a patterned rectangle pays for all four corners. Keep the counts
+modest.</p>
 </div>
 <div class="callout tip">
 <span class="label">Body topology points</span>
