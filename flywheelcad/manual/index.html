@@ -217,7 +217,7 @@
         <li><a href="#ch3-constraints">Geometric constraints</a></li>
         <li><a href="#ch3-dimensions">Dimensions</a></li>
         <li><a href="#ch3-variables">Variables &amp; parametric dimensions</a></li>
-        <li><a href="#ch3-editing">Editing operations: fillet, trim, mirror, merge</a></li>
+        <li><a href="#ch3-editing">Editing operations: fillet, trim, mirror, pattern, merge</a></li>
         <li><a href="#ch3-diagnostics">Solver diagnostics</a></li>
       </ol>
     </li>
@@ -775,7 +775,7 @@ cad.update({p1: {"x": 10.0, "y": 20.0}}) <span class="cmt"># plain points update
   <p>Passing <code>fixed=True</code> and <code>driving=True</code> to the same <code>cad.variable(...)</code> call raises a <code>ValueError</code> — a constant that is also an editable dimension is a contradiction, so FlywheelCAD refuses it outright rather than picking one silently.</p>
 </div>
 
-<h3 id="ch3-editing">3.5 Editing operations: fillet, trim, mirror, merge</h3>
+<h3 id="ch3-editing">3.5 Editing operations: fillet, trim, mirror, pattern, merge</h3>
 
 <h4>Fillet</h4>
 <p><code>cad.fillet(line1, line2, radius, name=None)</code> rounds the corner where two elements — lines, arcs, or a mix of both — meet at a shared endpoint. Both elements retract to their tangent points and a tangent arc of <code>radius</code> bridges the gap; tangency and radius stay <strong>constrained</strong>, so the fillet remains valid across re-solves rather than being baked in once. The original variables keep referring to the now-retracted elements, and the call returns the new arc — feed it into a region loop between them, e.g. <code>region(loop=[l1, f1, l2, ...])</code>.</p>
@@ -798,6 +798,45 @@ f2 = cad.fillet(l3, a1, radius=2)   <span class="cmt"># line-arc corner also wor
   <li>a participant — a source element, one of its defining points, or the axis — that has no script name yet, because a mirror line has to be able to <em>refer</em> to what it mirrors. Draw the geometry first, then mirror it.</li>
 </ul>
 <p>Each mirrored copy is addressable as <code>&lt;source&gt;_m</code> — mirroring <code>l1</code> gives you <code>l1_m</code>. Mirror the same source again (across a second axis, say) and the next copies take <code>_m2</code>, <code>_m3</code>, and so on, so repeat mirrors never collide and every reflected element stays individually nameable from the script.</p>
+
+<h4>Pattern</h4>
+<p><strong>Modify ▸ Pattern…</strong> <span class="pill">GUI</span> — also in the Sketch Mode toolbar's <strong>More</strong> (⋯) menu — repeats the selected geometry in a circle around a centre point, and the copies stay <strong>linked</strong>: move the source and every copy follows, in the same solve, with no re-run.</p>
+<p>Select the elements you want repeated and then, <em>last</em>, the point to rotate them around — the same "the last thing you select is the operand" convention Mirror uses for its symmetry line. Then give the panel two numbers:</p>
+<ul>
+  <li><strong>Count</strong> — how many there are in total, including the original.</li>
+  <li><strong>Step (°)</strong> — degrees between <em>neighbours</em>, not a total sweep. Six copies at 60° is a full circle; six at 15° is a 75° fan. The panel shows the total underneath as you type.</li>
+</ul>
+<p>The step is deliberately a per-copy angle rather than a sweep, because it is the number the document keeps: it lands in a <code>cad.variable(..., driving=True)</code>, so <strong>editing it in the Variables panel re-fans the whole ring immediately</strong>, with no re-execution. That is the same recipe the <a href="#ch10-api">"Repeating sketch geometry" callout in §10.1</a> spells out by hand — the menu item simply writes it for you.</p>
+<p><strong>Points, lines, circles, arcs and ellipses.</strong> Anything the pattern cannot copy — a spline, or a selected area — is refused with a sentence naming it, rather than being silently skipped while the rest of your selection is patterned.</p>
+
+<p>A patterned ring adds <em>no</em> redundant equation, whichever of those kinds it copies, so the solver badge stays quiet on a sketch that is genuinely fine. Getting there took a fix and a measurement rather than an assumption. Every ellipse in every document used to carry one redundant equation of its own, patterned or not — the point that defines an ellipse's rim was being constrained to lie on the ellipse it defines, which is always true and so contributed an equation that could never move anything. Arcs were long assumed to have the same problem; measuring showed they never did, and a bare arc has always been exactly determined.</p>
+
+<p><strong>Arcs are linked slightly differently from everything else, and the emitted loop shows it.</strong> Most copied geometry is held by a two-constraint "star" per defining point: a construction spoke from the pattern centre, an <code>equal_lines</code> fixing its radius and an <code>angle</code> fixing its bearing. An arc cannot use that for all three of its points, because creating the copy introduces a radius of its own and pins <em>both</em> endpoints to it — two constraints where the star has already accounted for the geometry, which would leave every copy carrying one redundant equation. So the loop stars the arc's centre and one endpoint, and holds the other endpoint with a single <code>angle</code> between the source arc's centre-to-endpoint construction line and the copy's:</p>
+
+<pre><code>r0 = cad.line2d(ac, aend, construction=True)      # source radius line, once
+for k1, k2 in enumerate(ring(6, step=60)[1:], start=1):
+    # ... the usual star for the centre and the START point ...
+    pend = cad.point2d(*polar(rEnd, aEnd + k2))   # seeded, NOT starred
+    ak = cad.arc2d(pc, pstart, pend)
+    rk = cad.line2d(pc, pend, construction=True)
+    cad.angle(line1=r0, line2=rk, angle=step * k1)
+</code></pre>
+
+<p>If the endpoint it would normally use is unavailable — because it <em>is</em> the pattern centre, or because a neighbouring patterned arc already relies on it — the loop simply uses the arc's other endpoint instead. Only when both are unavailable does it fall back to the plain star for that arc and accept one redundant equation, rather than refusing your selection: the geometry is correct either way.</p>
+<p>What it writes is an ordinary, readable <code>for</code> loop — not an opaque command — so the count is a number in the script you can edit afterwards:</p>
+<pre><code>d1 = cad.variable(60, driving=True)
+l2 = cad.line2d(p0, p1, construction=True)
+for k1, k2 in enumerate(ring(6, step=60)[1:], start=1):
+    p3 = cad.point2d(*polar(10, 0 + k2, center=(0, 0)))
+    l4 = cad.line2d(p0, p3, construction=True)
+    cad.equal_lines(line1=l2, line2=l4)
+    cad.angle(line1=l2, line2=l4, angle=d1 * k1)</code></pre>
+<p>The construction lines are the pattern's scaffolding — one from the centre to each copied point — and the two constraints per point are what hold the ring together: <code>equal_lines</code> keeps every copy the same distance out, and the signed <code>angle</code> puts it <code>k</code> steps around. Each copied <em>defining point</em> costs one construction line and two constraints, so patterning a rectangle pays for all four corners; the count is capped to keep that bill finite.</p>
+<p>Two refusals worth knowing, because both are about geometry rather than typing:</p>
+<ul>
+  <li>a selected point sitting <em>on</em> the centre has no direction to be rotated in, so the pattern is refused — merge it into the centre point if that is what you meant;</li>
+  <li>a line that <em>starts</em> at the centre is fine, and is the common case: the copies share the hub and fan out from it, which is how you draw wheel spokes.</li>
+</ul>
 
 <h4>Merge points</h4>
 <p><code>cad.merge_points(source, target)</code> welds two sketch points into one shared identity — the canonical form of what <code>cad.coincident(p0, p1)</code> (§3.2) spells as a constraint. <strong>Modify ▸ Merge Points</strong> <span class="pill">GUI</span> does the same for the points selected in the sketch canvas. Because it is a merge rather than a residual equation, there is nothing for the solver to keep re-checking afterwards: the two variables simply refer to the same point from then on.</p>
@@ -1946,10 +1985,13 @@ part.set_export(False)          <span class="cmt"># chainable form</span></code>
 </div>
 <div class="callout tip">
 <span class="label">Repeating sketch geometry so the copies stay linked</span>
-<p>The sketch has no pattern command. It does not need one: a visible loop plus
-two ordinary constraints per copy makes a repetition that is <em>parametric</em> —
-move the source and every copy follows in the same solve, and the spacing is an
-editable dimension.</p>
+<p>There is no <code>cad.</code> pattern command for sketch geometry, and there does
+not need to be: a visible loop plus two ordinary constraints per copy makes a
+repetition that is <em>parametric</em> — move the source and every copy follows in
+the same solve, and the spacing is an editable dimension. <strong>Modify ▸
+Pattern…</strong> writes exactly the circular form of this block for you from a
+selection (§3.5); the recipe below is what it emits, and what to write by hand
+for the row and grid forms it does not cover.</p>
 <p>Draw one construction line from the centre to the source and one to each copy,
 then constrain each copy to the <strong>source</strong> (never to its
 predecessor — a chain accumulates error and a ring will not close):</p>

@@ -989,10 +989,13 @@ f1 = cad.fillet(l1, l2, radius=4)
 f2 = cad.fillet(l3, a1, radius=2)   # line–arc and arc–arc corners work too
 ```
 
-### 4.6b Repeating sketch geometry (there is no sketch pattern command)
+### 4.6b Repeating sketch geometry (no sketch pattern OPCODE; Modify ▸ Pattern… writes this)
 
 Write the loop; two constraints per copy make it parametric (move the source,
 every copy follows). Constrain each copy to the SOURCE, never its predecessor.
+There is no `cad.pattern_*` for sketch geometry and there will not be — the GUI's
+**Modify ▸ Pattern…** emits precisely this block, circular or row, for points,
+lines, circles, arcs and ellipses, so a user's script may already contain one.
 
 ```python
 step = cad.variable(60, driving=True)        # editable; `fixed=True` would fold it flat
@@ -1012,8 +1015,10 @@ Row: rebind `lk = cad.line2d(p0, pk, construction=True)` — from the SOURCE, no
 the centre, or the copies stop following it — then
 `cad.length(line=lk, length=spacing * k)` + `cad.angle(line1=l_ref, line2=lk,
 angle=0)`; a zero angle, not `cad.parallel` (direction-ambiguous, lets a copy
-flip sides). Grid: nest two, row seeds off the source. Cost: 1 line + 2
-constraints PER DEFINING POINT per copy.
+flip sides). `l_ref` must be a line the row cannot move: the GUI mints two points + a construction line and `cad.fixed(element=l_ref)`, BESIDE the first source point and never ON it (the pin takes both endpoints, so pinning the source would stop the copies following it).
+Grid: nest two, row seeds off the source. Cost: 1 line + 2 constraints PER DEFINING POINT per copy. Ellipse: star all three points, then `cad.ellipse2d(f1k, f2k, rimk)`.
+**Arc differs** — it mints a radius unknown pinning BOTH ends, so star the centre and ONE end, holding the
+other with one `cad.angle` against the source's `centre -> end` line instead of a second star.
 `cad.pattern_linear`/`pattern_circular` stay BODY ops (§6.7b). Full recipe: the
 manual's "Repeating sketch geometry" callout.
 
